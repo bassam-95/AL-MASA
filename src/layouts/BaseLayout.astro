@@ -1,6 +1,7 @@
 ---
 import { Font } from 'astro:assets';
 import '../styles/global.css';
+import SiteShell from '../components/SiteShell.astro';
 import { getLocaleMeta } from '../utils/locale';
 import type { Locale } from '../data/locales';
 
@@ -25,6 +26,8 @@ const localeMeta = getLocaleMeta(locale);
 		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+		<SiteShell locale={locale} currentPath={Astro.url.pathname}>
+			<slot />
+		</SiteShell>
 	</body>
 </html>
