@@ -1,0 +1,943 @@
+---
+import { homeContent } from '../data/home';
+import type { Locale } from '../data/locales';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = homeContent[locale];
+const isArabic = locale === 'ar';
+---
+
+<div class="home-page" data-home-page data-locale={locale}>
+	<section class="home-hero" aria-label={isArabic ? 'عرض الصفحة الرئيسية' : 'Homepage showcase'} data-hero-slider>
+		<div class="home-hero__slides">
+			{content.slides.map((slide, index) => (
+				<article class:list={["home-hero__slide", { 'is-active': index === 0 }]} data-hero-slide aria-hidden={index === 0 ? 'false' : 'true'}>
+					<img class="home-hero__image" src={slide.image} alt={slide.alt} width="1440" height="760" loading={index === 0 ? 'eager' : 'lazy'} />
+					<div class="home-hero__overlay" aria-hidden="true"></div>
+					<div class="home-hero__content">
+						<h1>{slide.title.split('\n').map((line) => <><span>{line}</span><br /></>)}</h1>
+						<p>{slide.text}</p>
+						<a class="home-button home-button--light" href="#services">{slide.cta}</a>
+					</div>
+				</article>
+			))}
+		</div>
+		<div class="home-hero__controls" aria-label={isArabic ? 'تحكم العرض' : 'Slider controls'}>
+			<button class="home-hero__arrow" type="button" data-hero-prev aria-label={isArabic ? 'الشريحة السابقة' : 'Previous slide'}>‹</button>
+			<div class="home-hero__dots" role="tablist" aria-label={isArabic ? 'اختيار الشريحة' : 'Choose slide'}>
+				{content.slides.map((slide, index) => (
+					<button
+						class:list={["home-hero__dot", { 'is-active': index === 0 }]}
+						type="button"
+						data-hero-dot={index}
+						aria-label={`${isArabic ? 'الشريحة' : 'Slide'} ${index + 1}: ${slide.title.replace('\n', ' ')}`}
+						aria-selected={index === 0 ? 'true' : 'false'}
+					></button>
+				))}
+			</div>
+			<button class="home-hero__arrow" type="button" data-hero-next aria-label={isArabic ? 'الشريحة التالية' : 'Next slide'}>›</button>
+		</div>
+	</section>
+
+	<section id="services" class="home-section home-section--services" aria-labelledby="services-heading">
+		<div class="home-container home-section__intro">
+			<h2 id="services-heading">{content.services.title}</h2>
+			<p>{content.services.intro}</p>
+		</div>
+		<div class="home-container home-services">
+			{content.services.items.map((service) => (
+				<article class="home-service-card">
+					<img src={service.image} alt="" width="640" height="427" loading="lazy" />
+					<div class="home-service-card__body">
+						<h3>{service.title}</h3>
+						<p>{service.text}</p>
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<section class="home-stats" aria-label={isArabic ? 'إحصائيات الشركة' : 'Company statistics'}>
+		<div class="home-container home-stats__grid">
+			{content.stats.map((stat) => (
+				<div class="home-stat">
+					<span class="home-stat__number"><span data-counter data-target={stat.value}>{stat.value}</span>{stat.suffix}</span>
+					<span class="home-stat__label">{stat.label}</span>
+				</div>
+			))}
+		</div>
+	</section>
+
+	<section class="home-section home-section--projects" aria-labelledby="projects-heading">
+		<div class="home-container home-section__intro">
+			<h2 id="projects-heading">{content.projects.title}</h2>
+			{content.projects.intro && <p>{content.projects.intro}</p>}
+		</div>
+		<div class="home-projects" aria-label={content.projects.title}>
+			{content.projects.items.map((project) => (
+				<a class="home-project-card" href={project.url} target="_blank" rel="noreferrer">
+					<img src={project.image} alt="" width="670" height="502" loading="lazy" />
+					<span>{project.title}</span>
+				</a>
+			))}
+		</div>
+	</section>
+
+	<section class="home-about" aria-labelledby="about-heading">
+		<div class="home-container home-about__grid">
+			<div class="home-about__brand-mark" aria-hidden="true">
+				<img src="/assets/almasa-logo.png" alt="" width="717" height="336" loading="lazy" />
+			</div>
+			<div class="home-about__content">
+				<p class="home-eyebrow">{content.about.eyebrow}</p>
+				<h2 id="about-heading">{content.about.title}</h2>
+				<p>{content.about.text}</p>
+				<div class="home-about__phones" aria-label={isArabic ? 'أرقام الهاتف' : 'Phone numbers'}>
+					{content.about.phones.map((phone) => <a href={`tel:${phone}`}>{phone}</a>)}
+				</div>
+				<div class="home-about__features">
+					{content.about.features.map((feature) => (
+						<article class="home-feature">
+							<span class="home-feature__icon" aria-hidden="true">
+								{feature.icon === 'clock' ? '24' : '$'}
+							</span>
+							<div>
+								<h3>{feature.title}</h3>
+								<p>{feature.text}</p>
+							</div>
+						</article>
+					))}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="home-section home-section--news" aria-labelledby="news-heading">
+		<div class="home-container home-section__intro">
+			<h2 id="news-heading">{content.news.title}</h2>
+			<p>{content.news.intro}</p>
+		</div>
+		<div class="home-container home-news">
+			{content.news.items.map((item) => (
+				<article class="home-news-card">
+					<img src={item.image} alt="" width="150" height="150" loading="lazy" />
+					<div>
+						<time>{item.date}</time>
+						<h3><a href={item.url} target="_blank" rel="noreferrer">{item.title}</a></h3>
+						<p>{item.excerpt}</p>
+						<a class="home-text-link" href={item.url} target="_blank" rel="noreferrer">{item.readMore}</a>
+					</div>
+				</article>
+			))}
+		</div>
+		<div class="home-section__action">
+			<a class="home-button" href={locale === 'en' ? 'https://almasa-ta.com/blog/' : 'https://almasa-ta.com/ar/blog/'} target="_blank" rel="noreferrer">{content.news.readAll}</a>
+		</div>
+	</section>
+
+	<section class="home-partners" aria-labelledby="partners-heading">
+		<div class="home-container">
+			<h2 id="partners-heading">{content.partners.title}</h2>
+		</div>
+		<div class="home-partners__track" aria-label={content.partners.title}>
+			{[...content.partners.items, ...content.partners.items].map((partner) => (
+				<div class="home-partner-logo">
+					<img src={partner.image} alt={partner.name} width="150" height="150" loading="lazy" />
+				</div>
+			))}
+		</div>
+	</section>
+
+	<footer class="home-footer" aria-labelledby="footer-contact-heading">
+		<div class="home-container home-footer__grid">
+			<div class="home-footer__brand">
+				<img src="/assets/home/footer-logo.png" alt={content.title} width="200" height="94" loading="lazy" />
+				<div class="home-footer__phones">
+					{content.footer.phones.map((phone) => <a href={`tel:${phone}`}>{phone}</a>)}
+				</div>
+				<div class="home-footer__addresses">
+					{content.footer.addresses.map((address) => <p>{address}</p>)}
+				</div>
+			</div>
+
+			<div class="home-footer__news">
+				<h2>{content.footer.newsTitle}</h2>
+				<ul>
+					{content.footer.recentNews.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+
+			<form class="home-contact-form" data-contact-form aria-labelledby="footer-contact-heading">
+				<h2 id="footer-contact-heading">{content.footer.formTitle}</h2>
+				<label>
+					<span>{content.footer.form.name}</span>
+					<input name="name" autocomplete="name" required />
+				</label>
+				<label>
+					<span>{content.footer.form.email}</span>
+					<input name="email" type="email" autocomplete="email" required />
+				</label>
+				<label>
+					<span>{content.footer.form.phone}</span>
+					<input name="phone" type="tel" autocomplete="tel" />
+				</label>
+				<label>
+					<span>{content.footer.form.service}</span>
+					<select name="service" required>
+						<option value="">{content.footer.form.service}</option>
+						{content.services.items.map((service) => <option value={service.title}>{service.title}</option>)}
+					</select>
+				</label>
+				<label class="home-contact-form__message">
+					<span>{content.footer.form.message}</span>
+					<textarea name="message" rows="5"></textarea>
+				</label>
+				<button class="home-button home-button--light" type="submit">{content.footer.form.submit}</button>
+				<p class="home-contact-form__notice" data-form-notice hidden>{content.footer.form.previewNotice}</p>
+			</form>
+		</div>
+		<p class="home-footer__copyright">{content.footer.copyright}</p>
+	</footer>
+</div>
+
+<script>
+	const homePage = document.querySelector('[data-home-page]');
+
+	if (homePage instanceof HTMLElement) {
+		const slides = Array.from(homePage.querySelectorAll('[data-hero-slide]'));
+		const dots = Array.from(homePage.querySelectorAll('[data-hero-dot]'));
+		const previousButton = homePage.querySelector('[data-hero-prev]');
+		const nextButton = homePage.querySelector('[data-hero-next]');
+		let activeSlide = 0;
+
+		const showSlide = (index) => {
+			if (!slides.length) return;
+			activeSlide = (index + slides.length) % slides.length;
+			slides.forEach((slide, slideIndex) => {
+				const isActive = slideIndex === activeSlide;
+				slide.classList.toggle('is-active', isActive);
+				slide.setAttribute('aria-hidden', String(!isActive));
+			});
+			dots.forEach((dot, dotIndex) => {
+				const isActive = dotIndex === activeSlide;
+				dot.classList.toggle('is-active', isActive);
+				dot.setAttribute('aria-selected', String(isActive));
+			});
+		};
+
+		if (previousButton instanceof HTMLButtonElement) {
+			previousButton.addEventListener('click', () => showSlide(activeSlide - 1));
+		}
+
+		if (nextButton instanceof HTMLButtonElement) {
+			nextButton.addEventListener('click', () => showSlide(activeSlide + 1));
+		}
+
+		dots.forEach((dot) => {
+			if (dot instanceof HTMLButtonElement) {
+				dot.addEventListener('click', () => {
+					const index = Number(dot.dataset.heroDot ?? 0);
+					showSlide(index);
+				});
+			}
+		});
+
+		const counters = Array.from(homePage.querySelectorAll('[data-counter]'));
+		const animateCounters = () => {
+			counters.forEach((counter) => {
+				if (!(counter instanceof HTMLElement) || counter.dataset.counted === 'true') return;
+				counter.dataset.counted = 'true';
+				const target = Number(counter.dataset.target ?? 0);
+				counter.textContent = '0';
+				const duration = 900;
+				const startTime = performance.now();
+				const update = (time) => {
+					const progress = Math.min((time - startTime) / duration, 1);
+					counter.textContent = String(Math.round(target * progress));
+					if (progress < 1) requestAnimationFrame(update);
+				};
+				requestAnimationFrame(update);
+			});
+		};
+
+		if ('IntersectionObserver' in window && counters.length) {
+			const stats = homePage.querySelector('.home-stats');
+			if (stats instanceof HTMLElement) {
+				const observer = new IntersectionObserver((entries) => {
+					if (entries.some((entry) => entry.isIntersecting)) {
+						animateCounters();
+						observer.disconnect();
+					}
+				}, { threshold: 0.25 });
+				observer.observe(stats);
+			} else {
+				animateCounters();
+			}
+		} else {
+			animateCounters();
+		}
+
+		const form = homePage.querySelector('[data-contact-form]');
+		const notice = homePage.querySelector('[data-form-notice]');
+		if (form instanceof HTMLFormElement && notice instanceof HTMLElement) {
+			form.addEventListener('submit', (event) => {
+				event.preventDefault();
+				notice.hidden = false;
+			});
+		}
+	}
+</script>
+
+<style>
+	.home-page {
+		background: var(--color-surface);
+		color: var(--color-text);
+	}
+
+	.home-container {
+		inline-size: min(var(--container-wide), calc(100% - var(--page-gutter) - var(--page-gutter)));
+		margin-inline: auto;
+	}
+
+	.home-hero {
+		position: relative;
+		isolation: isolate;
+		min-block-size: clamp(560px, 76vh, 820px);
+		overflow: hidden;
+		background: var(--color-heading);
+	}
+
+	.home-hero__slides,
+	.home-hero__slide {
+		position: absolute;
+		inset: 0;
+	}
+
+	.home-hero__slide {
+		display: grid;
+		align-items: center;
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 480ms ease, visibility 480ms ease;
+	}
+
+	.home-hero__slide.is-active {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.home-hero__image {
+		position: absolute;
+		inset: 0;
+		z-index: -2;
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+	}
+
+	.home-hero__overlay {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background: linear-gradient(90deg, rgba(4, 30, 54, 0.74), rgba(4, 30, 54, 0.42) 52%, rgba(4, 30, 54, 0.16));
+	}
+
+	:global([dir='rtl']) .home-hero__overlay {
+		background: linear-gradient(270deg, rgba(4, 30, 54, 0.74), rgba(4, 30, 54, 0.42) 52%, rgba(4, 30, 54, 0.16));
+	}
+
+	.home-hero__content {
+		inline-size: min(780px, calc(100% - var(--page-gutter) - var(--page-gutter)));
+		margin-inline: auto;
+		padding-block: 88px;
+		color: var(--color-surface);
+	}
+
+	.home-hero h1 {
+		max-inline-size: 640px;
+		margin: 0 0 22px;
+		color: var(--color-surface);
+		font-size: clamp(48px, 7.2vw, 110px);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: -0.055em;
+		line-height: 0.93;
+		text-transform: uppercase;
+	}
+
+	:global([dir='rtl']) .home-hero h1 {
+		letter-spacing: 0;
+		line-height: 1.05;
+	}
+
+	.home-hero p {
+		max-inline-size: 620px;
+		margin: 0 0 34px;
+		color: rgba(255, 255, 255, 0.86);
+		font-size: clamp(16px, 1.55vw, 19px);
+		line-height: 1.8;
+	}
+
+	.home-hero__controls {
+		position: absolute;
+		z-index: 3;
+		inset-inline: 32px;
+		inset-block-end: 34px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		pointer-events: none;
+	}
+
+	.home-hero__dots {
+		display: flex;
+		gap: 10px;
+		pointer-events: auto;
+	}
+
+	.home-hero__dot,
+	.home-hero__arrow {
+		border: 1px solid rgba(255, 255, 255, 0.68);
+		background: rgba(255, 255, 255, 0.12);
+		color: var(--color-surface);
+		cursor: pointer;
+	}
+
+	.home-hero__dot {
+		inline-size: 12px;
+		block-size: 12px;
+		padding: 0;
+		border-radius: 999px;
+	}
+
+	.home-hero__dot.is-active {
+		background: var(--color-surface);
+	}
+
+	.home-hero__arrow {
+		inline-size: 44px;
+		block-size: 44px;
+		border-radius: 50%;
+		font-size: 28px;
+		line-height: 1;
+		pointer-events: auto;
+	}
+
+	.home-button,
+	.home-text-link {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--font-heading);
+		font-weight: var(--font-weight-semibold);
+		text-decoration: none;
+	}
+
+	.home-button {
+		min-block-size: 46px;
+		padding: 13px 26px;
+		background: var(--color-brand-primary);
+		color: var(--color-surface);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.home-button--light {
+		background: var(--color-surface);
+		color: var(--color-heading);
+	}
+
+	.home-section {
+		padding-block: clamp(68px, 8vw, 112px);
+	}
+
+	.home-section__intro {
+		max-inline-size: 790px;
+		text-align: center;
+	}
+
+	.home-section__intro h2,
+	.home-about h2,
+	.home-partners h2,
+	.home-footer h2 {
+		margin: 0;
+		color: var(--color-heading);
+		font-size: clamp(34px, 4.6vw, 56px);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: -0.035em;
+		line-height: 1.05;
+		text-transform: capitalize;
+	}
+
+	:global([dir='rtl']) .home-section__intro h2,
+	:global([dir='rtl']) .home-about h2,
+	:global([dir='rtl']) .home-partners h2,
+	:global([dir='rtl']) .home-footer h2 {
+		letter-spacing: 0;
+	}
+
+	.home-section__intro p {
+		margin: 20px 0 0;
+		font-size: 17px;
+		line-height: 1.9;
+	}
+
+	.home-services {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 28px;
+		margin-block-start: 48px;
+	}
+
+	.home-service-card,
+	.home-news-card {
+		background: var(--color-surface);
+		box-shadow: 0 20px 50px rgba(22, 50, 87, 0.08);
+	}
+
+	.home-service-card img {
+		inline-size: 100%;
+		aspect-ratio: 1.35;
+		object-fit: cover;
+	}
+
+	.home-service-card__body {
+		padding: 30px;
+	}
+
+	.home-service-card h3,
+	.home-news-card h3,
+	.home-feature h3 {
+		margin: 0;
+		color: var(--color-heading);
+		font-size: 22px;
+		line-height: 1.25;
+	}
+
+	.home-service-card p,
+	.home-news-card p,
+	.home-feature p,
+	.home-about__content > p {
+		margin: 16px 0 0;
+		line-height: 1.85;
+	}
+
+	.home-stats {
+		padding-block: clamp(46px, 6vw, 74px);
+		background: var(--color-heading);
+		color: var(--color-surface);
+	}
+
+	.home-stats__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 24px;
+		text-align: center;
+	}
+
+	.home-stat__number {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: clamp(42px, 6vw, 70px);
+		font-weight: var(--font-weight-bold);
+		line-height: 1;
+	}
+
+	.home-stat__label {
+		display: block;
+		margin-block-start: 12px;
+		color: rgba(255, 255, 255, 0.78);
+		font-size: 18px;
+	}
+
+	.home-section--projects {
+		background: var(--color-surface-soft);
+	}
+
+	.home-projects {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1px;
+		margin-block-start: 48px;
+		background: var(--color-border);
+	}
+
+	.home-project-card {
+		position: relative;
+		min-block-size: clamp(310px, 32vw, 500px);
+		overflow: hidden;
+		color: var(--color-surface);
+		text-decoration: none;
+		background: var(--color-heading);
+	}
+
+	.home-project-card img {
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+		opacity: 0.86;
+		transition: transform 420ms ease, opacity 420ms ease;
+	}
+
+	.home-project-card::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(180deg, transparent 35%, rgba(4, 30, 54, 0.82));
+	}
+
+	.home-project-card span {
+		position: absolute;
+		z-index: 1;
+		inset-inline: 28px;
+		inset-block-end: 28px;
+		font-family: var(--font-heading);
+		font-size: 24px;
+		font-weight: var(--font-weight-bold);
+		line-height: 1.18;
+	}
+
+	.home-project-card:hover img,
+	.home-project-card:focus-visible img {
+		transform: scale(1.055);
+		opacity: 1;
+	}
+
+	.home-about {
+		padding-block: clamp(76px, 9vw, 126px);
+		background: var(--color-surface);
+	}
+
+	.home-about__grid {
+		display: grid;
+		grid-template-columns: 0.92fr 1fr;
+		gap: clamp(44px, 6vw, 84px);
+		align-items: center;
+	}
+
+	.home-about__brand-mark {
+		display: grid;
+		place-items: center;
+		min-block-size: 520px;
+		padding: clamp(42px, 7vw, 86px);
+		background: var(--color-surface-soft);
+		box-shadow: inset 0 0 0 1px rgba(22, 50, 87, 0.04);
+	}
+
+	.home-about__brand-mark img {
+		inline-size: min(360px, 76%);
+		block-size: auto;
+		opacity: 0.16;
+	}
+
+	.home-eyebrow {
+		margin: 0 0 14px;
+		color: var(--color-brand-primary);
+		font-family: var(--font-heading);
+		font-weight: var(--font-weight-semibold);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.home-about__phones {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+		margin-block: 28px;
+	}
+
+	.home-about__phones a,
+	.home-footer__phones a {
+		color: var(--color-brand-primary);
+		font-weight: var(--font-weight-semibold);
+		text-decoration: none;
+	}
+
+	.home-about__features {
+		display: grid;
+		gap: 18px;
+	}
+
+	.home-feature {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 18px;
+		align-items: start;
+	}
+
+	:global([dir='rtl']) .home-feature {
+		grid-template-columns: auto 1fr;
+	}
+
+	.home-feature__icon {
+		display: inline-grid;
+		place-items: center;
+		inline-size: 54px;
+		block-size: 54px;
+		border-radius: 50%;
+		background: var(--color-surface-soft);
+		color: var(--color-brand-primary);
+		font-family: var(--font-heading);
+		font-weight: var(--font-weight-bold);
+	}
+
+	.home-news {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 30px;
+		margin-block-start: 48px;
+	}
+
+	.home-news-card {
+		display: grid;
+		grid-template-columns: 150px 1fr;
+		gap: 24px;
+		padding: 26px;
+	}
+
+	.home-news-card img {
+		inline-size: 150px;
+		block-size: 150px;
+		object-fit: cover;
+	}
+
+	.home-news-card time {
+		display: block;
+		margin-block-end: 10px;
+		color: var(--color-text-muted);
+		font-size: 14px;
+	}
+
+	.home-news-card a {
+		color: inherit;
+	}
+
+	.home-text-link {
+		margin-block-start: 14px;
+		color: var(--color-brand-primary);
+	}
+
+	.home-section__action {
+		margin-block-start: 38px;
+		text-align: center;
+	}
+
+	.home-partners {
+		overflow: hidden;
+		padding-block: clamp(64px, 8vw, 104px);
+		background: var(--color-surface-soft);
+		text-align: center;
+	}
+
+	.home-partners__track {
+		display: flex;
+		gap: 26px;
+		inline-size: max-content;
+		margin-block-start: 44px;
+		animation: partners-scroll 38s linear infinite;
+	}
+
+	:global([dir='rtl']) .home-partners__track {
+		animation-direction: reverse;
+	}
+
+	.home-partners__track:hover {
+		animation-play-state: paused;
+	}
+
+	.home-partner-logo {
+		display: grid;
+		place-items: center;
+		inline-size: 150px;
+		block-size: 112px;
+		padding: 16px;
+		background: var(--color-surface);
+		box-shadow: 0 16px 42px rgba(22, 50, 87, 0.07);
+	}
+
+	.home-partner-logo img {
+		max-inline-size: 100%;
+		max-block-size: 100%;
+		object-fit: contain;
+	}
+
+	.home-footer {
+		padding-block-start: clamp(64px, 8vw, 104px);
+		background: var(--color-heading);
+		background-image: linear-gradient(rgba(22, 50, 87, 0.96), rgba(22, 50, 87, 0.96)), url('/assets/home/pattern-white.png');
+		color: rgba(255, 255, 255, 0.78);
+	}
+
+	.home-footer__grid {
+		display: grid;
+		grid-template-columns: 1.1fr 0.8fr 1.1fr;
+		gap: clamp(34px, 5vw, 64px);
+		align-items: start;
+	}
+
+	.home-footer h2 {
+		color: var(--color-surface);
+		font-size: 26px;
+	}
+
+	.home-footer__brand img {
+		inline-size: 150px;
+		block-size: auto;
+		margin-block-end: 26px;
+	}
+
+	.home-footer__phones,
+	.home-footer__addresses {
+		display: grid;
+		gap: 10px;
+		margin-block-start: 18px;
+	}
+
+	.home-footer__phones a {
+		color: var(--color-surface);
+	}
+
+	.home-footer__addresses p {
+		margin: 0;
+		line-height: 1.75;
+	}
+
+	.home-footer__news ul {
+		list-style: none;
+		margin: 22px 0 0;
+		padding: 0;
+	}
+
+	.home-footer__news li {
+		padding-block: 11px;
+		border-block-end: 1px solid rgba(255, 255, 255, 0.14);
+	}
+
+	.home-contact-form {
+		display: grid;
+		gap: 14px;
+	}
+
+	.home-contact-form label {
+		display: grid;
+		gap: 7px;
+	}
+
+	.home-contact-form span {
+		font-size: 13px;
+		font-weight: var(--font-weight-medium);
+		color: rgba(255, 255, 255, 0.72);
+	}
+
+	.home-contact-form input,
+	.home-contact-form select,
+	.home-contact-form textarea {
+		inline-size: 100%;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		padding: 13px 14px;
+		background: rgba(255, 255, 255, 0.08);
+		color: var(--color-surface);
+		font: inherit;
+	}
+
+	.home-contact-form option {
+		color: var(--color-heading);
+	}
+
+	.home-contact-form__notice {
+		margin: 0;
+		padding: 12px 14px;
+		background: rgba(255, 255, 255, 0.12);
+		color: var(--color-surface);
+		line-height: 1.55;
+	}
+
+	.home-footer__copyright {
+		margin: clamp(48px, 6vw, 72px) 0 0;
+		padding: 20px var(--page-gutter);
+		border-block-start: 1px solid rgba(255, 255, 255, 0.12);
+		text-align: center;
+	}
+
+	.home-button:focus-visible,
+	.home-text-link:focus-visible,
+	.home-hero__arrow:focus-visible,
+	.home-hero__dot:focus-visible,
+	.home-project-card:focus-visible,
+	.home-news-card a:focus-visible,
+	.home-about__phones a:focus-visible,
+	.home-footer__phones a:focus-visible,
+	.home-contact-form input:focus-visible,
+	.home-contact-form select:focus-visible,
+	.home-contact-form textarea:focus-visible {
+		outline: 2px solid var(--color-brand-primary);
+		outline-offset: 3px;
+	}
+
+	@keyframes partners-scroll {
+		from { transform: translateX(0); }
+		to { transform: translateX(-50%); }
+	}
+
+	@media (max-width: 1100px) {
+		.home-services,
+		.home-projects,
+		.home-footer__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.home-about__grid,
+		.home-news {
+			grid-template-columns: 1fr;
+		}
+
+		.home-about__brand-mark {
+			min-block-size: 440px;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.home-hero {
+			min-block-size: 620px;
+		}
+
+		.home-hero__content {
+			padding-block: 72px 92px;
+		}
+
+		.home-hero__controls {
+			inset-inline: 18px;
+			inset-block-end: 22px;
+		}
+
+		.home-hero__arrow {
+			inline-size: 38px;
+			block-size: 38px;
+		}
+
+		.home-stats__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.home-news-card {
+			grid-template-columns: 1fr;
+		}
+
+		.home-news-card img {
+			inline-size: 100%;
+			block-size: auto;
+			aspect-ratio: 1.65;
+		}
+
+		.home-about__brand-mark {
+			min-block-size: 340px;
+		}
+
+		.home-project-card {
+			min-block-size: 330px;
+		}
+	}
+</style>
