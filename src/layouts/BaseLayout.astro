@@ -1,4 +1,6 @@
 ---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
 import { getLocaleMeta } from '../utils/locale';
 import type { Locale } from '../data/locales';
 
@@ -18,6 +20,8 @@ const localeMeta = getLocaleMeta(locale);
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
+		<Font cssVariable="--font-jost" />
+		<Font cssVariable="--font-poppins" />
 		<title>{title}</title>
 	</head>
 	<body>
