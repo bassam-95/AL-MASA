@@ -77,13 +77,41 @@ const isArabic = locale === 'ar';
 			<h2 id="projects-heading">{content.projects.title}</h2>
 			{content.projects.intro && <p>{content.projects.intro}</p>}
 		</div>
-		<div class="home-projects" aria-label={content.projects.title}>
-			{content.projects.items.map((project) => (
-				<a class="home-project-card" href={project.url} target="_blank" rel="noreferrer">
-					<img src={project.image} alt="" width="670" height="502" loading="lazy" />
-					<span>{project.title}</span>
-				</a>
-			))}
+		<div
+			class="home-projects"
+			aria-label={content.projects.title}
+			aria-roledescription="carousel"
+			data-projects-carousel
+			data-carousel="projects"
+			data-carousel-loop="true"
+			tabindex="0"
+		>
+			<button class="home-carousel-button home-projects__button home-projects__button--prev" type="button" data-carousel-prev="projects" aria-label={isArabic ? 'المشروع السابق' : 'Previous project'}>
+				<span aria-hidden="true">‹</span>
+				<span>{isArabic ? 'السابق' : 'Previous'}</span>
+			</button>
+			<div class="home-projects__viewport">
+				<div class="home-projects__track" data-carousel-track="projects" aria-live="polite">
+					{content.projects.items.map((project, index) => (
+						<article
+							class:list={["home-project-slide", { 'is-active': index === 0, 'is-prev': index === content.projects.items.length - 1, 'is-next': index === 1 }]}
+							data-carousel-slide="projects"
+							aria-roledescription="slide"
+							aria-label={`${index + 1} / ${content.projects.items.length}`}
+							aria-hidden={index === 0 ? 'false' : 'true'}
+						>
+							<a class="home-project-card" href={project.url} target="_blank" rel="noreferrer">
+								<img src={project.image} alt="" width="1280" height="572" loading="lazy" />
+								<span>{project.title}</span>
+							</a>
+						</article>
+					))}
+				</div>
+			</div>
+			<button class="home-carousel-button home-projects__button home-projects__button--next" type="button" data-carousel-next="projects" aria-label={isArabic ? 'المشروع التالي' : 'Next project'}>
+				<span>{isArabic ? 'التالي' : 'Next'}</span>
+				<span aria-hidden="true">›</span>
+			</button>
 		</div>
 	</section>
 
@@ -139,16 +167,49 @@ const isArabic = locale === 'ar';
 		</div>
 	</section>
 
-	<section class="home-partners" aria-labelledby="partners-heading">
+	<section
+		class="home-partners"
+		aria-labelledby="partners-heading"
+		data-partners-carousel
+		data-carousel="partners"
+		data-carousel-loop="true"
+		data-carousel-autoplay="2000"
+		data-carousel-start="5"
+	>
 		<div class="home-container">
 			<h2 id="partners-heading">{content.partners.title}</h2>
 		</div>
-		<div class="home-partners__track" aria-label={content.partners.title}>
-			{[...content.partners.items, ...content.partners.items].map((partner) => (
-				<div class="home-partner-logo">
-					<img src={partner.image} alt={partner.name} width="150" height="150" loading="lazy" />
+		<div class="home-partners__carousel" aria-label={content.partners.title} aria-roledescription="carousel" tabindex="0">
+			<button class="home-carousel-button home-partners__button home-partners__button--prev" type="button" data-carousel-prev="partners" aria-label={isArabic ? 'الشريك السابق' : 'Previous partner'}>‹</button>
+			<div class="home-partners__viewport">
+				<div class="home-partners__track" data-carousel-track="partners" aria-live="off">
+					{content.partners.items.map((partner, index) => (
+						<div
+							class:list={["home-partner-logo", { 'is-active': index === 5, 'is-prev': index === 4, 'is-next': index === 6 }]}
+							data-carousel-slide="partners"
+							role="group"
+							aria-roledescription="slide"
+							aria-label={`${index + 1} / ${content.partners.items.length}: ${partner.name}`}
+							aria-hidden={index === 5 || index === 4 || index === 6 ? 'false' : 'true'}
+						>
+							<img src={partner.image} alt={partner.name} width="150" height="150" loading="lazy" />
+						</div>
+					))}
 				</div>
-			))}
+			</div>
+			<button class="home-carousel-button home-partners__button home-partners__button--next" type="button" data-carousel-next="partners" aria-label={isArabic ? 'الشريك التالي' : 'Next partner'}>›</button>
+			<div class="home-partners__dots" aria-label={isArabic ? 'اختيار الشريك' : 'Choose partner'}>
+				{content.partners.items.map((partner, index) => (
+					<button
+						class:list={["home-partners__dot", { 'is-active': index === 5 }]}
+						type="button"
+						data-carousel-dot="partners"
+						data-carousel-index={index}
+						aria-label={`${isArabic ? 'الشريك' : 'Partner'} ${index + 1}: ${partner.name}`}
+						aria-selected={index === 5 ? 'true' : 'false'}
+					></button>
+				))}
+			</div>
 		</div>
 	</section>
 
@@ -245,6 +306,101 @@ const isArabic = locale === 'ar';
 				});
 			}
 		});
+
+		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+		const setupCarousel = (name) => {
+			const carousel = homePage.querySelector(`[data-carousel="${name}"]`);
+			if (!(carousel instanceof HTMLElement)) return;
+
+			const carouselSlides = Array.from(homePage.querySelectorAll(`[data-carousel-slide="${name}"]`));
+			const carouselDots = Array.from(homePage.querySelectorAll(`[data-carousel-dot="${name}"]`));
+			const carouselPrevious = homePage.querySelector(`[data-carousel-prev="${name}"]`);
+			const carouselNext = homePage.querySelector(`[data-carousel-next="${name}"]`);
+			if (!carouselSlides.length) return;
+
+			let activeIndex = Number(carousel.dataset.carouselStart ?? 0);
+			let autoplayTimer;
+
+			const normalizeIndex = (index) => (index + carouselSlides.length) % carouselSlides.length;
+
+			const showCarouselSlide = (index) => {
+				activeIndex = normalizeIndex(index);
+				const previousIndex = normalizeIndex(activeIndex - 1);
+				const nextIndex = normalizeIndex(activeIndex + 1);
+
+				carouselSlides.forEach((slide, slideIndex) => {
+					const isActive = slideIndex === activeIndex;
+					const isPrevious = slideIndex === previousIndex;
+					const isNext = slideIndex === nextIndex;
+					slide.classList.toggle('is-active', isActive);
+					slide.classList.toggle('is-prev', isPrevious);
+					slide.classList.toggle('is-next', isNext);
+					slide.setAttribute('aria-hidden', String(!(isActive || isPrevious || isNext)));
+					slide.querySelectorAll('a, button').forEach((item) => {
+						if (!(item instanceof HTMLElement)) return;
+						if (isActive) item.removeAttribute('tabindex');
+						else item.setAttribute('tabindex', '-1');
+					});
+				});
+
+				carouselDots.forEach((dot) => {
+					const dotIndex = Number(dot instanceof HTMLElement ? dot.dataset.carouselIndex ?? 0 : 0);
+					const isActive = dotIndex === activeIndex;
+					dot.classList.toggle('is-active', isActive);
+					dot.setAttribute('aria-selected', String(isActive));
+				});
+			};
+
+			const stopAutoplay = () => {
+				if (autoplayTimer) window.clearInterval(autoplayTimer);
+				autoplayTimer = undefined;
+			};
+
+			const startAutoplay = () => {
+				const delay = Number(carousel.dataset.carouselAutoplay ?? 0);
+				if (!delay || prefersReducedMotion.matches) return;
+				stopAutoplay();
+				autoplayTimer = window.setInterval(() => showCarouselSlide(activeIndex + 1), delay);
+			};
+
+			if (carouselPrevious instanceof HTMLButtonElement) {
+				carouselPrevious.addEventListener('click', () => showCarouselSlide(activeIndex - 1));
+			}
+
+			if (carouselNext instanceof HTMLButtonElement) {
+				carouselNext.addEventListener('click', () => showCarouselSlide(activeIndex + 1));
+			}
+
+			carouselDots.forEach((dot) => {
+				if (dot instanceof HTMLButtonElement) {
+					dot.addEventListener('click', () => showCarouselSlide(Number(dot.dataset.carouselIndex ?? 0)));
+				}
+			});
+
+			const keyboardTarget = carousel.matches('[tabindex]') ? carousel : carousel.querySelector('[tabindex]');
+			if (keyboardTarget instanceof HTMLElement) keyboardTarget.addEventListener('keydown', (event) => {
+				if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+				event.preventDefault();
+				const direction = document.documentElement.dir === 'rtl' ? -1 : 1;
+				showCarouselSlide(activeIndex + (event.key === 'ArrowRight' ? direction : -direction));
+			});
+
+			carousel.addEventListener('mouseenter', stopAutoplay);
+			carousel.addEventListener('mouseleave', startAutoplay);
+			carousel.addEventListener('focusin', stopAutoplay);
+			carousel.addEventListener('focusout', startAutoplay);
+			prefersReducedMotion.addEventListener('change', () => {
+				stopAutoplay();
+				startAutoplay();
+			});
+
+			showCarouselSlide(activeIndex);
+			startAutoplay();
+		};
+
+		setupCarousel('projects');
+		setupCarousel('partners');
 
 		const counters = Array.from(homePage.querySelectorAll('[data-counter]'));
 		const animateCounters = () => {
@@ -609,16 +765,83 @@ const isArabic = locale === 'ar';
 	}
 
 	.home-projects {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 1px;
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(18px, 3vw, 44px);
+		inline-size: min(100%, 1280px);
 		margin-block-start: 48px;
-		background: var(--color-border);
+		margin-inline: auto;
+		padding-inline: clamp(24px, 4vw, 66px);
+	}
+
+	.home-projects__viewport {
+		position: relative;
+		isolation: isolate;
+		inline-size: min(100%, 1040px);
+		min-block-size: clamp(360px, 38vw, 572px);
+		overflow: hidden;
+	}
+
+	.home-projects__track {
+		position: relative;
+		min-block-size: inherit;
+	}
+
+	.home-project-slide {
+		position: absolute;
+		inset-block: 0;
+		inset-inline-start: 50%;
+		inline-size: min(100%, 880px);
+		opacity: 0;
+		pointer-events: none;
+		transform: translateX(-50%) scale(0.9);
+		transition: opacity 360ms ease, transform 360ms ease;
+	}
+
+	.home-project-slide.is-active {
+		z-index: 2;
+		opacity: 1;
+		pointer-events: auto;
+		transform: translateX(-50%) scale(1);
+	}
+
+	.home-project-slide.is-prev,
+	.home-project-slide.is-next {
+		z-index: 1;
+		opacity: 0.28;
+	}
+
+	.home-project-slide.is-prev {
+		transform: translateX(-78%) scale(0.78);
+	}
+
+	.home-project-slide.is-next {
+		transform: translateX(-22%) scale(0.78);
+	}
+
+	:global([dir='rtl']) .home-project-slide {
+		transform: translateX(50%) scale(0.9);
+	}
+
+	:global([dir='rtl']) .home-project-slide.is-active {
+		transform: translateX(50%) scale(1);
+	}
+
+	:global([dir='rtl']) .home-project-slide.is-prev {
+		transform: translateX(22%) scale(0.78);
+	}
+
+	:global([dir='rtl']) .home-project-slide.is-next {
+		transform: translateX(78%) scale(0.78);
 	}
 
 	.home-project-card {
 		position: relative;
-		min-block-size: clamp(310px, 32vw, 500px);
+		display: block;
+		block-size: 100%;
+		min-block-size: inherit;
 		overflow: hidden;
 		color: var(--color-surface);
 		text-decoration: none;
@@ -655,6 +878,42 @@ const isArabic = locale === 'ar';
 	.home-project-card:focus-visible img {
 		transform: scale(1.055);
 		opacity: 1;
+	}
+
+	.home-carousel-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		border: 0;
+		border-radius: 0;
+		background: var(--color-brand-primary);
+		color: var(--color-surface);
+		font-family: var(--font-heading);
+		font-weight: var(--font-weight-semibold);
+		line-height: 1;
+		cursor: pointer;
+		transition: background-color 220ms ease, transform 220ms ease;
+	}
+
+	.home-carousel-button:hover {
+		background: var(--color-heading);
+	}
+
+	.home-carousel-button:active {
+		transform: translateY(1px);
+	}
+
+	.home-projects__button {
+		flex: 0 0 auto;
+		min-inline-size: 112px;
+		min-block-size: 56px;
+		padding: 0 20px;
+	}
+
+	.home-projects__button span[aria-hidden='true'] {
+		font-size: 34px;
+		font-weight: var(--font-weight-regular);
 	}
 
 	.home-about {
@@ -826,36 +1085,126 @@ const isArabic = locale === 'ar';
 		text-align: center;
 	}
 
-	.home-partners__track {
-		display: flex;
-		gap: 26px;
-		inline-size: max-content;
+	.home-partners__carousel {
+		position: relative;
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-areas:
+			"prev logos next"
+			"dots dots dots";
+		align-items: center;
+		gap: 24px;
+		inline-size: min(calc(100% - var(--page-gutter) - var(--page-gutter)), 1040px);
 		margin-block-start: 44px;
-		animation: partners-scroll 38s linear infinite;
+		margin-inline: auto;
 	}
 
-	:global([dir='rtl']) .home-partners__track {
-		animation-direction: reverse;
+	.home-partners__viewport {
+		grid-area: logos;
+		position: relative;
+		min-block-size: 150px;
+		overflow: hidden;
 	}
 
-	.home-partners__track:hover {
-		animation-play-state: paused;
+	.home-partners__track {
+		position: relative;
+		min-block-size: inherit;
 	}
 
 	.home-partner-logo {
+		position: absolute;
+		inset-block-start: 50%;
+		inset-inline-start: 50%;
 		display: grid;
 		place-items: center;
 		inline-size: 150px;
-		block-size: 112px;
+		block-size: 128px;
 		padding: 16px;
 		background: var(--color-surface);
 		box-shadow: 0 16px 42px rgba(22, 50, 87, 0.07);
+		opacity: 0;
+		transform: translate(-50%, -50%) scale(0.86);
+		transition: opacity 360ms ease, transform 360ms ease;
+	}
+
+	.home-partner-logo.is-active,
+	.home-partner-logo.is-prev,
+	.home-partner-logo.is-next {
+		opacity: 1;
+	}
+
+	.home-partner-logo.is-active {
+		z-index: 2;
+		transform: translate(-50%, -50%) scale(1);
+	}
+
+	.home-partner-logo.is-prev {
+		transform: translate(calc(-50% - 210px), -50%) scale(0.94);
+	}
+
+	.home-partner-logo.is-next {
+		transform: translate(calc(-50% + 210px), -50%) scale(0.94);
+	}
+
+	:global([dir='rtl']) .home-partner-logo {
+		transform: translate(50%, -50%) scale(1);
+	}
+
+	:global([dir='rtl']) .home-partner-logo.is-active {
+		transform: translate(50%, -50%) scale(1);
+	}
+
+	:global([dir='rtl']) .home-partner-logo.is-prev {
+		transform: translate(calc(50% + 210px), -50%) scale(0.94);
+	}
+
+	:global([dir='rtl']) .home-partner-logo.is-next {
+		transform: translate(calc(50% - 210px), -50%) scale(0.94);
 	}
 
 	.home-partner-logo img {
 		max-inline-size: 100%;
 		max-block-size: 100%;
 		object-fit: contain;
+	}
+
+	.home-partners__button {
+		inline-size: 42px;
+		block-size: 42px;
+		background: rgba(0, 58, 107, 0.92);
+		font-size: 28px;
+		font-weight: var(--font-weight-regular);
+	}
+
+	.home-partners__button--prev {
+		grid-area: prev;
+	}
+
+	.home-partners__button--next {
+		grid-area: next;
+	}
+
+	.home-partners__dots {
+		grid-area: dots;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 8px;
+		margin-block-start: 8px;
+	}
+
+	.home-partners__dot {
+		inline-size: 9px;
+		block-size: 9px;
+		border: 0;
+		border-radius: 50%;
+		padding: 0;
+		background: rgba(22, 50, 87, 0.28);
+		cursor: pointer;
+	}
+
+	.home-partners__dot.is-active {
+		background: var(--color-brand-primary);
 	}
 
 	.home-footer {
@@ -970,6 +1319,8 @@ const isArabic = locale === 'ar';
 	.home-text-link:focus-visible,
 	.home-hero__arrow:focus-visible,
 	.home-hero__dot:focus-visible,
+	.home-carousel-button:focus-visible,
+	.home-partners__dot:focus-visible,
 	.home-project-card:focus-visible,
 	.home-news-card a:focus-visible,
 	.home-about__phones a:focus-visible,
@@ -981,14 +1332,8 @@ const isArabic = locale === 'ar';
 		outline-offset: 3px;
 	}
 
-	@keyframes partners-scroll {
-		from { transform: translateX(0); }
-		to { transform: translateX(-50%); }
-	}
-
 	@media (max-width: 1100px) {
 		.home-services,
-		.home-projects,
 		.home-footer__grid {
 			grid-template-columns: 1fr;
 		}
@@ -1078,10 +1423,83 @@ const isArabic = locale === 'ar';
 			min-block-size: 330px;
 		}
 
+		.home-projects {
+			gap: 12px;
+			padding-inline: 14px;
+		}
+
+		.home-projects__viewport {
+			min-block-size: 330px;
+		}
+
+		.home-projects__button {
+			position: absolute;
+			z-index: 4;
+			inset-block-start: calc(50% - 21px);
+			min-inline-size: 42px;
+			inline-size: 42px;
+			min-block-size: 42px;
+			padding: 0;
+		}
+
+		.home-projects__button span:not([aria-hidden='true']) {
+			position: absolute;
+			inline-size: 1px;
+			block-size: 1px;
+			overflow: hidden;
+			clip: rect(0 0 0 0);
+			white-space: nowrap;
+		}
+
+		.home-projects__button--prev {
+			inset-inline-start: 20px;
+		}
+
+		.home-projects__button--next {
+			inset-inline-end: 20px;
+		}
+
+		.home-project-slide.is-prev,
+		.home-project-slide.is-next {
+			opacity: 0;
+		}
+
+		.home-partners__carousel {
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			gap: 12px;
+		}
+
+		.home-partners__viewport {
+			min-block-size: 138px;
+		}
+
+		.home-partner-logo {
+			inline-size: 130px;
+			block-size: 116px;
+		}
+
+		.home-partner-logo.is-prev,
+		.home-partner-logo.is-next {
+			opacity: 0;
+			transform: translate(-50%, -50%) scale(0.94);
+		}
+
+		:global([dir='rtl']) .home-partner-logo.is-prev,
+		:global([dir='rtl']) .home-partner-logo.is-next {
+			transform: translate(50%, -50%) scale(0.94);
+		}
+
 		.home-footer__brand,
 		.home-footer__news,
 		.home-contact-form {
 			padding: 44px 30px;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.home-project-slide,
+		.home-partner-logo {
+			transition: none;
 		}
 	}
 </style>
