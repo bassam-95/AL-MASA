@@ -1,0 +1,290 @@
+[
+  {
+    "section": "hero",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-hero-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "hero",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-hero-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "hero",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-hero-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "hero",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-hero-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "services",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-services-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "services",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-services-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "services",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-services-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "services",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-services-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "statistics",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-statistics-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "statistics",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-statistics-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "statistics",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-statistics-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "statistics",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-statistics-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "projects",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-projects-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "projects",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-projects-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "projects",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-projects-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "projects",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-projects-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "about",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-about-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "about",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-about-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "about",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-about-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "about",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-about-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "news",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-news-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "news",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-news-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "news",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-news-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "news",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-news-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "partners",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-partners-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "partners",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-partners-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "partners",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-partners-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "partners",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-partners-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "footer",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/desktop-footer-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "footer",
+    "kind": "desktop-after",
+    "file": "assets/review/homepage/desktop-footer-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "section": "footer",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/mobile-footer-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "section": "footer",
+    "kind": "mobile-after",
+    "file": "assets/review/homepage/mobile-footer-after.png",
+    "size": [
+      390,
+      844
+    ]
+  }
+]
