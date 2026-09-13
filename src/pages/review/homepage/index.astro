@@ -2,55 +2,75 @@
 import { Font } from 'astro:assets';
 import '../../../styles/global.css';
 
+const languages = [
+	{
+		key: 'en',
+		label: 'مقارنة النسخة الإنجليزية',
+		ariaLabel: 'مقارنة النسخة الإنجليزية من الموقع',
+		buttonHref: '/en/',
+	},
+	{
+		key: 'ar',
+		label: 'مقارنة النسخة العربية',
+		ariaLabel: 'مقارنة النسخة العربية من الموقع',
+		buttonHref: '/ar/',
+	},
+] as const;
+
+const views = [
+	{ key: 'desktop', label: 'عرض الكمبيوتر', ariaLabel: 'عرض مقارنة الكمبيوتر' },
+	{ key: 'mobile', label: 'عرض الموبايل', ariaLabel: 'عرض مقارنة الموبايل' },
+] as const;
+
 const sections = [
 	{
 		key: 'hero',
 		title: 'الواجهة الرئيسية',
-		description: 'تم تحسين أول جزء في الصفحة ليكون أوضح وأقوى على الموبايل والكمبيوتر.',
+		description: 'مقارنة أول ظهور في الصفحة، مع التأكد من أن صورة الخلفية والنص ظاهرين بشكل صحيح.',
 	},
 	{
 		key: 'services',
 		title: 'الخدمات',
-		description: 'تم ضبط ترتيب الخدمات والمسافات مع الحفاظ على نفس هوية الموقع.',
+		description: 'مقارنة قسم الخدمات بعد ظهور البطاقات والصور والنصوص بالكامل.',
 	},
 	{
 		key: 'statistics',
 		title: 'الأرقام',
-		description: 'تم تحسين طريقة عرض الأرقام لتظهر بشكل أوضح وأقرب لشكل الموقع الأصلي.',
+		description: 'مقارنة قسم الأرقام بعد ظهور القيم الصحيحة وليس أثناء بداية العد.',
 	},
 	{
 		key: 'projects',
 		title: 'أحدث المشروعات',
-		description: 'تم تحسين طريقة عرض المشروعات لتكون أسهل في المشاهدة والتنقل.',
+		description: 'مقارنة عرض المشروعات في حالة ثابتة وواضحة بدون انتقال أو قص غير مقصود.',
 	},
 	{
 		key: 'about',
 		title: 'من نحن',
-		description: 'تم تحسين ترتيب النصوص والأزرار والعناصر المهمة داخل القسم.',
+		description: 'مقارنة قسم التعريف بالشركة والصورة/الشعار المستخدم داخل القسم.',
 	},
 	{
 		key: 'news',
 		title: 'الأخبار',
-		description: 'تم ضبط حجم البطاقات والمسافات حتى يكون القسم أوضح وأسهل للقراءة.',
+		description: 'مقارنة قسم الأخبار مع التأكد من أن البطاقات المعروضة تخص هذا القسم فقط.',
 	},
 	{
 		key: 'partners',
 		title: 'الشركاء',
-		description: 'تم تحسين عرض شعارات الشركاء بشكل أبسط وأنظف.',
+		description: 'مقارنة شعارات الشركاء في حالة مستقرة وواضحة.',
 	},
 	{
 		key: 'footer',
 		title: 'التواصل',
-		description: 'تم تحسين نهاية الصفحة ونموذج التواصل ليكون الشكل أوضح وأكثر ترتيباً.',
+		description: 'مقارنة نهاية الصفحة ومنطقة التواصل بعد إزالة أرقام الهاتف غير المطلوبة في النسخة الجديدة.',
 	},
-];
+] as const;
 
-const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after') =>
-	`/assets/review/homepage/${view}-${key}-${side}.png`;
+const image = (locale: string, view: string, key: string, side: 'before' | 'after') =>
+	`/assets/review/homepage/${locale}-${view}-${key}-${side}.png`;
 ---
 
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-review-locale="en" data-review-view="desktop">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -61,8 +81,10 @@ const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after'
 		<title>مقارنة الصفحة الرئيسية | AL MASA</title>
 		<script is:inline>
 			(() => {
-				const saved = window.localStorage.getItem('almasa-comparison-view');
-				const view = saved || (window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'desktop');
+				const savedLocale = window.localStorage.getItem('almasa-comparison-locale');
+				const savedView = window.localStorage.getItem('almasa-comparison-view');
+				const view = savedView || (window.matchMedia('(max-width: 760px)').matches ? 'mobile' : 'desktop');
+				document.documentElement.dataset.reviewLocale = savedLocale || 'en';
 				document.documentElement.dataset.reviewView = view;
 			})();
 		</script>
@@ -73,82 +95,105 @@ const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after'
 				<p class="review-kicker">AL MASA</p>
 				<h1 id="page-title">مقارنة الصفحة الرئيسية</h1>
 				<p class="review-intro">
-					مقارنة بين الصفحة الرئيسية الحالية والنسخة الجديدة. تم الحفاظ على هوية الموقع مع إعادة تنفيذ الصفحة وتحسين طريقة عرضها على الموبايل والكمبيوتر.
+					مقارنة بين الصفحة الحالية والنسخة الجديدة. اختر النسخة الإنجليزية أو العربية، ثم اختر عرض الكمبيوتر أو الموبايل.
 				</p>
-				<div class="review-actions" aria-label="اختيار طريقة العرض">
-					<button class="view-toggle" type="button" data-view-button="mobile" aria-pressed="false">عرض الموبايل</button>
-					<button class="view-toggle" type="button" data-view-button="desktop" aria-pressed="true">عرض الكمبيوتر</button>
+				<div class="review-control-group" aria-label="اختيار لغة المقارنة">
+					{languages.map((language) => (
+						<button class="review-toggle" type="button" data-locale-button={language.key} aria-label={language.ariaLabel} aria-pressed={language.key === 'en' ? 'true' : 'false'}>
+							{language.label}
+						</button>
+					))}
+				</div>
+				<div class="review-control-group" aria-label="اختيار طريقة العرض">
+					{views.map((view) => (
+						<button class="review-toggle" type="button" data-view-button={view.key} aria-label={view.ariaLabel} aria-pressed={view.key === 'desktop' ? 'true' : 'false'}>
+							{view.label}
+						</button>
+					))}
 				</div>
 			</header>
 
-			<section class="view-set view-set--desktop" data-view-set="desktop" aria-label="مقارنة الكمبيوتر">
-				{sections.map((section, index) => (
-					<article class="comparison-section" id={`desktop-${section.key}`}>
-						<div class="section-copy">
-							<span class="section-number">{String(index + 1).padStart(2, '0')}</span>
-							<div>
-								<h2>{section.title}</h2>
-								<p>{section.description}</p>
-							</div>
-						</div>
-						<div class="comparison-grid comparison-grid--desktop">
-							<figure class="screenshot-card">
-								<figcaption>قبل</figcaption>
-								<img src={image('desktop', section.key, 'before')} alt={`قبل - ${section.title} على الكمبيوتر`} width="1440" height="900" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
-							</figure>
-							<figure class="screenshot-card screenshot-card--after">
-								<figcaption>بعد</figcaption>
-								<img src={image('desktop', section.key, 'after')} alt={`بعد - ${section.title} على الكمبيوتر`} width="1440" height="900" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
-							</figure>
-						</div>
-					</article>
-				))}
-			</section>
-
-			<section class="view-set view-set--mobile" data-view-set="mobile" aria-label="مقارنة الموبايل">
-				{sections.map((section, index) => (
-					<article class="comparison-section" id={`mobile-${section.key}`}>
-						<div class="section-copy">
-							<span class="section-number">{String(index + 1).padStart(2, '0')}</span>
-							<div>
-								<h2>{section.title}</h2>
-								<p>{section.description}</p>
-							</div>
-						</div>
-						<div class="comparison-grid comparison-grid--mobile">
-							<figure class="screenshot-card screenshot-card--phone">
-								<figcaption>قبل</figcaption>
-								<img src={image('mobile', section.key, 'before')} alt={`قبل - ${section.title} على الموبايل`} width="390" height="844" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
-							</figure>
-							<figure class="screenshot-card screenshot-card--phone screenshot-card--after">
-								<figcaption>بعد</figcaption>
-								<img src={image('mobile', section.key, 'after')} alt={`بعد - ${section.title} على الموبايل`} width="390" height="844" loading={index < 2 ? 'eager' : 'lazy'} decoding="async" />
-							</figure>
-						</div>
-					</article>
-				))}
-			</section>
+			{languages.map((language) => (
+				<div class="language-set" data-language-set={language.key} aria-label={language.ariaLabel}>
+					{views.map((view) => (
+						<section class:list={["view-set", `view-set--${view.key}`]} data-view-set={view.key} aria-label={view.ariaLabel}>
+							{sections.map((section, index) => (
+								<article class="comparison-section" id={`${language.key}-${view.key}-${section.key}`}>
+									<div class="section-copy">
+										<span class="section-number">{String(index + 1).padStart(2, '0')}</span>
+										<div>
+											<h2>{section.title}</h2>
+											<p>{section.description}</p>
+										</div>
+									</div>
+									<div class:list={["comparison-grid", `comparison-grid--${view.key}`]}>
+										<figure class:list={["screenshot-card", { 'screenshot-card--phone': view.key === 'mobile' }]}>
+											<figcaption>قبل</figcaption>
+											<img
+												src={image(language.key, view.key, section.key, 'before')}
+												alt={`قبل - ${section.title} - ${language.label} - ${view.label}`}
+												width={view.key === 'desktop' ? '1440' : '390'}
+												height={view.key === 'desktop' ? '900' : '844'}
+												loading={index < 2 ? 'eager' : 'lazy'}
+												decoding="async"
+											/>
+										</figure>
+										<figure class:list={["screenshot-card", "screenshot-card--after", { 'screenshot-card--phone': view.key === 'mobile' }]}>
+											<figcaption>بعد</figcaption>
+											<img
+												src={image(language.key, view.key, section.key, 'after')}
+												alt={`بعد - ${section.title} - ${language.label} - ${view.label}`}
+												width={view.key === 'desktop' ? '1440' : '390'}
+												height={view.key === 'desktop' ? '900' : '844'}
+												loading={index < 2 ? 'eager' : 'lazy'}
+												decoding="async"
+											/>
+										</figure>
+									</div>
+								</article>
+							))}
+						</section>
+					))}
+				</div>
+			))}
 
 			<footer class="review-footer">
-				<a class="homepage-link" href="/en/" target="_blank" rel="noopener">مشاهدة الصفحة الجديدة</a>
+				{languages.map((language) => (
+					<a class="homepage-link" data-homepage-link={language.key} href={language.buttonHref} target="_blank" rel="noopener">مشاهدة الصفحة الجديدة</a>
+				))}
 			</footer>
 		</main>
 
 		<script is:inline>
 			(() => {
-				const buttons = Array.from(document.querySelectorAll('[data-view-button]'));
+				const localeButtons = Array.from(document.querySelectorAll('[data-locale-button]'));
+				const viewButtons = Array.from(document.querySelectorAll('[data-view-button]'));
+
+				const setLocale = (locale) => {
+					document.documentElement.dataset.reviewLocale = locale;
+					window.localStorage.setItem('almasa-comparison-locale', locale);
+					localeButtons.forEach((button) => {
+						button.setAttribute('aria-pressed', String(button.dataset.localeButton === locale));
+					});
+				};
+
 				const setView = (view) => {
 					document.documentElement.dataset.reviewView = view;
 					window.localStorage.setItem('almasa-comparison-view', view);
-					buttons.forEach((button) => {
+					viewButtons.forEach((button) => {
 						button.setAttribute('aria-pressed', String(button.dataset.viewButton === view));
 					});
 				};
 
-				buttons.forEach((button) => {
+				localeButtons.forEach((button) => {
+					button.addEventListener('click', () => setLocale(button.dataset.localeButton));
+				});
+
+				viewButtons.forEach((button) => {
 					button.addEventListener('click', () => setView(button.dataset.viewButton));
 				});
 
+				setLocale(document.documentElement.dataset.reviewLocale || 'en');
 				setView(document.documentElement.dataset.reviewView || 'desktop');
 			})();
 		</script>
@@ -218,14 +263,14 @@ const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after'
 		line-height: 1.9;
 	}
 
-	.review-actions {
+	.review-control-group {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 12px;
-		margin-block-start: 8px;
+		margin-block-start: 4px;
 	}
 
-	.view-toggle,
+	.review-toggle,
 	.homepage-link {
 		border: 0;
 		border-radius: 999px;
@@ -235,39 +280,36 @@ const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after'
 		cursor: pointer;
 	}
 
-	.view-toggle {
+	.review-toggle {
 		padding: 12px 22px;
 		background: #e8edf2;
 		color: var(--color-heading);
 	}
 
-	.view-toggle[aria-pressed='true'],
+	.review-toggle[aria-pressed='true'],
 	.homepage-link {
 		background: var(--color-brand-primary);
 		color: #ffffff;
 	}
 
+	.language-set,
 	.view-set {
 		display: grid;
 		gap: clamp(28px, 5vw, 64px);
 		margin-block-start: clamp(28px, 5vw, 64px);
 	}
 
-	html[data-review-view='desktop'] .view-set--mobile,
-	html[data-review-view='mobile'] .view-set--desktop {
+	.language-set .view-set {
+		margin-block-start: 0;
+	}
+
+	html[data-review-locale='en'] [data-language-set='ar'],
+	html[data-review-locale='ar'] [data-language-set='en'],
+	html[data-review-view='desktop'] [data-view-set='mobile'],
+	html[data-review-view='mobile'] [data-view-set='desktop'],
+	html[data-review-locale='en'] [data-homepage-link='ar'],
+	html[data-review-locale='ar'] [data-homepage-link='en'] {
 		display: none;
-	}
-
-	@media (max-width: 760px) {
-		html:not([data-review-view]) .view-set--desktop {
-			display: none;
-		}
-	}
-
-	@media (min-width: 761px) {
-		html:not([data-review-view]) .view-set--mobile {
-			display: none;
-		}
 	}
 
 	.comparison-section {
@@ -316,8 +358,8 @@ const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after'
 	}
 
 	.comparison-grid--mobile {
-		grid-template-columns: repeat(2, minmax(260px, 390px));
-		justify-content: center;
+		grid-template-columns: 1fr;
+		justify-items: center;
 	}
 
 	.screenshot-card {
@@ -350,8 +392,7 @@ const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after'
 	}
 
 	.screenshot-card--phone {
-		max-inline-size: 430px;
-		justify-self: center;
+		inline-size: min(100%, 430px);
 	}
 
 	.review-footer {
@@ -378,23 +419,14 @@ const image = (view: 'desktop' | 'mobile', key: string, side: 'before' | 'after'
 			border-radius: 22px;
 		}
 
-		.comparison-grid--desktop,
-		.comparison-grid--mobile {
+		.comparison-grid--desktop {
 			grid-template-columns: 1fr;
-		}
-
-		.screenshot-card--phone {
-			inline-size: min(100%, 430px);
 		}
 	}
 
 	@media (min-width: 1700px) {
 		.review-page {
 			padding-inline: 72px;
-		}
-
-		.comparison-grid--mobile {
-			grid-template-columns: repeat(2, 430px);
 		}
 	}
 </style>

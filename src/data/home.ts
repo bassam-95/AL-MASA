@@ -171,7 +171,7 @@ export const homeContent: Record<Locale, HomeContent> = {
 			eyebrow: '20 Years of experience',
 			title: 'Who We Are',
 			text: 'Al Masa Contracting Company is one of the distinguished national companies that has pursued thoughtful policies since its inception in 2011. Based on scientific basics, realistic and thoughtful solutions, The company has a unique ambition that grows significantly to reach major achievements and pursue a flexible business strategy seeks to leadership in the public contracting sector and leaves its mark in management and implementation of important projects, reflected in the scale of projects completed during the past years.',
-			phones: ['01273350041', '01204966069'],
+			phones: [],
 			features: [
 				{ icon: 'clock', title: '24/7 Services', text: 'Reliable 24/7 landscaping services, available anytime to meet your property’s needs.' },
 				{ icon: 'coin', title: 'Affordable Price', text: 'Affordable, high-quality landscaping solutions tailored to enhance your property’s beauty and value.' },
@@ -205,7 +205,7 @@ export const homeContent: Record<Locale, HomeContent> = {
 			items: partners,
 		},
 		footer: {
-			phones: ['+201273350041', '+201204966069'],
+			phones: [],
 			addresses: ['23 Mohamed Qenaya ST, Almaza, Heliopolis', '24 Dr Mohamed ahmed Ebrahim St, Abbass EL Aqad, Nasr City'],
 			newsTitle: 'News & Tips',
 			recentNews: ['Interior Design Trends 2024', 'General Contracting Trends 2024', 'Landscape Trends 2024'],
@@ -281,7 +281,7 @@ export const homeContent: Record<Locale, HomeContent> = {
 			eyebrow: '20 عامًا من الخبرة',
 			title: 'من نحن',
 			text: 'شركة الماسة للمقاولات هي إحدى الشركات الوطنية المتميزة التي انتهجت سياسات مدروسة منذ تأسيسها في عام 2011. بناءً على أسس علمية وحلول واقعية ومدروسة، تتمتع الشركة بطموح فريد ينمو بشكل كبير لتحقيق إنجازات هامة واتباع استراتيجية عمل مرنة تسعى إلى الريادة في قطاع المقاولات العامة وترك بصمتها في إدارة وتنفيذ المشاريع المهمة، وهو ما ينعكس في حجم المشاريع التي تم إنجازها خلال السنوات الماضية.',
-			phones: ['01273350041', '01204966069'],
+			phones: [],
 			features: [
 				{ icon: 'clock', title: '24/7 خدماتنا', text: 'خدمات تنسيق حدائق موثوقة على مدار الساعة، متوفرة في أي وقت لتلبية احتياجات ممتلكاتك.' },
 				{ icon: 'coin', title: 'سعر مناسب', text: 'حلول تنسيق حدائق عالية الجودة وبأسعار مناسبة مصممة لتعزيز جمال وقيمة ممتلكاتك.' },
@@ -315,7 +315,7 @@ export const homeContent: Record<Locale, HomeContent> = {
 			items: partners,
 		},
 		footer: {
-			phones: ['01273350041', '01204966069'],
+			phones: [],
 			addresses: ['٢٣ شارع محمد قنايه الماظه مصر الجديدة', '٢٤ شارع الدكتور محمد احمد ابراهيم متفرع من عباس العقاد مدينه نصر'],
 			newsTitle: 'الأخبار',
 			recentNews: ['أحدث تصميمات بالمساحات المفتوحة', 'التطورات بالمقاولات العامة', 'أحدث التصميمات الداخلية'],
