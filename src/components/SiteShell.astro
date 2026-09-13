@@ -164,7 +164,7 @@ function isActive(href: string) {
 		position: relative;
 		align-items: center;
 		justify-content: flex-start;
-		min-block-size: 62px;
+		min-block-size: 78px;
 		padding-inline: 20px 74px;
 		background: var(--color-surface);
 		border-block-end: 1px solid var(--color-border);
@@ -178,14 +178,14 @@ function isActive(href: string) {
 	}
 
 	.site-shell__mobile-logo {
-		inline-size: 108px;
+		inline-size: clamp(136px, 38vw, 156px);
 		block-size: auto;
 	}
 
 	.site-shell__menu-toggle {
 		display: inline-flex;
 		position: absolute;
-		inset-block-start: 9px;
+		inset-block-start: 50%;
 		inset-inline-end: 20px;
 		flex-direction: column;
 		justify-content: center;
@@ -201,6 +201,7 @@ function isActive(href: string) {
 		background-size: 18px 2px;
 		color: var(--color-brand-primary);
 		cursor: pointer;
+		transform: translateY(-50%);
 	}
 
 	.site-shell__menu-toggle span {
