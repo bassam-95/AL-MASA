@@ -140,14 +140,21 @@ const image = (locale: string, view: string, key: string, side: 'before' | 'afte
 										</figure>
 										<figure class:list={["screenshot-card", "screenshot-card--after", { 'screenshot-card--phone': view.key === 'mobile' }]}>
 											<figcaption>بعد</figcaption>
-											<img
-												src={image(language.key, view.key, section.key, 'after')}
-												alt={`بعد - ${section.title} - ${language.label} - ${view.label}`}
-												width={view.key === 'desktop' ? '1440' : '390'}
-												height={view.key === 'desktop' ? '900' : '844'}
-												loading={index < 2 ? 'eager' : 'lazy'}
-												decoding="async"
-											/>
+											{section.key === 'footer' ? (
+												<div class="screenshot-card__notice" role="note">
+													<strong>سيتم تحديث لقطة النسخة الجديدة لهذا القسم.</strong>
+													<span>تم إخفاء هذه اللقطة مؤقتًا حتى لا تظهر بيانات تذييل قديمة في دليل المقارنة.</span>
+												</div>
+											) : (
+												<img
+													src={image(language.key, view.key, section.key, 'after')}
+													alt={`بعد - ${section.title} - ${language.label} - ${view.label}`}
+													width={view.key === 'desktop' ? '1440' : '390'}
+													height={view.key === 'desktop' ? '900' : '844'}
+													loading={index < 2 ? 'eager' : 'lazy'}
+													decoding="async"
+												/>
+											)}
 										</figure>
 									</div>
 								</article>
@@ -389,6 +396,22 @@ const image = (locale: string, view: string, key: string, side: 'before' | 'afte
 		display: block;
 		inline-size: 100%;
 		block-size: auto;
+	}
+
+	.screenshot-card__notice {
+		display: grid;
+		place-content: center;
+		gap: 12px;
+		min-block-size: clamp(360px, 48vw, 900px);
+		padding: clamp(28px, 5vw, 64px);
+		background: #f8fafc;
+		color: var(--color-heading);
+		text-align: center;
+	}
+
+	.screenshot-card__notice span {
+		color: var(--color-text);
+		line-height: 1.8;
 	}
 
 	.screenshot-card--phone {

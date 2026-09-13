@@ -209,7 +209,7 @@ export const homeContent: Record<Locale, HomeContent> = {
 			addresses: ['23 Mohamed Qenaya ST, Almaza, Heliopolis', '24 Dr Mohamed ahmed Ebrahim St, Abbass EL Aqad, Nasr City'],
 			newsTitle: 'News & Tips',
 			recentNews: ['Interior Design Trends 2024', 'General Contracting Trends 2024', 'Landscape Trends 2024'],
-			copyright: '© 2026 Al Masa. Made by Mandala',
+			copyright: '© 2026 AL MASA',
 			formTitle: 'Keep in touch',
 			form: {
 				name: 'Your Name *',
@@ -319,7 +319,7 @@ export const homeContent: Record<Locale, HomeContent> = {
 			addresses: ['٢٣ شارع محمد قنايه الماظه مصر الجديدة', '٢٤ شارع الدكتور محمد احمد ابراهيم متفرع من عباس العقاد مدينه نصر'],
 			newsTitle: 'الأخبار',
 			recentNews: ['أحدث تصميمات بالمساحات المفتوحة', 'التطورات بالمقاولات العامة', 'أحدث التصميمات الداخلية'],
-			copyright: '© 2026 Al Masa. Made by Mandala',
+			copyright: '© 2026 AL MASA',
 			formTitle: 'اتصل بنا',
 			form: {
 				name: 'الاسم *',
