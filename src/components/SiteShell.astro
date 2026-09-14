@@ -163,9 +163,9 @@ function isActive(href: string) {
 		display: flex;
 		position: relative;
 		align-items: center;
-		justify-content: flex-start;
-		min-block-size: 78px;
-		padding-inline: 20px 74px;
+		justify-content: center;
+		min-block-size: 84px;
+		padding-inline: 20px;
 		background: var(--color-surface);
 		border-block-end: 1px solid var(--color-border);
 	}
@@ -178,7 +178,7 @@ function isActive(href: string) {
 	}
 
 	.site-shell__mobile-logo {
-		inline-size: clamp(136px, 38vw, 156px);
+		inline-size: min(clamp(168px, 45vw, 184px), calc(100vw - 136px));
 		block-size: auto;
 	}
 
