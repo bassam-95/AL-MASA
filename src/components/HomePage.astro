@@ -1054,7 +1054,7 @@ const isArabic = locale === 'ar';
 	.home-partners {
 		overflow: hidden;
 		padding-block: clamp(64px, 8vw, 104px);
-		background: var(--color-surface-soft);
+		background: var(--color-surface);
 		text-align: center;
 	}
 
@@ -1091,10 +1091,10 @@ const isArabic = locale === 'ar';
 		display: grid;
 		place-items: center;
 		inline-size: 150px;
-		block-size: 128px;
-		padding: 16px;
-		background: var(--color-surface);
-		box-shadow: 0 16px 42px rgba(22, 50, 87, 0.07);
+		block-size: 150px;
+		padding: 0;
+		background: transparent;
+		box-shadow: none;
 		opacity: 0;
 		transform: translate(-50%, -50%) scale(0.86);
 		transition: opacity 360ms ease, transform 360ms ease;
@@ -1444,7 +1444,7 @@ const isArabic = locale === 'ar';
 
 		.home-partner-logo {
 			inline-size: 130px;
-			block-size: 116px;
+			block-size: 130px;
 		}
 
 		.home-partner-logo.is-prev,
