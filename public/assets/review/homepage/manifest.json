@@ -11,79 +11,19 @@
   },
   {
     "locale": "en",
-    "section": "services",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/en-desktop-services-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "statistics",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/en-desktop-statistics-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "projects",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/en-desktop-projects-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "about",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/en-desktop-about-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "news",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/en-desktop-news-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "partners",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/en-desktop-partners-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "footer",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/en-desktop-footer-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "en",
     "section": "hero",
     "kind": "desktop-after",
     "file": "assets/review/homepage/en-desktop-hero-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "services",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/en-desktop-services-before.png",
     "size": [
       1440,
       900
@@ -102,8 +42,28 @@
   {
     "locale": "en",
     "section": "statistics",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/en-desktop-statistics-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "statistics",
     "kind": "desktop-after",
     "file": "assets/review/homepage/en-desktop-statistics-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "projects",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/en-desktop-projects-before.png",
     "size": [
       1440,
       900
@@ -122,8 +82,28 @@
   {
     "locale": "en",
     "section": "about",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/en-desktop-about-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "about",
     "kind": "desktop-after",
     "file": "assets/review/homepage/en-desktop-about-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "news",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/en-desktop-news-before.png",
     "size": [
       1440,
       900
@@ -142,8 +122,28 @@
   {
     "locale": "en",
     "section": "partners",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/en-desktop-partners-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "partners",
     "kind": "desktop-after",
     "file": "assets/review/homepage/en-desktop-partners-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "footer",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/en-desktop-footer-before.png",
     "size": [
       1440,
       900
@@ -171,79 +171,19 @@
   },
   {
     "locale": "en",
-    "section": "services",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/en-mobile-services-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "statistics",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/en-mobile-statistics-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "projects",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/en-mobile-projects-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "about",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/en-mobile-about-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "news",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/en-mobile-news-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "partners",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/en-mobile-partners-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "en",
-    "section": "footer",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/en-mobile-footer-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "en",
     "section": "hero",
     "kind": "mobile-after",
     "file": "assets/review/homepage/en-mobile-hero-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "services",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/en-mobile-services-before.png",
     "size": [
       390,
       844
@@ -262,8 +202,28 @@
   {
     "locale": "en",
     "section": "statistics",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/en-mobile-statistics-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "statistics",
     "kind": "mobile-after",
     "file": "assets/review/homepage/en-mobile-statistics-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "projects",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/en-mobile-projects-before.png",
     "size": [
       390,
       844
@@ -282,8 +242,28 @@
   {
     "locale": "en",
     "section": "about",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/en-mobile-about-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "about",
     "kind": "mobile-after",
     "file": "assets/review/homepage/en-mobile-about-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "news",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/en-mobile-news-before.png",
     "size": [
       390,
       844
@@ -302,8 +282,28 @@
   {
     "locale": "en",
     "section": "partners",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/en-mobile-partners-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "partners",
     "kind": "mobile-after",
     "file": "assets/review/homepage/en-mobile-partners-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "en",
+    "section": "footer",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/en-mobile-footer-before.png",
     "size": [
       390,
       844
@@ -331,79 +331,19 @@
   },
   {
     "locale": "ar",
-    "section": "services",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/ar-desktop-services-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "statistics",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/ar-desktop-statistics-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "projects",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/ar-desktop-projects-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "about",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/ar-desktop-about-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "news",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/ar-desktop-news-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "partners",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/ar-desktop-partners-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "footer",
-    "kind": "desktop-before",
-    "file": "assets/review/homepage/ar-desktop-footer-before.png",
-    "size": [
-      1440,
-      900
-    ]
-  },
-  {
-    "locale": "ar",
     "section": "hero",
     "kind": "desktop-after",
     "file": "assets/review/homepage/ar-desktop-hero-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "services",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/ar-desktop-services-before.png",
     "size": [
       1440,
       900
@@ -422,8 +362,28 @@
   {
     "locale": "ar",
     "section": "statistics",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/ar-desktop-statistics-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "statistics",
     "kind": "desktop-after",
     "file": "assets/review/homepage/ar-desktop-statistics-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "projects",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/ar-desktop-projects-before.png",
     "size": [
       1440,
       900
@@ -442,8 +402,28 @@
   {
     "locale": "ar",
     "section": "about",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/ar-desktop-about-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "about",
     "kind": "desktop-after",
     "file": "assets/review/homepage/ar-desktop-about-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "news",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/ar-desktop-news-before.png",
     "size": [
       1440,
       900
@@ -462,8 +442,28 @@
   {
     "locale": "ar",
     "section": "partners",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/ar-desktop-partners-before.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "partners",
     "kind": "desktop-after",
     "file": "assets/review/homepage/ar-desktop-partners-after.png",
+    "size": [
+      1440,
+      900
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "footer",
+    "kind": "desktop-before",
+    "file": "assets/review/homepage/ar-desktop-footer-before.png",
     "size": [
       1440,
       900
@@ -491,79 +491,19 @@
   },
   {
     "locale": "ar",
-    "section": "services",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/ar-mobile-services-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "statistics",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/ar-mobile-statistics-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "projects",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/ar-mobile-projects-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "about",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/ar-mobile-about-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "news",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/ar-mobile-news-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "partners",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/ar-mobile-partners-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "ar",
-    "section": "footer",
-    "kind": "mobile-before",
-    "file": "assets/review/homepage/ar-mobile-footer-before.png",
-    "size": [
-      390,
-      844
-    ]
-  },
-  {
-    "locale": "ar",
     "section": "hero",
     "kind": "mobile-after",
     "file": "assets/review/homepage/ar-mobile-hero-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "services",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/ar-mobile-services-before.png",
     "size": [
       390,
       844
@@ -582,8 +522,28 @@
   {
     "locale": "ar",
     "section": "statistics",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/ar-mobile-statistics-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "statistics",
     "kind": "mobile-after",
     "file": "assets/review/homepage/ar-mobile-statistics-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "projects",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/ar-mobile-projects-before.png",
     "size": [
       390,
       844
@@ -602,8 +562,28 @@
   {
     "locale": "ar",
     "section": "about",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/ar-mobile-about-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "about",
     "kind": "mobile-after",
     "file": "assets/review/homepage/ar-mobile-about-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "news",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/ar-mobile-news-before.png",
     "size": [
       390,
       844
@@ -622,8 +602,28 @@
   {
     "locale": "ar",
     "section": "partners",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/ar-mobile-partners-before.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "partners",
     "kind": "mobile-after",
     "file": "assets/review/homepage/ar-mobile-partners-after.png",
+    "size": [
+      390,
+      844
+    ]
+  },
+  {
+    "locale": "ar",
+    "section": "footer",
+    "kind": "mobile-before",
+    "file": "assets/review/homepage/ar-mobile-footer-before.png",
     "size": [
       390,
       844
