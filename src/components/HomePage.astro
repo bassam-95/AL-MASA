@@ -121,6 +121,43 @@ const content = {
 		] satisfies HeroSlide[],
 	},
 }[locale];
+
+const completedMega = {
+	en: {
+		title: 'Completed Projects',
+		projects: [
+			{
+				title: 'مزرعة الخيول',
+				location: 'New Administrative Capital',
+				image: '/assets/owner-confirmed/completed-mega/project-35-horse-farm.jpeg',
+				alt: 'Selected completed AL MASA mega project image for project 35',
+			},
+			{
+				title: 'المقطم',
+				location: 'Mokattam, Cairo',
+				image: '/assets/owner-confirmed/completed-mega/project-05-mokattam.jpeg',
+				alt: 'Selected completed AL MASA mega project image for project 5',
+			},
+		],
+	},
+	ar: {
+		title: 'المشاريع المنتهية',
+		projects: [
+			{
+				title: 'مزرعة الخيول',
+				location: 'العاصمة الإدارية',
+				image: '/assets/owner-confirmed/completed-mega/project-35-horse-farm.jpeg',
+				alt: 'صورة مختارة من مشروع مزرعة الخيول رقم 35 للماسة',
+			},
+			{
+				title: 'المقطم',
+				location: 'القاهرة - مدينة المقطم',
+				image: '/assets/owner-confirmed/completed-mega/project-05-mokattam.jpeg',
+				alt: 'صورة مختارة من مشروع المقطم رقم 5 للماسة',
+			},
+		],
+	},
+}[locale];
 ---
 
 <div class="owner-home" data-owner-home data-locale={locale}>
@@ -226,6 +263,28 @@ const content = {
 						<button class:list={["owner-hero__mobile-dot", { 'is-active': index === 0 }]} type="button" data-owner-hero-mobile-dot={index} aria-label={`${isArabic ? 'الشريحة' : 'Slide'} ${index + 1}: ${slide.title}`}></button>
 					))}
 				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="owner-completed-mega" id="completed-mega" aria-labelledby="completed-mega-title">
+		<div class="owner-container">
+			<div class="owner-section-header">
+				<h2 id="completed-mega-title">{completedMega.title}</h2>
+			</div>
+
+			<div class="owner-mega-grid" aria-label={isArabic ? 'مشاريع كبرى منتهية مختارة' : 'Selected completed mega projects'}>
+				{completedMega.projects.map((project, index) => (
+					<article class:list={["owner-mega-card", { 'owner-mega-card--wide': index === 0 }]}>
+						<div class="owner-mega-card__media">
+							<img src={project.image} alt={project.alt} width={index === 0 ? '1040' : '1280'} height={index === 0 ? '780' : '720'} loading="lazy" decoding="async" />
+							<div class="owner-mega-card__caption">
+								<h3>{project.title}</h3>
+								<span>{project.location}</span>
+							</div>
+						</div>
+					</article>
+				))}
 			</div>
 		</div>
 	</section>
@@ -674,6 +733,91 @@ const content = {
 		display: none;
 	}
 
+	.owner-completed-mega {
+		padding-block-start: 56px;
+	}
+
+	.owner-completed-mega > .owner-container {
+		max-inline-size: 1440px;
+	}
+
+	.owner-section-header {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 18px;
+		margin-block-end: 16px;
+		padding-block-end: 8px;
+		border-block-end: 1px solid var(--border-subtle);
+	}
+
+	.owner-section-header h2 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.45rem;
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--almasa-blue);
+	}
+
+	.owner-mega-grid {
+		display: grid;
+		grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
+		align-items: start;
+		gap: 18px;
+	}
+
+	.owner-mega-card {
+		min-inline-size: 0;
+	}
+
+	.owner-mega-card__media {
+		position: relative;
+		border: 1px solid var(--surface-soft-border);
+		border-radius: 8px;
+		overflow: hidden;
+	}
+
+	.owner-mega-card__media img {
+		inline-size: 100%;
+		block-size: auto;
+		display: block;
+	}
+
+	.owner-mega-card__caption {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-end;
+		gap: 2px;
+		padding: 2.5rem 28px 22px;
+		background: linear-gradient(to top, rgba(0, 16, 36, 0.72) 0%, rgba(0, 16, 36, 0.28) 60%, transparent 100%);
+		pointer-events: none;
+	}
+
+	.owner-mega-card__caption h3 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.3rem;
+		font-weight: 600;
+		line-height: 1.2;
+		letter-spacing: 0.2px;
+		color: #fff;
+		text-shadow: 0 1px 3px rgba(0, 14, 30, 0.65);
+	}
+
+	.owner-mega-card__caption span {
+		font-size: 0.78rem;
+		font-weight: 500;
+		letter-spacing: 0.3px;
+		color: rgba(255, 255, 255, 0.88);
+		text-shadow: 0 1px 2px rgba(0, 14, 30, 0.65);
+	}
+
 	.owner-brand:focus-visible,
 	.owner-nav__links a:focus-visible,
 	.owner-nav__menu:focus-visible,
@@ -907,6 +1051,34 @@ const content = {
 		.owner-hero__mobile-dot.is-active {
 			inline-size: 22px;
 			background: var(--serene-accent);
+		}
+
+		.owner-completed-mega {
+			padding-block-start: 38px;
+		}
+
+		.owner-section-header {
+			flex-wrap: wrap;
+			gap: 6px 12px;
+			margin-block-end: 14px;
+		}
+
+		.owner-section-header h2 {
+			font-size: 1.35rem;
+		}
+
+		.owner-mega-grid {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 14px;
+		}
+
+		.owner-mega-card__caption {
+			padding: 2.2rem 16px 16px;
+			background: linear-gradient(to top, rgba(0, 16, 36, 0.78) 0%, rgba(0, 16, 36, 0.28) 60%, transparent 100%);
+		}
+
+		.owner-mega-card__caption h3 {
+			font-size: 1.25rem;
 		}
 	}
 
