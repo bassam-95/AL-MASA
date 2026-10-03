@@ -1,1546 +1,919 @@
 ---
-import { homeContent } from '../data/home';
 import type { Locale } from '../data/locales';
 
 interface Props {
 	locale: Locale;
 }
 
+interface HeroSlide {
+	kicker: string;
+	title: string;
+	location: string;
+	cta: string;
+	image: string;
+	alt: string;
+	videoDesktop?: string;
+	videoMobile?: string;
+}
+
 const { locale } = Astro.props;
-const content = homeContent[locale];
 const isArabic = locale === 'ar';
+
+const content = {
+	en: {
+		brand: 'AL MASA',
+		menu: 'Menu',
+		close: 'Close',
+		nav: [
+			{ label: 'Selected Works', href: '#hero' },
+			{ label: 'Capabilities', href: '#hero' },
+			{ label: 'About', href: '#hero' },
+			{ label: 'Inquiry', href: '#hero' },
+		],
+		slides: [
+			{
+				kicker: 'Current Project',
+				title: 'Al Alphy',
+				location: 'Real AL MASA project media',
+				cta: 'View Project',
+				image: '/assets/owner-confirmed/hero/al-alphy-hero-poster.jpg',
+				alt: 'Real AL MASA Al Alphy project video still',
+				videoDesktop: '/assets/owner-confirmed/hero/al-alphy-hero-desktop.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/al-alphy-hero-mobile.mp4',
+			},
+			{
+				kicker: 'Landmark Contracting',
+				title: 'Architectural Structural Finishing',
+				location: 'Executive Developments, Egypt',
+				cta: 'View Project',
+				image: '/assets/owner-confirmed/hero/hero-02-poster.jpg',
+				alt: 'Axial architectural view of a major AL MASA project',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-02.mp4',
+			},
+			{
+				kicker: 'Innovation & Academic Hubs',
+				title: 'CREATIVA Innovation Hub',
+				location: 'Tanta University',
+				cta: 'View Project',
+				image: '/assets/owner-confirmed/hero/hero-03-poster.jpg',
+				alt: 'CREATIVA Innovation Hub daylight exterior at Tanta University',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-03.mp4',
+			},
+			{
+				kicker: 'Institutional Headquarters',
+				title: 'Corporate & Civic Facilities',
+				location: 'New Administrative Capital',
+				cta: 'View Project',
+				image: '/assets/owner-confirmed/hero/hero-04-poster.jpg',
+				alt: 'Aerial view of an AL MASA institutional project',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-04.mp4',
+			},
+		] satisfies HeroSlide[],
+	},
+	ar: {
+		brand: 'الماسة',
+		menu: 'القائمة',
+		close: 'إغلاق',
+		nav: [
+			{ label: 'الأعمال المختارة', href: '#hero' },
+			{ label: 'القدرات', href: '#hero' },
+			{ label: 'عن الماسة', href: '#hero' },
+			{ label: 'استفسار', href: '#hero' },
+		],
+		slides: [
+			{
+				kicker: 'مشروع حالي',
+				title: 'الألفي',
+				location: 'فيديو حقيقي من أعمال الماسة',
+				cta: 'عرض المشروع',
+				image: '/assets/owner-confirmed/hero/al-alphy-hero-poster.jpg',
+				alt: 'لقطة فيديو حقيقية من مشروع الألفي للماسة',
+				videoDesktop: '/assets/owner-confirmed/hero/al-alphy-hero-desktop.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/al-alphy-hero-mobile.mp4',
+			},
+			{
+				kicker: 'تنفيذ معماري',
+				title: 'أعمال تشطيبات إنشائية ومعمارية',
+				location: 'مصر',
+				cta: 'عرض المشروع',
+				image: '/assets/owner-confirmed/hero/hero-02-poster.jpg',
+				alt: 'منظور معماري محوري لمشروع من أعمال الماسة',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-02.mp4',
+			},
+			{
+				kicker: 'مراكز ابتكار وتعليم',
+				title: 'مراكز إبداع مصر الرقمية',
+				location: 'جامعة طنطا',
+				cta: 'عرض المشروع',
+				image: '/assets/owner-confirmed/hero/hero-03-poster.jpg',
+				alt: 'واجهة مركز إبداع مصر الرقمية في جامعة طنطا',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-03.mp4',
+			},
+			{
+				kicker: 'منشآت مؤسسية',
+				title: 'منشآت مؤسسية ومدنية',
+				location: 'العاصمة الإدارية الجديدة',
+				cta: 'عرض المشروع',
+				image: '/assets/owner-confirmed/hero/hero-04-poster.jpg',
+				alt: 'صورة جوية لمشروع مؤسسي من أعمال الماسة',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-04.mp4',
+			},
+		] satisfies HeroSlide[],
+	},
+}[locale];
 ---
 
-<div class="home-page" data-home-page data-locale={locale}>
-	<section class="home-hero" aria-label={isArabic ? 'عرض الصفحة الرئيسية' : 'Homepage showcase'} data-hero-slider>
-		<div class="home-hero__slides">
-			{content.slides.map((slide, index) => (
-				<article class:list={["home-hero__slide", { 'is-active': index === 0 }]} data-hero-slide aria-hidden={index === 0 ? 'false' : 'true'}>
-					<img class="home-hero__image" src={slide.image} alt={slide.alt} width="1440" height="760" loading={index === 0 ? 'eager' : 'lazy'} />
-					<div class="home-hero__overlay" aria-hidden="true"></div>
-					<div class="home-hero__content">
-						<h1>{slide.title.split('\n').map((line) => <><span>{line}</span><br /></>)}</h1>
-						<p>{slide.text}</p>
-						<a class="home-button home-button--light" href="#services">{slide.cta}</a>
-					</div>
-				</article>
-			))}
-		</div>
-		<div class="home-hero__controls" aria-label={isArabic ? 'تحكم العرض' : 'Slider controls'}>
-			<button class="home-hero__arrow" type="button" data-hero-prev aria-label={isArabic ? 'الشريحة السابقة' : 'Previous slide'}>‹</button>
-			<div class="home-hero__dots" role="tablist" aria-label={isArabic ? 'اختيار الشريحة' : 'Choose slide'}>
-				{content.slides.map((slide, index) => (
-					<button
-						class:list={["home-hero__dot", { 'is-active': index === 0 }]}
-						type="button"
-						data-hero-dot={index}
-						aria-label={`${isArabic ? 'الشريحة' : 'Slide'} ${index + 1}: ${slide.title.replace('\n', ' ')}`}
-						aria-selected={index === 0 ? 'true' : 'false'}
-					></button>
-				))}
-			</div>
-			<button class="home-hero__arrow" type="button" data-hero-next aria-label={isArabic ? 'الشريحة التالية' : 'Next slide'}>›</button>
-		</div>
-	</section>
+<div class="owner-home" data-owner-home data-locale={locale}>
+	<header class="owner-nav" aria-label={isArabic ? 'التنقل الرئيسي' : 'Primary navigation'}>
+		<div class="owner-container owner-nav__inner">
+			<a class="owner-brand" href={isArabic ? '/ar/' : '/en/'} aria-label={content.brand}>
+				<img src="/assets/owner-confirmed/brand/logo-primary.png" alt={content.brand} width="85" height="40" />
+				<span>{content.brand}</span>
+			</a>
 
-	<section id="services" class="home-section home-section--services" aria-labelledby="services-heading">
-		<div class="home-container home-section__intro">
-			<h2 id="services-heading">{content.services.title}</h2>
-			<p>{content.services.intro}</p>
-		</div>
-		<div class="home-container home-services">
-			{content.services.items.map((service) => (
-				<article class="home-service-card">
-					<img src={service.image} alt="" width="640" height="427" loading="lazy" />
-					<div class="home-service-card__body">
-						<h3>{service.title}</h3>
-						<p>{service.text}</p>
-					</div>
-				</article>
-			))}
-		</div>
-	</section>
+			<nav class="owner-nav__links" aria-label={isArabic ? 'روابط الصفحة الرئيسية' : 'Homepage links'}>
+				{content.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+			</nav>
 
-	<section class="home-stats" aria-label={isArabic ? 'إحصائيات الشركة' : 'Company statistics'}>
-		<div class="home-container home-stats__grid">
-			{content.stats.map((stat) => (
-				<div class="home-stat">
-					<span class="home-stat__number"><span data-counter data-target={stat.value}>{stat.value}</span>{stat.suffix}</span>
-					<span class="home-stat__label">{stat.label}</span>
-				</div>
-			))}
-		</div>
-	</section>
-
-	<section class="home-section home-section--projects" aria-labelledby="projects-heading">
-		<div class="home-container home-section__intro">
-			<h2 id="projects-heading">{content.projects.title}</h2>
-			{content.projects.intro && <p>{content.projects.intro}</p>}
-		</div>
-		<div
-			class="home-projects"
-			aria-label={content.projects.title}
-			aria-roledescription="carousel"
-			data-projects-carousel
-			data-carousel="projects"
-			data-carousel-loop="true"
-			tabindex="0"
-		>
-			<button class="home-carousel-button home-projects__button home-projects__button--prev" type="button" data-carousel-prev="projects" aria-label={isArabic ? 'المشروع السابق' : 'Previous project'}>
-				<span aria-hidden="true">‹</span>
-				<span>{isArabic ? 'السابق' : 'Previous'}</span>
+			<button class="owner-nav__menu" type="button" aria-expanded="false" aria-controls="owner-mobile-drawer" data-owner-menu-toggle>
+				<span class="owner-nav__menu-icon" aria-hidden="true"><span></span><span></span></span>
+				<span>{content.menu}</span>
 			</button>
-			<div class="home-projects__viewport">
-				<div class="home-projects__track" data-carousel-track="projects" aria-live="polite">
-					{content.projects.items.map((project, index) => (
+		</div>
+	</header>
+
+	<div id="owner-mobile-drawer" class="owner-drawer" aria-hidden="true" data-owner-drawer>
+		<div class="owner-drawer__inner">
+			<div class="owner-drawer__header">
+				<span>{content.brand}</span>
+				<button type="button" data-owner-drawer-close aria-label={content.close}>×</button>
+			</div>
+			<nav aria-label={isArabic ? 'قائمة الهاتف' : 'Mobile navigation'}>
+				{content.nav.map((item, index) => (
+					<a class="owner-drawer__link" href={item.href}>
+						<span>{String(index + 1).padStart(2, '0')}</span>
+						{item.label}
+					</a>
+				))}
+			</nav>
+		</div>
+	</div>
+
+	<section class="owner-hero" id="hero" aria-label={isArabic ? 'عرض المشاريع الرئيسية' : 'Featured project showcase'} data-owner-hero>
+		<div class="owner-container">
+			<div class="owner-hero__frame">
+				<div class="owner-hero__slides" aria-live="polite">
+					{content.slides.map((slide, index) => (
 						<article
-							class:list={["home-project-slide", { 'is-active': index === 0, 'is-prev': index === content.projects.items.length - 1, 'is-next': index === 1 }]}
-							data-carousel-slide="projects"
-							aria-roledescription="slide"
-							aria-label={`${index + 1} / ${content.projects.items.length}`}
+							class:list={["owner-hero__slide", { 'is-active': index === 0 }]}
+							data-owner-hero-slide
 							aria-hidden={index === 0 ? 'false' : 'true'}
 						>
-							<a class="home-project-card" href={project.url} target="_blank" rel="noreferrer">
-								<img src={project.image} alt="" width="1280" height="572" loading="lazy" />
-								<span>{project.title}</span>
-							</a>
-						</article>
-					))}
-				</div>
-			</div>
-			<button class="home-carousel-button home-projects__button home-projects__button--next" type="button" data-carousel-next="projects" aria-label={isArabic ? 'المشروع التالي' : 'Next project'}>
-				<span>{isArabic ? 'التالي' : 'Next'}</span>
-				<span aria-hidden="true">›</span>
-			</button>
-		</div>
-	</section>
-
-	<section class="home-about" aria-labelledby="about-heading">
-		<div class="home-container home-about__grid">
-			<div class="home-about__aside">
-				<div class="home-about__brand-mark" aria-hidden="true">
-					<img src="/assets/almasa-logo.png" alt="" width="717" height="336" loading="lazy" />
-				</div>
-				<div class="home-about__features">
-					{content.about.features.map((feature) => (
-						<article class="home-feature">
-							<span class="home-feature__icon" aria-hidden="true">
-								{feature.icon === 'clock' ? '24' : '$'}
-							</span>
-							<div>
-								<h3>{feature.title}</h3>
-								<p>{feature.text}</p>
+							{slide.videoDesktop ? (
+								<video
+									class="owner-hero__video"
+									poster={slide.image}
+									muted
+									playsinline
+									preload="metadata"
+									aria-label={slide.alt}
+									data-owner-hero-video
+									data-owner-video-desktop={slide.videoDesktop}
+									data-owner-video-mobile={slide.videoMobile ?? slide.videoDesktop}
+								>
+									<source src={slide.videoDesktop} media="(min-width: 861px)" type="video/mp4" />
+									{slide.videoMobile && <source src={slide.videoMobile} media="(max-width: 860px)" type="video/mp4" />}
+									<img src={slide.image} alt={slide.alt} width="1440" height="760" loading={index === 0 ? 'eager' : 'lazy'} decoding={index === 0 ? 'sync' : 'async'} />
+								</video>
+							) : (
+								<img src={slide.image} alt={slide.alt} width="1440" height="760" loading={index === 0 ? 'eager' : 'lazy'} decoding={index === 0 ? 'sync' : 'async'} />
+							)}
+							<div class="owner-hero__caption owner-hero__caption--desktop">
+								<div>
+									<p class="owner-hero__kicker">{slide.kicker}</p>
+									{index === 0 ? <h1>{slide.title}</h1> : <h2>{slide.title}</h2>}
+									<p class="owner-hero__location">{slide.location}</p>
+								</div>
+								<a class="owner-hero__action" href="#hero">{slide.cta} <span aria-hidden="true">→</span></a>
 							</div>
 						</article>
 					))}
 				</div>
-			</div>
-			<div class="home-about__content">
-				<p class="home-eyebrow">{content.about.eyebrow}</p>
-				<h2 id="about-heading">{content.about.title}</h2>
-				<p>{content.about.text}</p>
-			</div>
-		</div>
-	</section>
 
-	<section class="home-section home-section--news" aria-labelledby="news-heading">
-		<div class="home-container home-section__intro">
-			<h2 id="news-heading">{content.news.title}</h2>
-			<p>{content.news.intro}</p>
-		</div>
-		<div class="home-container home-news">
-			{content.news.items.map((item) => (
-				<article class="home-news-card">
-					<img src={item.image} alt="" width="150" height="150" loading="lazy" />
-					<div>
-						<time>{item.date}</time>
-						<h3><a href={item.url} target="_blank" rel="noreferrer">{item.title}</a></h3>
-						<p>{item.excerpt}</p>
-						<a class="home-text-link" href={item.url} target="_blank" rel="noreferrer">{item.readMore}</a>
-					</div>
-				</article>
-			))}
-		</div>
-		<div class="home-section__action">
-			<a class="home-button" href={locale === 'en' ? 'https://almasa-ta.com/blog/' : 'https://almasa-ta.com/ar/blog/'} target="_blank" rel="noreferrer">{content.news.readAll}</a>
-		</div>
-	</section>
-
-	<section
-		class="home-partners"
-		aria-labelledby="partners-heading"
-		data-partners-carousel
-		data-carousel="partners"
-		data-carousel-loop="true"
-		data-carousel-autoplay="2000"
-		data-carousel-start="5"
-	>
-		<div class="home-container">
-			<h2 id="partners-heading">{content.partners.title}</h2>
-		</div>
-		<div class="home-partners__carousel" aria-label={content.partners.title} aria-roledescription="carousel" tabindex="0">
-			<button class="home-carousel-button home-partners__button home-partners__button--prev" type="button" data-carousel-prev="partners" aria-label={isArabic ? 'الشريك السابق' : 'Previous partner'}>‹</button>
-			<div class="home-partners__viewport">
-				<div class="home-partners__track" data-carousel-track="partners" aria-live="off">
-					{content.partners.items.map((partner, index) => (
-						<div
-							class:list={["home-partner-logo", { 'is-active': index === 5, 'is-prev': index === 4, 'is-next': index === 6 }]}
-							data-carousel-slide="partners"
-							role="group"
-							aria-roledescription="slide"
-							aria-label={`${index + 1} / ${content.partners.items.length}: ${partner.name}`}
-							aria-hidden={index === 5 || index === 4 || index === 6 ? 'false' : 'true'}
+				<div class="owner-hero__indicators" role="tablist" aria-label={isArabic ? 'اختيار الشريحة' : 'Choose hero slide'}>
+					{content.slides.map((slide, index) => (
+						<button
+							class:list={["owner-hero__indicator", { 'is-active': index === 0 }]}
+							type="button"
+							data-owner-hero-dot={index}
+							aria-label={`${isArabic ? 'الشريحة' : 'Slide'} ${index + 1}: ${slide.title}`}
+							aria-selected={index === 0 ? 'true' : 'false'}
 						>
-							<img src={partner.image} alt={partner.name} width="150" height="150" loading="lazy" draggable="false" />
-						</div>
+							<span>{String(index + 1).padStart(2, '0')}</span>
+							<span class="owner-hero__bar"><span></span></span>
+						</button>
 					))}
 				</div>
 			</div>
-			<button class="home-carousel-button home-partners__button home-partners__button--next" type="button" data-carousel-next="partners" aria-label={isArabic ? 'الشريك التالي' : 'Next partner'}>›</button>
-			<div class="home-partners__dots" aria-label={isArabic ? 'اختيار الشريك' : 'Choose partner'}>
-				{content.partners.items.map((partner, index) => (
-					<button
-						class:list={["home-partners__dot", { 'is-active': index === 5 }]}
-						type="button"
-						data-carousel-dot="partners"
-						data-carousel-index={index}
-						aria-label={`${isArabic ? 'الشريك' : 'Partner'} ${index + 1}: ${partner.name}`}
-						aria-selected={index === 5 ? 'true' : 'false'}
-					></button>
-				))}
+
+			<div class="owner-hero__caption owner-hero__caption--mobile" data-owner-mobile-caption>
+				<p class="owner-hero__kicker">{content.slides[0].kicker}</p>
+				<h1>{content.slides[0].title}</h1>
+				<p class="owner-hero__location">{content.slides[0].location}</p>
+				<a class="owner-hero__action" href="#hero">{content.slides[0].cta} <span aria-hidden="true">→</span></a>
+				<div class="owner-hero__mobile-dots" aria-label={isArabic ? 'اختيار الشريحة' : 'Choose hero slide'}>
+					{content.slides.map((slide, index) => (
+						<button class:list={["owner-hero__mobile-dot", { 'is-active': index === 0 }]} type="button" data-owner-hero-mobile-dot={index} aria-label={`${isArabic ? 'الشريحة' : 'Slide'} ${index + 1}: ${slide.title}`}></button>
+					))}
+				</div>
 			</div>
 		</div>
 	</section>
-
-	<footer class="home-footer" aria-labelledby="footer-contact-heading">
-		<div class="home-container home-footer__grid">
-			<div class="home-footer__brand">
-				<img src="/assets/home/footer-logo.png" alt={content.title} width="200" height="94" loading="lazy" />
-				<div class="home-footer__addresses">
-					{content.footer.addresses.map((address) => <p>{address}</p>)}
-				</div>
-			</div>
-
-			<div class="home-footer__news">
-				<h2>{content.footer.newsTitle}</h2>
-				<ul>
-					{content.footer.recentNews.map((item) => <li>{item}</li>)}
-				</ul>
-			</div>
-
-			<form class="home-contact-form" data-contact-form aria-labelledby="footer-contact-heading">
-				<h2 id="footer-contact-heading">{content.footer.formTitle}</h2>
-				<label>
-					<span>{content.footer.form.name}</span>
-					<input name="name" autocomplete="name" required />
-				</label>
-				<label>
-					<span>{content.footer.form.email}</span>
-					<input name="email" type="email" autocomplete="email" required />
-				</label>
-				<label>
-					<span>{content.footer.form.phone}</span>
-					<input name="phone" type="tel" autocomplete="tel" />
-				</label>
-				<label>
-					<span>{content.footer.form.service}</span>
-					<select name="service" required>
-						<option value="">{content.footer.form.service}</option>
-						{content.services.items.map((service) => <option value={service.title}>{service.title}</option>)}
-					</select>
-				</label>
-				<label class="home-contact-form__message">
-					<span>{content.footer.form.message}</span>
-					<textarea name="message" rows="5"></textarea>
-				</label>
-				<button class="home-button home-button--light" type="submit">{content.footer.form.submit}</button>
-				<p class="home-contact-form__notice" data-form-notice hidden>{content.footer.form.previewNotice}</p>
-			</form>
-		</div>
-		<p class="home-footer__copyright">{content.footer.copyright}</p>
-	</footer>
 </div>
 
-<script>
-	const homePage = document.querySelector('[data-home-page]');
+<script define:vars={{ slides: content.slides }}>
+	const ownerHome = document.querySelector('[data-owner-home]');
 
-	if (homePage instanceof HTMLElement) {
-		const slides = Array.from(homePage.querySelectorAll('[data-hero-slide]'));
-		const dots = Array.from(homePage.querySelectorAll('[data-hero-dot]'));
-		const previousButton = homePage.querySelector('[data-hero-prev]');
-		const nextButton = homePage.querySelector('[data-hero-next]');
-		let activeSlide = 0;
+	if (ownerHome instanceof HTMLElement) {
+		const drawer = ownerHome.querySelector('[data-owner-drawer]');
+		const toggle = ownerHome.querySelector('[data-owner-menu-toggle]');
+		const close = ownerHome.querySelector('[data-owner-drawer-close]');
+		const drawerLinks = Array.from(ownerHome.querySelectorAll('.owner-drawer__link'));
 
-		const showSlide = (index) => {
-			if (!slides.length) return;
-			activeSlide = (index + slides.length) % slides.length;
-			slides.forEach((slide, slideIndex) => {
-				const isActive = slideIndex === activeSlide;
-				slide.classList.toggle('is-active', isActive);
-				slide.setAttribute('aria-hidden', String(!isActive));
-			});
-			dots.forEach((dot, dotIndex) => {
-				const isActive = dotIndex === activeSlide;
-				dot.classList.toggle('is-active', isActive);
-				dot.setAttribute('aria-selected', String(isActive));
-			});
+		const setDrawerOpen = (open) => {
+			if (!(drawer instanceof HTMLElement) || !(toggle instanceof HTMLButtonElement)) return;
+			drawer.classList.toggle('is-open', open);
+			drawer.setAttribute('aria-hidden', String(!open));
+			toggle.setAttribute('aria-expanded', String(open));
+			document.body.style.overflow = open ? 'hidden' : '';
 		};
 
-		if (previousButton instanceof HTMLButtonElement) {
-			previousButton.addEventListener('click', () => showSlide(activeSlide - 1));
-		}
-
-		if (nextButton instanceof HTMLButtonElement) {
-			nextButton.addEventListener('click', () => showSlide(activeSlide + 1));
-		}
-
-		dots.forEach((dot) => {
-			if (dot instanceof HTMLButtonElement) {
-				dot.addEventListener('click', () => {
-					const index = Number(dot.dataset.heroDot ?? 0);
-					showSlide(index);
-				});
-			}
+		if (toggle instanceof HTMLButtonElement) toggle.addEventListener('click', () => setDrawerOpen(!drawer?.classList.contains('is-open')));
+		if (close instanceof HTMLButtonElement) close.addEventListener('click', () => setDrawerOpen(false));
+		drawerLinks.forEach((link) => link.addEventListener('click', () => setDrawerOpen(false)));
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') setDrawerOpen(false);
 		});
 
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+		const hero = ownerHome.querySelector('[data-owner-hero]');
+		const slideEls = Array.from(ownerHome.querySelectorAll('[data-owner-hero-slide]'));
+		const desktopDots = Array.from(ownerHome.querySelectorAll('[data-owner-hero-dot]'));
+		const mobileDots = Array.from(ownerHome.querySelectorAll('[data-owner-hero-mobile-dot]'));
+		const mobileCaption = ownerHome.querySelector('[data-owner-mobile-caption]');
+		const videos = Array.from(ownerHome.querySelectorAll('[data-owner-hero-video]'));
+		const mobileVideoQuery = window.matchMedia('(max-width: 860px)');
+		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+		let activeIndex = 0;
+		let timer;
 
-		const setupCarousel = (name) => {
-			const carousel = homePage.querySelector(`[data-carousel="${name}"]`);
-			if (!(carousel instanceof HTMLElement)) return;
-
-			const carouselSlides = Array.from(homePage.querySelectorAll(`[data-carousel-slide="${name}"]`));
-			const carouselDots = Array.from(homePage.querySelectorAll(`[data-carousel-dot="${name}"]`));
-			const carouselPrevious = homePage.querySelector(`[data-carousel-prev="${name}"]`);
-			const carouselNext = homePage.querySelector(`[data-carousel-next="${name}"]`);
-			if (!carouselSlides.length) return;
-
-			let activeIndex = Number(carousel.dataset.carouselStart ?? 0);
-			let autoplayTimer;
-			let pointerGesture;
-
-			const normalizeIndex = (index) => (index + carouselSlides.length) % carouselSlides.length;
-
-			const showCarouselSlide = (index) => {
-				activeIndex = normalizeIndex(index);
-				const previousIndex = normalizeIndex(activeIndex - 1);
-				const nextIndex = normalizeIndex(activeIndex + 1);
-
-				carouselSlides.forEach((slide, slideIndex) => {
-					const isActive = slideIndex === activeIndex;
-					const isPrevious = slideIndex === previousIndex;
-					const isNext = slideIndex === nextIndex;
-					slide.classList.toggle('is-active', isActive);
-					slide.classList.toggle('is-prev', isPrevious);
-					slide.classList.toggle('is-next', isNext);
-					slide.setAttribute('aria-hidden', String(!(isActive || isPrevious || isNext)));
-					slide.querySelectorAll('a, button').forEach((item) => {
-						if (!(item instanceof HTMLElement)) return;
-						if (isActive) item.removeAttribute('tabindex');
-						else item.setAttribute('tabindex', '-1');
-					});
-				});
-
-				carouselDots.forEach((dot) => {
-					const dotIndex = Number(dot instanceof HTMLElement ? dot.dataset.carouselIndex ?? 0 : 0);
-					const isActive = dotIndex === activeIndex;
-					dot.classList.toggle('is-active', isActive);
-					dot.setAttribute('aria-selected', String(isActive));
-				});
-			};
-
-			const stopAutoplay = () => {
-				if (autoplayTimer) window.clearInterval(autoplayTimer);
-				autoplayTimer = undefined;
-			};
-
-			const startAutoplay = () => {
-				const delay = Number(carousel.dataset.carouselAutoplay ?? 0);
-				if (!delay || prefersReducedMotion.matches) return;
-				stopAutoplay();
-				autoplayTimer = window.setInterval(() => showCarouselSlide(activeIndex + 1), delay);
-			};
-
-			if (carouselPrevious instanceof HTMLButtonElement) {
-				carouselPrevious.addEventListener('click', () => showCarouselSlide(activeIndex - 1));
-			}
-
-			if (carouselNext instanceof HTMLButtonElement) {
-				carouselNext.addEventListener('click', () => showCarouselSlide(activeIndex + 1));
-			}
-
-			carouselDots.forEach((dot) => {
-				if (dot instanceof HTMLButtonElement) {
-					dot.addEventListener('click', () => showCarouselSlide(Number(dot.dataset.carouselIndex ?? 0)));
-				}
-			});
-
-			const keyboardTarget = carousel.matches('[tabindex]') ? carousel : carousel.querySelector('[tabindex]');
-			if (keyboardTarget instanceof HTMLElement) keyboardTarget.addEventListener('keydown', (event) => {
-				if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-				event.preventDefault();
-				const direction = document.documentElement.dir === 'rtl' ? -1 : 1;
-				showCarouselSlide(activeIndex + (event.key === 'ArrowRight' ? direction : -direction));
-			});
-
-			if (name === 'partners') {
-				const pointerTarget = carousel.querySelector('.home-partners__viewport');
-				const swipeThreshold = 42;
-
-				const endPointerGesture = (event, isCancelled = false) => {
-					if (!pointerGesture || event.pointerId !== pointerGesture.id) return;
-
-					const gesture = pointerGesture;
-					pointerGesture = undefined;
-					pointerTarget.classList.remove('is-dragging');
-
-					if (pointerTarget.hasPointerCapture?.(event.pointerId)) {
-						pointerTarget.releasePointerCapture(event.pointerId);
-					}
-
-					const deltaX = event.clientX - gesture.startX;
-					const deltaY = event.clientY - gesture.startY;
-					const isHorizontalSwipe = Math.abs(deltaX) >= swipeThreshold && Math.abs(deltaX) > Math.abs(deltaY) * 1.2;
-
-					if (!isCancelled && isHorizontalSwipe) {
-						const rtlMultiplier = document.documentElement.dir === 'rtl' ? -1 : 1;
-						const step = deltaX < 0 ? rtlMultiplier : -rtlMultiplier;
-						showCarouselSlide(activeIndex + step);
-					}
-
-					startAutoplay();
-				};
-
-				if (pointerTarget instanceof HTMLElement) {
-					pointerTarget.addEventListener('pointerdown', (event) => {
-						if (event.pointerType === 'mouse' && event.button !== 0) return;
-						pointerGesture = {
-							id: event.pointerId,
-							startX: event.clientX,
-							startY: event.clientY,
-						};
-						stopAutoplay();
-						pointerTarget.classList.add('is-dragging');
-						pointerTarget.setPointerCapture(event.pointerId);
-					});
-
-					pointerTarget.addEventListener('pointermove', (event) => {
-						if (!pointerGesture || event.pointerId !== pointerGesture.id) return;
-						const deltaX = event.clientX - pointerGesture.startX;
-						const deltaY = event.clientY - pointerGesture.startY;
-						if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
-							event.preventDefault();
-						}
-					});
-
-					pointerTarget.addEventListener('pointerup', (event) => endPointerGesture(event));
-					pointerTarget.addEventListener('pointercancel', (event) => endPointerGesture(event, true));
-					pointerTarget.addEventListener('lostpointercapture', (event) => {
-						if (!pointerGesture || event.pointerId !== pointerGesture.id) return;
-						pointerGesture = undefined;
-						pointerTarget.classList.remove('is-dragging');
-						startAutoplay();
-					});
-					pointerTarget.addEventListener('dragstart', (event) => event.preventDefault());
-				}
-			}
-
-			carousel.addEventListener('mouseenter', stopAutoplay);
-			carousel.addEventListener('mouseleave', startAutoplay);
-			carousel.addEventListener('focusin', stopAutoplay);
-			carousel.addEventListener('focusout', startAutoplay);
-			prefersReducedMotion.addEventListener('change', () => {
-				stopAutoplay();
-				startAutoplay();
-			});
-
-			showCarouselSlide(activeIndex);
-			startAutoplay();
+		const configureVideoSource = (video) => {
+			if (!(video instanceof HTMLVideoElement)) return;
+			const preferred = mobileVideoQuery.matches ? video.dataset.ownerVideoMobile : video.dataset.ownerVideoDesktop;
+			if (!preferred) return;
+			const preferredUrl = new URL(preferred, window.location.href).href;
+			if (video.currentSrc === preferredUrl || video.src === preferredUrl) return;
+			video.pause();
+			video.src = preferred;
+			video.load();
 		};
 
-		setupCarousel('projects');
-		setupCarousel('partners');
+		videos.forEach((video) => {
+			if (!(video instanceof HTMLVideoElement)) return;
+			video.muted = true;
+			video.defaultMuted = true;
+			video.playsInline = true;
+			video.setAttribute('muted', '');
+			video.setAttribute('playsinline', '');
+			configureVideoSource(video);
+		});
 
-		const counters = Array.from(homePage.querySelectorAll('[data-counter]'));
-		const animateCounters = () => {
-			counters.forEach((counter) => {
-				if (!(counter instanceof HTMLElement) || counter.dataset.counted === 'true') return;
-				counter.dataset.counted = 'true';
-				const target = Number(counter.dataset.target ?? 0);
-				counter.textContent = '0';
-				const duration = 900;
-				const startTime = performance.now();
-				const update = (time) => {
-					const progress = Math.min((time - startTime) / duration, 1);
-					counter.textContent = String(Math.round(target * progress));
-					if (progress < 1) requestAnimationFrame(update);
-				};
-				requestAnimationFrame(update);
-			});
+		mobileVideoQuery.addEventListener('change', () => {
+			videos.forEach((video) => configureVideoSource(video));
+			showSlide(activeIndex);
+			startAuto();
+		});
+
+		const updateMobileCaption = (index) => {
+			if (!(mobileCaption instanceof HTMLElement)) return;
+			const slide = slides[index];
+			const kicker = mobileCaption.querySelector('.owner-hero__kicker');
+			const title = mobileCaption.querySelector('h1');
+			const location = mobileCaption.querySelector('.owner-hero__location');
+			const action = mobileCaption.querySelector('.owner-hero__action');
+			if (kicker) kicker.textContent = slide.kicker;
+			if (title) title.textContent = slide.title;
+			if (location) location.textContent = slide.location;
+			if (action) action.childNodes[0].textContent = `${slide.cta} `;
 		};
 
-		if ('IntersectionObserver' in window && counters.length) {
-			const stats = homePage.querySelector('.home-stats');
-			if (stats instanceof HTMLElement) {
-				const observer = new IntersectionObserver((entries) => {
-					if (entries.some((entry) => entry.isIntersecting)) {
-						animateCounters();
-						observer.disconnect();
+		const showSlide = (index) => {
+			if (!slideEls.length) return;
+			activeIndex = (index + slideEls.length) % slideEls.length;
+			slideEls.forEach((slide, slideIndex) => {
+				const active = slideIndex === activeIndex;
+				slide.classList.toggle('is-active', active);
+				slide.setAttribute('aria-hidden', String(!active));
+				const video = slide.querySelector('[data-owner-hero-video]');
+				if (video instanceof HTMLVideoElement) {
+					configureVideoSource(video);
+					if (active && !reduceMotion.matches) {
+						try {
+							video.currentTime = 0;
+						} catch (error) {}
+						video.play().catch(() => {
+							// Keep the poster visible if a browser blocks autoplay.
+						});
+					} else {
+						video.pause();
+						try {
+							video.currentTime = 0;
+						} catch (error) {}
 					}
-				}, { threshold: 0.25 });
-				observer.observe(stats);
-			} else {
-				animateCounters();
-			}
-		} else {
-			animateCounters();
-		}
-
-		const form = homePage.querySelector('[data-contact-form]');
-		const notice = homePage.querySelector('[data-form-notice]');
-		if (form instanceof HTMLFormElement && notice instanceof HTMLElement) {
-			form.addEventListener('submit', (event) => {
-				event.preventDefault();
-				notice.hidden = false;
+				}
 			});
-		}
+			[...desktopDots, ...mobileDots].forEach((dot) => {
+				if (!(dot instanceof HTMLElement)) return;
+				const dotIndex = Number(dot.dataset.ownerHeroDot ?? dot.dataset.ownerHeroMobileDot ?? 0);
+				const active = dotIndex === activeIndex;
+				dot.classList.toggle('is-active', active);
+				dot.setAttribute('aria-selected', String(active));
+			});
+			updateMobileCaption(activeIndex);
+		};
+
+		const stopAuto = () => {
+			if (timer) window.clearTimeout(timer);
+			timer = undefined;
+		};
+
+		const advanceSlide = () => {
+			showSlide(activeIndex + 1);
+			startAuto();
+		};
+
+		const startAuto = () => {
+			stopAuto();
+			if (reduceMotion.matches) {
+				videos.forEach((video) => {
+					if (video instanceof HTMLVideoElement) video.pause();
+				});
+				return;
+			}
+			const activeVideo = slideEls[activeIndex]?.querySelector('[data-owner-hero-video]');
+			if (activeVideo instanceof HTMLVideoElement) {
+				activeVideo.play().catch(() => {
+					// Poster fallback remains visible if autoplay is unavailable.
+				});
+				return;
+			}
+			timer = window.setTimeout(advanceSlide, 6200);
+		};
+
+		videos.forEach((video) => {
+			if (!(video instanceof HTMLVideoElement)) return;
+			video.addEventListener('ended', () => {
+				const owningSlide = slideEls.findIndex((slide) => slide.contains(video));
+				if (owningSlide === activeIndex && !reduceMotion.matches) advanceSlide();
+			});
+		});
+
+		[...desktopDots, ...mobileDots].forEach((dot) => {
+			if (!(dot instanceof HTMLButtonElement)) return;
+			dot.addEventListener('click', () => {
+				showSlide(Number(dot.dataset.ownerHeroDot ?? dot.dataset.ownerHeroMobileDot ?? 0));
+				startAuto();
+			});
+		});
+
+		hero?.addEventListener('mouseenter', stopAuto);
+		hero?.addEventListener('mouseleave', startAuto);
+		hero?.addEventListener('focusin', stopAuto);
+		hero?.addEventListener('focusout', startAuto);
+		reduceMotion.addEventListener('change', startAuto);
+		showSlide(0);
+		startAuto();
 	}
 </script>
 
 <style>
-	.home-page {
-		margin-block: calc(0px - var(--space-xl));
-		margin-inline: calc(0px - var(--page-gutter));
-		background: var(--color-surface);
-		color: var(--color-text);
-	}
-
-	.home-container {
-		inline-size: min(1300px, calc(100% - var(--page-gutter) - var(--page-gutter)));
-		margin-inline: auto;
-	}
-
-	.home-hero {
-		position: relative;
-		isolation: isolate;
+	.owner-home {
+		--bg-main: #ffffff;
+		--surface-soft: #e8f6fe;
+		--surface-soft-border: rgba(8, 145, 178, 0.16);
+		--serene-accent: #0891b2;
+		--serene-accent-hover: #0e7490;
+		--almasa-blue: #003a6b;
+		--almasa-blue-hover: #002b50;
+		--text-primary: #0f172a;
+		--text-secondary: #475569;
+		--text-muted: #64748b;
+		--border-subtle: #e2e8f0;
+		--font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+		--font-ui: 'Inter', 'Segoe UI', Arial, sans-serif;
 		min-block-size: 100vh;
-		overflow: hidden;
-		background: var(--color-heading);
+		background: var(--bg-main);
+		color: var(--text-primary);
+		font-family: var(--font-ui);
+		margin: 0;
+		padding: 0;
+		overflow-x: clip;
 	}
 
-	.home-hero__slides,
-	.home-hero__slide {
+	.owner-home *,
+	.owner-home *::before,
+	.owner-home *::after {
+		box-sizing: border-box;
+	}
+
+	.owner-container {
+		inline-size: 100%;
+		max-inline-size: 1800px;
+		margin-inline: auto;
+		padding-inline: 28px;
+		box-sizing: border-box;
+	}
+
+	.owner-nav {
+		position: sticky;
+		inset-block-start: 0;
+		z-index: 100;
+		block-size: 54px;
+		display: flex;
+		align-items: center;
+		background: rgba(255, 255, 255, 0.96);
+		border-block-end: 1px solid rgba(8, 145, 178, 0.12);
+		backdrop-filter: blur(14px);
+	}
+
+	.owner-nav__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+	}
+
+	.owner-brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		color: var(--almasa-blue);
+		text-decoration: none;
+	}
+
+	.owner-brand img {
+		inline-size: auto;
+		block-size: 26px;
+		object-fit: contain;
+	}
+
+	.owner-brand span,
+	.owner-drawer__header span {
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+		color: var(--almasa-blue);
+	}
+
+	.owner-nav__links {
+		display: flex;
+		align-items: center;
+		gap: 28px;
+	}
+
+	.owner-nav__links a {
+		font-size: 0.82rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		text-decoration: none;
+		white-space: nowrap;
+		transition: color 0.2s ease;
+	}
+
+	.owner-nav__links a:hover,
+	.owner-nav__links a:last-child {
+		color: var(--serene-accent);
+	}
+
+	.owner-nav__menu {
+		display: none;
+	}
+
+	.owner-hero {
+		padding-block-start: 16px;
+	}
+
+	.owner-hero__frame {
+		position: relative;
+		block-size: 76vh;
+		min-block-size: 500px;
+		max-block-size: 660px;
+		border: 1px solid var(--surface-soft-border);
+		border-radius: 8px;
+		background: #001224;
+		overflow: hidden;
+	}
+
+	.owner-hero__slides,
+	.owner-hero__slide,
+	.owner-hero__slide img,
+	.owner-hero__video {
 		position: absolute;
 		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
 	}
 
-	.home-hero__slide {
-		display: grid;
-		align-items: center;
+	.owner-hero__slide {
 		opacity: 0;
 		visibility: hidden;
-		transition: opacity 480ms ease, visibility 480ms ease;
+		transition: opacity 850ms cubic-bezier(0.16, 1, 0.3, 1), visibility 850ms;
 	}
 
-	.home-hero__slide.is-active {
+	.owner-hero__slide.is-active {
 		opacity: 1;
 		visibility: visible;
 	}
 
-	.home-hero__image {
-		position: absolute;
-		inset: 0;
-		z-index: -2;
-		inline-size: 100%;
-		block-size: 100%;
+	.owner-hero__slide img,
+	.owner-hero__video {
 		object-fit: cover;
+		object-position: center 46%;
 	}
 
-	.home-hero__overlay {
+	.owner-hero__caption--desktop {
 		position: absolute;
-		inset: 0;
-		z-index: -1;
-		background: linear-gradient(90deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.3) 52%, rgba(0, 0, 0, 0.18));
-	}
-
-	:global([dir='rtl']) .home-hero__overlay {
-		background: linear-gradient(270deg, rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.3) 52%, rgba(0, 0, 0, 0.18));
-	}
-
-	.home-hero__content {
-		inline-size: min(1360px, calc(100% - var(--page-gutter) - var(--page-gutter)));
-		margin-inline: auto;
-		padding-block: 120px 96px;
-		padding-inline: 30px;
-		color: var(--color-surface);
-	}
-
-	.home-hero h1 {
-		max-inline-size: 680px;
-		margin: 0 0 22px;
-		color: var(--color-surface);
-		font-size: clamp(48px, 5vw, 68px);
-		font-weight: var(--font-weight-bold);
-		letter-spacing: -0.035em;
-		line-height: 1.03;
-		text-transform: uppercase;
-	}
-
-	:global([dir='rtl']) .home-hero h1 {
-		letter-spacing: 0;
-		line-height: 1.05;
-	}
-
-	.home-hero p {
-		max-inline-size: 560px;
-		margin: 0 0 34px;
-		color: rgba(255, 255, 255, 0.9);
-		font-size: 16px;
-		line-height: 1.65;
-	}
-
-	.home-hero__controls {
-		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
 		z-index: 3;
-		inset-inline: 32px;
-		inset-block-end: 34px;
 		display: flex;
-		align-items: center;
+		align-items: flex-end;
 		justify-content: space-between;
-		pointer-events: none;
+		gap: 28px;
+		padding: 3.5rem 2.25rem 2rem;
+		color: #fff;
+		background: linear-gradient(180deg, rgba(0, 20, 42, 0) 0%, rgba(0, 20, 42, 0.45) 40%, rgba(0, 24, 52, 0.85) 100%);
 	}
 
-	.home-hero__dots {
-		display: flex;
-		gap: 10px;
-		pointer-events: auto;
+	.owner-hero__caption--desktop > div {
+		max-inline-size: 65%;
 	}
 
-	.home-hero__dot,
-	.home-hero__arrow {
-		border: 1px solid rgba(255, 255, 255, 0.68);
-		background: rgba(255, 255, 255, 0.12);
-		color: var(--color-surface);
-		cursor: pointer;
+	.owner-hero__kicker {
+		margin: 0 0 4px;
+		font-size: 0.74rem;
+		font-weight: 600;
+		letter-spacing: 1.2px;
+		line-height: 1.2;
+		text-transform: uppercase;
+		color: #67e8f9;
 	}
 
-	.home-hero__dot {
-		inline-size: 12px;
-		block-size: 12px;
-		padding: 0;
-		border-radius: 999px;
+	.owner-hero h1,
+	.owner-hero h2 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 2.1rem;
+		font-weight: 600;
+		line-height: 1.15;
+		letter-spacing: 0.2px;
+		color: #fff;
+		text-wrap: balance;
 	}
 
-	.home-hero__dot.is-active {
-		background: var(--color-surface);
+	.owner-hero__location {
+		margin: 4px 0 0;
+		font-size: 0.85rem;
+		color: rgba(255, 255, 255, 0.88);
 	}
 
-	.home-hero__arrow {
-		inline-size: 44px;
-		block-size: 44px;
-		border-radius: 50%;
-		font-size: 28px;
-		line-height: 1;
-		pointer-events: auto;
-	}
-
-	.home-button,
-	.home-text-link {
+	.owner-hero__action {
 		display: inline-flex;
 		align-items: center;
-		justify-content: center;
-		font-family: var(--font-heading);
-		font-weight: var(--font-weight-semibold);
+		gap: 6px;
+		padding: 8px 16px;
+		border: 1px solid rgba(103, 232, 249, 0.35);
+		border-radius: 6px;
+		background: rgba(0, 58, 107, 0.45);
+		color: #67e8f9;
+		font-size: 0.86rem;
+		font-weight: 600;
 		text-decoration: none;
+		white-space: nowrap;
+		backdrop-filter: blur(10px);
+		transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 	}
 
-	.home-button {
-		min-block-size: 46px;
-		padding: 13px 26px;
-		background: var(--color-brand-primary);
-		color: var(--color-surface);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
+	.owner-hero__action:hover,
+	.owner-hero__action:focus-visible {
+		background: rgba(8, 145, 178, 0.55);
+		border-color: #67e8f9;
+		transform: translateY(-1px);
 	}
 
-	.home-button--light {
-		background: var(--color-surface);
-		color: var(--color-heading);
-	}
-
-	.home-section {
-		padding-block: clamp(80px, 8vw, 110px);
-	}
-
-	.home-section__intro {
-		max-inline-size: 555px;
-		text-align: center;
-	}
-
-	.home-section__intro h2,
-	.home-about h2,
-	.home-partners h2,
-	.home-footer h2 {
-		margin: 0;
-		color: var(--color-heading);
-		font-size: clamp(32px, 4vw, 52px);
-		font-weight: var(--font-weight-bold);
-		letter-spacing: -0.025em;
-		line-height: 1.05;
-		text-transform: capitalize;
-	}
-
-	:global([dir='rtl']) .home-section__intro h2,
-	:global([dir='rtl']) .home-about h2,
-	:global([dir='rtl']) .home-partners h2,
-	:global([dir='rtl']) .home-footer h2 {
-		letter-spacing: 0;
-	}
-
-	.home-section__intro p {
-		margin: 20px 0 0;
-		font-size: 18px;
-		line-height: 1.75;
-	}
-
-	.home-section--services {
-		position: relative;
-		isolation: isolate;
-		background: #F3F1F2;
-	}
-
-	.home-section--services::before {
-		content: '';
+	.owner-hero__indicators {
 		position: absolute;
-		inset: 0 auto 0 0;
-		z-index: -1;
-		inline-size: min(52%, 640px);
-		background-image: url('/assets/home/pattern-grey.png');
-		background-position: top left;
-		background-repeat: no-repeat;
-		background-size: 330px auto;
-		opacity: 0.5;
-	}
-
-	.home-services {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 30px;
-		margin-block-start: 54px;
-	}
-
-	.home-service-card {
-		background: var(--color-surface);
-		box-shadow: 0 10px 28px rgba(22, 50, 87, 0.04);
-	}
-
-	.home-service-card img {
-		inline-size: 100%;
-		aspect-ratio: 1.35;
-		object-fit: cover;
-	}
-
-	.home-service-card__body {
-		padding: 32px 30px 36px;
-	}
-
-	.home-service-card h3,
-	.home-news-card h3,
-	.home-feature h3 {
-		margin: 0;
-		color: var(--color-heading);
-		font-size: 22px;
-		line-height: 1.25;
-	}
-
-	.home-service-card p,
-	.home-news-card p,
-	.home-feature p,
-	.home-about__content > p {
-		margin: 16px 0 0;
-		line-height: 1.85;
-	}
-
-	.home-stats {
-		position: relative;
-		isolation: isolate;
-		padding-block: clamp(78px, 8vw, 100px);
-		background: #636363;
-		color: var(--color-surface);
-		overflow: hidden;
-	}
-
-	.home-stats::before {
-		content: '';
-		position: absolute;
-		inset-block: 0;
-		inset-inline-end: 0;
-		z-index: -1;
-		inline-size: min(48%, 620px);
-		background-image: url('/assets/home/pattern-white.png');
-		background-position: top right;
-		background-repeat: no-repeat;
-		background-size: 330px auto;
-		opacity: 0.25;
-	}
-
-	.home-stats__grid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 24px;
-		text-align: center;
-	}
-
-	.home-stat__number {
-		display: block;
-		font-family: var(--font-heading);
-		font-size: clamp(44px, 5vw, 58px);
-		font-weight: var(--font-weight-bold);
-		line-height: 1;
-	}
-
-	.home-stat {
-		position: relative;
-	}
-
-	.home-stat:not(:last-child)::after {
-		content: '';
-		position: absolute;
-		inset-block: 6px;
-		inset-inline-end: -12px;
-		inline-size: 1px;
-		background: rgba(255, 255, 255, 0.45);
-	}
-
-	.home-stat__label {
-		display: block;
-		margin-block-start: 12px;
-		color: rgba(255, 255, 255, 0.78);
-		font-size: 18px;
-	}
-
-	.home-section--projects {
-		background: var(--color-surface-soft);
-	}
-
-	.home-projects {
-		position: relative;
+		inset-block-start: 24px;
+		inset-inline-end: 28px;
+		z-index: 5;
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		gap: clamp(18px, 3vw, 44px);
-		inline-size: min(100%, 1280px);
-		margin-block-start: 48px;
-		margin-inline: auto;
-		padding-inline: clamp(24px, 4vw, 66px);
+		gap: 6px;
+		padding: 4px 8px;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: 20px;
+		background: rgba(0, 20, 42, 0.5);
+		backdrop-filter: blur(12px);
 	}
 
-	.home-projects__viewport {
-		position: relative;
-		isolation: isolate;
-		inline-size: min(100%, 1280px);
-		min-block-size: clamp(360px, 38vw, 572px);
-		overflow: hidden;
-	}
-
-	.home-projects__track {
-		position: relative;
-		min-block-size: inherit;
-	}
-
-	.home-project-slide {
-		position: absolute;
-		inset-block: 0;
-		inset-inline-start: 50%;
-		inline-size: 100%;
-		opacity: 0;
-		pointer-events: none;
-		transform: translateX(-50%) scale(0.9);
-		transition: opacity 360ms ease, transform 360ms ease;
-	}
-
-	.home-project-slide.is-active {
-		z-index: 2;
-		opacity: 1;
-		pointer-events: auto;
-		transform: translateX(-50%) scale(1);
-	}
-
-	.home-project-slide.is-prev,
-	.home-project-slide.is-next {
-		z-index: 1;
-		opacity: 0.28;
-	}
-
-	.home-project-slide.is-prev {
-		transform: translateX(-78%) scale(0.78);
-	}
-
-	.home-project-slide.is-next {
-		transform: translateX(-22%) scale(0.78);
-	}
-
-	:global([dir='rtl']) .home-project-slide {
-		transform: translateX(50%) scale(0.9);
-	}
-
-	:global([dir='rtl']) .home-project-slide.is-active {
-		transform: translateX(50%) scale(1);
-	}
-
-	:global([dir='rtl']) .home-project-slide.is-prev {
-		transform: translateX(22%) scale(0.78);
-	}
-
-	:global([dir='rtl']) .home-project-slide.is-next {
-		transform: translateX(78%) scale(0.78);
-	}
-
-	.home-project-card {
-		position: relative;
-		display: block;
-		block-size: 100%;
-		min-block-size: inherit;
-		overflow: hidden;
-		color: var(--color-surface);
-		text-decoration: none;
-		background: var(--color-heading);
-	}
-
-	.home-project-card img {
-		inline-size: 100%;
-		block-size: 100%;
-		object-fit: cover;
-		opacity: 0.86;
-		transition: transform 420ms ease, opacity 420ms ease;
-	}
-
-	.home-project-card::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(180deg, transparent 35%, rgba(4, 30, 54, 0.82));
-	}
-
-	.home-project-card span {
-		position: absolute;
-		z-index: 1;
-		inset-inline: 28px;
-		inset-block-end: 28px;
-		font-family: var(--font-heading);
-		font-size: 24px;
-		font-weight: var(--font-weight-bold);
-		line-height: 1.18;
-	}
-
-	.home-project-card:hover img,
-	.home-project-card:focus-visible img {
-		transform: scale(1.055);
-		opacity: 1;
-	}
-
-	.home-carousel-button {
+	.owner-hero__indicator {
 		display: inline-flex;
 		align-items: center;
-		justify-content: center;
-		gap: 8px;
+		gap: 6px;
+		padding: 4px 8px;
 		border: 0;
-		border-radius: 0;
-		background: var(--color-brand-primary);
-		color: var(--color-surface);
-		font-family: var(--font-heading);
-		font-weight: var(--font-weight-semibold);
-		line-height: 1;
+		border-radius: 12px;
+		background: transparent;
+		color: rgba(255, 255, 255, 0.6);
+		font-size: 0.72rem;
+		font-weight: 500;
+		letter-spacing: 0.5px;
 		cursor: pointer;
-		transition: background-color 220ms ease, transform 220ms ease;
+		transition: color 0.2s ease, background 0.2s ease;
 	}
 
-	.home-carousel-button:hover {
-		background: var(--color-heading);
+	.owner-hero__indicator.is-active {
+		background: rgba(8, 145, 178, 0.35);
+		color: #fff;
 	}
 
-	.home-carousel-button:active {
-		transform: translateY(1px);
+	.owner-hero__bar {
+		position: relative;
+		display: inline-block;
+		inline-size: 24px;
+		block-size: 2px;
+		border-radius: 1px;
+		background: rgba(255, 255, 255, 0.2);
+		overflow: hidden;
 	}
 
-	.home-projects__button {
-		flex: 0 0 auto;
-		min-inline-size: 112px;
-		min-block-size: 56px;
-		padding: 0 20px;
-	}
-
-	.home-projects__button span[aria-hidden='true'] {
-		font-size: 34px;
-		font-weight: var(--font-weight-regular);
-	}
-
-	.home-about {
-		padding-block: clamp(86px, 9vw, 120px);
-		background: #F3F1F2;
-	}
-
-	.home-about__grid {
-		display: grid;
-		grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
-		gap: 0;
-		align-items: center;
-	}
-
-	.home-about__content {
-		order: 1;
-		padding: clamp(54px, 6vw, 80px);
-		background: var(--color-surface);
-	}
-
-	.home-about__aside {
-		order: 2;
-		display: grid;
-		align-self: stretch;
-		grid-template-rows: auto 1fr;
-	}
-
-	.home-about__brand-mark {
-		display: grid;
-		place-items: center;
-		min-block-size: 400px;
-		padding: clamp(36px, 5vw, 70px);
-		background: var(--color-surface);
-	}
-
-	.home-about__brand-mark img {
-		inline-size: min(430px, 84%);
-		block-size: auto;
-		opacity: 1;
-	}
-
-	.home-eyebrow {
-		margin: 0 0 14px;
-		color: var(--color-brand-primary);
-		font-family: var(--font-heading);
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.home-about__features {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0;
-	}
-
-	.home-feature {
-		display: grid;
-		place-items: center;
-		gap: 18px;
-		min-block-size: 260px;
-		padding: 34px 28px;
-		background: var(--color-brand-primary);
-		color: var(--color-surface);
-		text-align: center;
-	}
-
-	.home-feature:nth-child(even) {
-		background: #636363;
-	}
-
-	:global([dir='rtl']) .home-feature {
-		grid-template-columns: 1fr;
-	}
-
-	.home-feature h3,
-	.home-feature p {
-		color: inherit;
-	}
-
-	.home-feature__icon {
-		display: inline-grid;
-		place-items: center;
-		inline-size: 64px;
-		block-size: 64px;
-		border-radius: 50%;
-		border: 2px solid rgba(255, 255, 255, 0.86);
-		background: transparent;
-		color: var(--color-surface);
-		font-family: var(--font-heading);
-		font-weight: var(--font-weight-bold);
-	}
-
-	.home-section--news .home-section__intro h2 {
-		text-transform: uppercase;
-	}
-
-	.home-news {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 40px;
-		margin-block-start: 48px;
-	}
-
-	.home-news-card {
-		display: grid;
-		grid-template-columns: 150px 1fr;
-		gap: 22px;
-		padding: 0;
-		background: transparent;
-		box-shadow: none;
-	}
-
-	.home-news-card img {
-		inline-size: 150px;
-		block-size: 150px;
-		object-fit: cover;
-	}
-
-	.home-news-card time {
+	.owner-hero__bar span {
 		display: block;
-		margin-block-end: 10px;
-		color: var(--color-text-muted);
-		font-size: 12px;
-		text-transform: uppercase;
+		inline-size: 0%;
+		block-size: 100%;
+		background: #67e8f9;
 	}
 
-	.home-news-card a {
-		color: inherit;
-	}
-
-	.home-text-link {
-		margin-block-start: 14px;
-		color: var(--color-brand-primary);
-	}
-
-	.home-section__action {
-		margin-block-start: 38px;
-		text-align: center;
-	}
-
-	.home-partners {
-		overflow: hidden;
-		padding-block: clamp(64px, 8vw, 104px);
-		background: var(--color-surface);
-		text-align: center;
-	}
-
-	.home-partners__carousel {
-		position: relative;
-		display: grid;
-		grid-template-columns: auto minmax(0, 1fr) auto;
-		grid-template-areas:
-			"prev logos next"
-			"dots dots dots";
-		align-items: center;
-		gap: 24px;
-		inline-size: min(calc(100% - var(--page-gutter) - var(--page-gutter)), 1040px);
-		margin-block-start: 44px;
-		margin-inline: auto;
-	}
-
-	.home-partners__viewport {
-		grid-area: logos;
-		position: relative;
-		min-block-size: 150px;
-		overflow: hidden;
-		touch-action: pan-y;
-		cursor: grab;
-		user-select: none;
-	}
-
-	.home-partners__viewport.is-dragging {
-		cursor: grabbing;
-	}
-
-	.home-partners__track {
-		position: relative;
-		min-block-size: inherit;
-	}
-
-	.home-partner-logo {
-		position: absolute;
-		inset-block-start: 50%;
-		inset-inline-start: 50%;
-		display: grid;
-		place-items: center;
-		inline-size: 150px;
-		block-size: 150px;
-		padding: 0;
-		background: transparent;
-		box-shadow: none;
-		opacity: 0;
-		transform: translate(-50%, -50%) scale(0.86);
-		transition: opacity 360ms ease, transform 360ms ease;
-	}
-
-	.home-partner-logo.is-active,
-	.home-partner-logo.is-prev,
-	.home-partner-logo.is-next {
-		opacity: 1;
-	}
-
-	.home-partner-logo.is-active {
-		z-index: 2;
-		transform: translate(-50%, -50%) scale(1);
-	}
-
-	.home-partner-logo.is-prev {
-		transform: translate(calc(-50% - 210px), -50%) scale(0.94);
-	}
-
-	.home-partner-logo.is-next {
-		transform: translate(calc(-50% + 210px), -50%) scale(0.94);
-	}
-
-	:global([dir='rtl']) .home-partner-logo {
-		transform: translate(50%, -50%) scale(1);
-	}
-
-	:global([dir='rtl']) .home-partner-logo.is-active {
-		transform: translate(50%, -50%) scale(1);
-	}
-
-	:global([dir='rtl']) .home-partner-logo.is-prev {
-		transform: translate(calc(50% + 210px), -50%) scale(0.94);
-	}
-
-	:global([dir='rtl']) .home-partner-logo.is-next {
-		transform: translate(calc(50% - 210px), -50%) scale(0.94);
-	}
-
-	.home-partner-logo img {
-		max-inline-size: 100%;
-		max-block-size: 100%;
-		object-fit: contain;
-		-webkit-user-drag: none;
-		user-select: none;
-		pointer-events: none;
-	}
-
-	.home-partners__button {
-		inline-size: 42px;
-		block-size: 42px;
-		background: rgba(0, 58, 107, 0.92);
-		font-size: 28px;
-		font-weight: var(--font-weight-regular);
-	}
-
-	.home-partners__button--prev {
-		grid-area: prev;
-	}
-
-	.home-partners__button--next {
-		grid-area: next;
-	}
-
-	.home-partners__dots {
-		grid-area: dots;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 8px;
-		margin-block-start: 8px;
-	}
-
-	.home-partners__dot {
-		inline-size: 9px;
-		block-size: 9px;
-		border: 0;
-		border-radius: 50%;
-		padding: 0;
-		background: rgba(22, 50, 87, 0.28);
-		cursor: pointer;
-	}
-
-	.home-partners__dot.is-active {
-		background: var(--color-brand-primary);
-	}
-
-	.home-footer {
-		padding-block-start: 0;
-		background: var(--color-brand-primary);
-		background-image: linear-gradient(rgba(0, 58, 107, 0.94), rgba(0, 58, 107, 0.94)), url('/assets/home/pattern-white.png');
-		color: rgba(255, 255, 255, 0.78);
-	}
-
-	.home-footer__grid {
-		display: grid;
-		grid-template-columns: 1.05fr 0.8fr 1fr;
-		gap: 0;
-		align-items: stretch;
-	}
-
-	.home-footer__brand,
-	.home-footer__news,
-	.home-contact-form {
-		padding: clamp(54px, 6vw, 78px) clamp(28px, 4vw, 54px);
-	}
-
-	.home-contact-form {
-		background: #030A13;
-	}
-
-	.home-footer h2 {
-		color: var(--color-surface);
-		font-size: 26px;
-	}
-
-	.home-footer__brand img {
-		inline-size: min(240px, 82%);
-		block-size: auto;
-		margin-block-end: 26px;
-	}
-
-	.home-footer__addresses {
-		display: grid;
-		gap: 10px;
-		margin-block-start: 18px;
-	}
-
-	.home-footer__addresses p {
-		margin: 0;
-		line-height: 1.75;
-	}
-
-	.home-footer__news ul {
-		list-style: none;
-		margin: 22px 0 0;
-		padding: 0;
-	}
-
-	.home-footer__news li {
-		padding-block: 11px;
-		border-block-end: 1px solid rgba(255, 255, 255, 0.14);
-	}
-
-	.home-contact-form {
-		display: grid;
-		gap: 14px;
-	}
-
-	.home-contact-form label {
-		display: grid;
-		gap: 7px;
-	}
-
-	.home-contact-form span {
-		font-size: 13px;
-		font-weight: var(--font-weight-medium);
-		color: rgba(255, 255, 255, 0.72);
-	}
-
-	.home-contact-form input,
-	.home-contact-form select,
-	.home-contact-form textarea {
+	.owner-hero__indicator.is-active .owner-hero__bar span {
 		inline-size: 100%;
-		border: 1px solid rgba(255, 255, 255, 0.08);
-		padding: 13px 14px;
-		background: #00477F;
-		color: var(--color-surface);
-		font: inherit;
 	}
 
-	.home-contact-form option {
-		color: var(--color-heading);
+	.owner-hero__caption--mobile,
+	.owner-drawer {
+		display: none;
 	}
 
-	.home-contact-form__notice {
-		margin: 0;
-		padding: 12px 14px;
-		background: rgba(255, 255, 255, 0.12);
-		color: var(--color-surface);
-		line-height: 1.55;
-	}
-
-	.home-footer__copyright {
-		margin: 0;
-		padding: 20px var(--page-gutter);
-		border-block-start: 1px solid rgba(255, 255, 255, 0.12);
-		text-align: center;
-	}
-
-	.home-button:focus-visible,
-	.home-text-link:focus-visible,
-	.home-hero__arrow:focus-visible,
-	.home-hero__dot:focus-visible,
-	.home-carousel-button:focus-visible,
-	.home-partners__dot:focus-visible,
-	.home-project-card:focus-visible,
-	.home-news-card a:focus-visible,
-	.home-contact-form input:focus-visible,
-	.home-contact-form select:focus-visible,
-	.home-contact-form textarea:focus-visible {
-		outline: 2px solid var(--color-brand-primary);
+	.owner-brand:focus-visible,
+	.owner-nav__links a:focus-visible,
+	.owner-nav__menu:focus-visible,
+	.owner-drawer button:focus-visible,
+	.owner-drawer a:focus-visible,
+	.owner-hero__indicator:focus-visible,
+	.owner-hero__mobile-dot:focus-visible,
+	.owner-hero__action:focus-visible {
+		outline: 2px solid var(--serene-accent);
 		outline-offset: 3px;
 	}
 
-	@media (max-width: 1100px) {
-		.home-services,
-		.home-footer__grid {
-			grid-template-columns: 1fr;
-		}
-
-		.home-about__grid,
-		.home-news {
-			grid-template-columns: 1fr;
-		}
-
-		.home-about__brand-mark {
-			min-block-size: 360px;
-		}
+	:global([dir='rtl']) .owner-hero__caption--desktop {
+		text-align: start;
 	}
 
-	@media (min-width: 1025px) {
-		.home-page {
-			margin-block: calc(0px - var(--space-2xl));
-			margin-inline: calc(0px - var(--space-lg));
-		}
+	:global([dir='rtl']) .owner-hero__indicators {
+		inset-inline-start: 28px;
+		inset-inline-end: auto;
 	}
 
-	@media (max-width: 700px) {
-		.home-hero {
-			min-block-size: calc(100vh - 62px);
+	@media (max-width: 860px) {
+		.owner-container {
+			padding-inline: 16px;
 		}
 
-		.home-hero__content {
-			padding-block: 78px 92px;
-			padding-inline: 30px;
+		.owner-nav {
+			block-size: 52px;
 		}
 
-		.home-hero h1 {
-			font-size: 38px;
-			line-height: 1.05;
+		.owner-brand span {
+			font-size: 1.15rem;
+			letter-spacing: 1.2px;
 		}
 
-		.home-hero p {
-			font-size: 15px;
-			line-height: 1.72;
-		}
-
-		.home-hero__controls {
-			inset-inline: 18px;
-			inset-block-end: 22px;
-		}
-
-		.home-hero__arrow {
-			inline-size: 38px;
-			block-size: 38px;
-		}
-
-		.home-stats__grid {
-			grid-template-columns: 1fr;
-			gap: 46px;
-		}
-
-		.home-stat:not(:last-child)::after {
+		.owner-nav__links {
 			display: none;
 		}
 
-		.home-news-card {
-			grid-template-columns: 1fr;
-			gap: 18px;
+		.owner-nav__menu {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			min-block-size: 38px;
+			padding: 8px 12px;
+			border: 1px solid var(--border-subtle);
+			border-radius: 6px;
+			background: transparent;
+			color: var(--almasa-blue);
+			font-size: 0.78rem;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+			cursor: pointer;
 		}
 
-		.home-news-card img {
+		.owner-nav__menu-icon {
+			display: flex;
+			inline-size: 14px;
+			block-size: 10px;
+			flex-direction: column;
+			justify-content: center;
+			gap: 4px;
+		}
+
+		.owner-nav__menu-icon span {
+			display: block;
 			inline-size: 100%;
+			block-size: 1.5px;
+			border-radius: 1px;
+			background: currentColor;
+		}
+
+		.owner-drawer {
+			position: fixed;
+			inset: 0;
+			z-index: 9999;
+			display: flex;
+			flex-direction: column;
+			background: rgba(255, 255, 255, 0.98);
+			backdrop-filter: blur(24px);
+			opacity: 0;
+			pointer-events: none;
+			transform: translateY(-8px);
+			transition: opacity 250ms cubic-bezier(0.16, 1, 0.3, 1), transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.owner-drawer.is-open {
+			opacity: 1;
+			pointer-events: auto;
+			transform: translateY(0);
+		}
+
+		.owner-drawer__inner {
+			display: flex;
+			block-size: 100%;
+			flex-direction: column;
+			padding: 16px 20px 28px;
+			overflow-y: auto;
+		}
+
+		.owner-drawer__header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding-block-end: 16px;
+			border-block-end: 1px solid var(--border-subtle);
+		}
+
+		.owner-drawer__header button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			inline-size: 40px;
+			block-size: 40px;
+			border: 1px solid var(--border-subtle);
+			border-radius: 6px;
+			background: transparent;
+			color: var(--text-primary);
+			font-size: 1.5rem;
+			line-height: 1;
+			cursor: pointer;
+		}
+
+		.owner-drawer nav {
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			gap: 20px;
+			padding-block: 32px;
+		}
+
+		.owner-drawer__link {
+			display: flex;
+			align-items: baseline;
+			gap: 14px;
+			color: var(--almasa-blue);
+			font-family: var(--font-display);
+			font-size: 1.7rem;
+			font-weight: 600;
+			line-height: 1.2;
+			text-decoration: none;
+		}
+
+		.owner-drawer__link span {
+			font-family: var(--font-ui);
+			font-size: 0.75rem;
+			font-weight: 600;
+			letter-spacing: 1.2px;
+			color: var(--serene-accent);
+		}
+
+		.owner-hero {
+			padding-block-start: 12px;
+		}
+
+		.owner-hero__frame {
 			block-size: auto;
-			aspect-ratio: 1.65;
+			min-block-size: 380px;
+			max-block-size: 520px;
+			aspect-ratio: 4 / 5;
 		}
 
-		.home-about__aside {
-			order: 2;
+		.owner-hero__slide img,
+		.owner-hero__video {
+			object-position: center 36%;
 		}
 
-		.home-about__brand-mark {
-			min-block-size: 320px;
+		.owner-hero__caption--desktop,
+		.owner-hero__indicators {
+			display: none;
 		}
 
-		.home-about__content {
-			order: 1;
-			padding: 42px 30px;
+		.owner-hero__caption--mobile {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 8px;
+			margin-block-start: 12px;
+			padding: 20px 16px 18px;
+			border: 1px solid var(--surface-soft-border);
+			border-radius: 8px;
+			background: var(--surface-soft);
+			text-align: center;
 		}
 
-		.home-about__features {
-			grid-template-columns: 1fr;
+		.owner-hero__caption--mobile .owner-hero__kicker {
+			color: var(--serene-accent);
 		}
 
-		.home-project-card {
-			min-block-size: 330px;
+		.owner-hero__caption--mobile h1 {
+			max-inline-size: min(100%, 310px);
+			font-size: 1.7rem;
+			line-height: 1.18;
+			color: var(--almasa-blue);
+			overflow-wrap: normal;
 		}
 
-		.home-projects {
-			gap: 12px;
-			padding-inline: 14px;
+		.owner-hero__caption--mobile .owner-hero__location {
+			margin-block-start: 2px;
+			color: var(--text-secondary);
 		}
 
-		.home-projects__viewport {
-			min-block-size: 330px;
+		.owner-hero__caption--mobile .owner-hero__action {
+			margin-block-start: 6px;
+			padding: 10px 22px;
+			border-color: var(--almasa-blue);
+			background: var(--almasa-blue);
+			color: #fff;
+			box-shadow: 0 1px 3px rgba(0, 58, 107, 0.15);
 		}
 
-		.home-projects__button {
-			position: absolute;
-			z-index: 4;
-			inset-block-start: calc(50% - 21px);
-			min-inline-size: 42px;
-			inline-size: 42px;
-			min-block-size: 42px;
+		.owner-hero__mobile-dots {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 8px;
+			margin-block-start: 4px;
+		}
+
+		.owner-hero__mobile-dot {
+			inline-size: 8px;
+			block-size: 8px;
 			padding: 0;
+			border: 0;
+			border-radius: 999px;
+			background: rgba(0, 58, 107, 0.22);
+			cursor: pointer;
 		}
 
-		.home-projects__button span:not([aria-hidden='true']) {
-			position: absolute;
-			inline-size: 1px;
-			block-size: 1px;
-			overflow: hidden;
-			clip: rect(0 0 0 0);
-			white-space: nowrap;
-		}
-
-		.home-projects__button--prev {
-			inset-inline-start: 20px;
-		}
-
-		.home-projects__button--next {
-			inset-inline-end: 20px;
-		}
-
-		.home-project-slide.is-prev,
-		.home-project-slide.is-next {
-			opacity: 0;
-		}
-
-		.home-partners__carousel {
-			grid-template-columns: auto minmax(0, 1fr) auto;
-			gap: 12px;
-		}
-
-		.home-partners__viewport {
-			min-block-size: 138px;
-		}
-
-		.home-partner-logo {
-			inline-size: 130px;
-			block-size: 130px;
-		}
-
-		.home-partner-logo.is-prev,
-		.home-partner-logo.is-next {
-			opacity: 0;
-			transform: translate(-50%, -50%) scale(0.94);
-		}
-
-		:global([dir='rtl']) .home-partner-logo.is-prev,
-		:global([dir='rtl']) .home-partner-logo.is-next {
-			transform: translate(50%, -50%) scale(0.94);
-		}
-
-		.home-footer__brand,
-		.home-footer__news,
-		.home-contact-form {
-			padding: 44px 30px;
+		.owner-hero__mobile-dot.is-active {
+			inline-size: 22px;
+			background: var(--serene-accent);
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.home-project-slide,
-		.home-partner-logo {
+		.owner-hero__slide,
+		.owner-drawer,
+		.owner-hero__action {
 			transition: none;
 		}
 	}

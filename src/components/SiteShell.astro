@@ -1,360 +1,45 @@
 ---
-import { getLocalizedPath, primaryNavigation } from '../data/navigation';
-import type { Locale } from '../data/locales';
-
 interface Props {
-	locale: Locale;
-	currentPath: string;
+	locale?: 'en' | 'ar';
+	currentPath?: string;
 }
 
-const { locale, currentPath } = Astro.props;
-const otherLocale: Locale = locale === 'en' ? 'ar' : 'en';
-const homeHref = locale === 'en' ? '/en/' : '/ar/';
-const languageHref = getLocalizedPath(currentPath, otherLocale);
-const languageLabel = locale === 'en' ? 'العربية' : 'English';
-const languageAriaLabel = locale === 'en' ? 'Switch language to Arabic' : 'تغيير اللغة إلى الإنجليزية';
-const navAriaLabel = locale === 'en' ? 'Primary navigation' : 'التنقل الرئيسي';
-const mobileMenuLabel = locale === 'en' ? 'Open navigation menu' : 'فتح قائمة التنقل';
-const logoAlt = locale === 'en' ? 'AL MASA' : 'الماسة';
-const normalizedPath = currentPath.endsWith('/') ? currentPath : `${currentPath}/`;
-
-function isActive(href: string) {
-	return normalizedPath === href || (href !== homeHref && normalizedPath.startsWith(href));
-}
+void Astro.props satisfies Props;
 ---
 
-<div class="site-shell" data-site-shell>
+<div class="site-shell">
 	<a class="site-shell__skip-link" href="#main-content">Skip to main content</a>
-
-	<aside class="site-shell__rail" data-shell-desktop aria-label={navAriaLabel}>
-		<a class="site-shell__logo-link" href={homeHref} aria-label={logoAlt}>
-			<img class="site-shell__logo" src="/assets/almasa-logo.png" alt={logoAlt} width="717" height="336" />
-		</a>
-
-		<nav class="site-shell__nav" aria-label={navAriaLabel}>
-			<ul class="site-shell__nav-list">
-				{primaryNavigation.map((item) => (
-					<li>
-						<a
-							class="site-shell__nav-link"
-							href={item.href[locale]}
-							aria-current={isActive(item.href[locale]) ? 'page' : undefined}
-						>
-							{item.labels[locale]}
-						</a>
-					</li>
-				))}
-			</ul>
-		</nav>
-
-		<a class="site-shell__language" href={languageHref} aria-label={languageAriaLabel}>
-			{languageLabel}
-		</a>
-	</aside>
-
-	<header class="site-shell__mobile-header" data-shell-mobile>
-		<a class="site-shell__mobile-logo-link" href={homeHref} aria-label={logoAlt}>
-			<img class="site-shell__mobile-logo" src="/assets/almasa-logo.png" alt={logoAlt} width="717" height="336" />
-		</a>
-		<button
-			class="site-shell__menu-toggle"
-			type="button"
-			aria-label={mobileMenuLabel}
-			aria-expanded="false"
-			aria-controls="mobile-navigation"
-			data-menu-toggle
-		>
-			<span aria-hidden="true"></span>
-			<span aria-hidden="true"></span>
-			<span aria-hidden="true"></span>
-		</button>
-	</header>
-
-	<nav id="mobile-navigation" class="site-shell__mobile-menu" aria-label={navAriaLabel} data-mobile-menu hidden>
-		<ul class="site-shell__mobile-nav-list">
-			{primaryNavigation.map((item) => (
-				<li>
-					<a
-						class="site-shell__mobile-nav-link"
-						href={item.href[locale]}
-						aria-current={isActive(item.href[locale]) ? 'page' : undefined}
-					>
-						{item.labels[locale]}
-					</a>
-				</li>
-			))}
-		</ul>
-		<a class="site-shell__mobile-language" href={languageHref} aria-label={languageAriaLabel}>
-			{languageLabel}
-		</a>
-	</nav>
-
-	<div class="site-shell__content" data-shell-content>
-		<main id="main-content" class="site-shell__main" tabindex="-1">
-			<slot />
-		</main>
-	</div>
+	<main id="main-content" tabindex="-1">
+		<slot />
+	</main>
 </div>
-
-<script>
-	const toggle = document.querySelector('[data-menu-toggle]');
-	const menu = document.querySelector('[data-mobile-menu]');
-
-	if (toggle instanceof HTMLButtonElement && menu instanceof HTMLElement) {
-		const setMenuOpen = (isOpen) => {
-			menu.hidden = !isOpen;
-			toggle.setAttribute('aria-expanded', String(isOpen));
-		};
-
-		toggle.addEventListener('click', () => {
-			setMenuOpen(menu.hidden);
-		});
-
-		menu.addEventListener('click', (event) => {
-			const target = event.target;
-			if (target instanceof HTMLAnchorElement) {
-				setMenuOpen(false);
-			}
-		});
-
-		document.addEventListener('keydown', (event) => {
-			if (event.key === 'Escape' && !menu.hidden) {
-				setMenuOpen(false);
-				toggle.focus();
-			}
-		});
-	}
-</script>
 
 <style>
 	.site-shell {
-		--shell-rail-width: 300px;
 		min-block-size: 100vh;
-		background: var(--color-surface);
+		background: #fff;
 	}
 
 	.site-shell__skip-link {
 		position: fixed;
-		z-index: 30;
+		z-index: 10000;
 		inset-block-start: 12px;
 		inset-inline-start: 12px;
 		padding: 10px 14px;
-		background: var(--color-brand-primary);
-		color: var(--color-surface);
-		font-family: var(--font-heading);
-		font-size: 14px;
-		font-weight: var(--font-weight-semibold);
+		background: #003a6b;
+		color: #fff;
+		font: 600 14px/1.2 'Inter', 'Segoe UI', Arial, sans-serif;
 		text-decoration: none;
 		transform: translateY(-150%);
 	}
 
 	.site-shell__skip-link:focus-visible {
 		transform: translateY(0);
-		outline: 2px solid var(--color-heading);
+		outline: 2px solid #0891b2;
 		outline-offset: 2px;
 	}
 
-	.site-shell__rail,
-	.site-shell__mobile-menu {
-		display: none;
-	}
-
-	.site-shell__mobile-header {
-		display: flex;
-		position: relative;
-		align-items: center;
-		justify-content: center;
-		min-block-size: 110px;
-		padding-block: 12px;
-		padding-inline: 20px;
-		background: var(--color-surface);
-		border-block-end: 1px solid var(--color-border);
-	}
-
-	.site-shell__mobile-logo-link,
-	.site-shell__logo-link {
-		display: inline-flex;
-		align-items: center;
-		text-decoration: none;
-	}
-
-	.site-shell__mobile-logo {
-		inline-size: min(clamp(168px, 45vw, 184px), calc(100vw - 136px));
-		block-size: auto;
-	}
-
-	.site-shell__menu-toggle {
-		display: inline-flex;
-		position: absolute;
-		inset-block-start: 50%;
-		inset-inline-end: 20px;
-		flex-direction: column;
-		justify-content: center;
-		gap: 4px;
-		inline-size: 44px;
-		block-size: 44px;
-		padding: 0;
-		border: 0;
-		background-color: transparent;
-		background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
-		background-position: center 14px, center 21px, center 28px;
-		background-repeat: no-repeat;
-		background-size: 18px 2px;
-		color: var(--color-brand-primary);
-		cursor: pointer;
-		transform: translateY(-50%);
-	}
-
-	.site-shell__menu-toggle span {
-		display: block;
-		inline-size: 18px;
-		block-size: 2px;
-		margin-inline: auto;
-		background: currentColor;
-	}
-
-	.site-shell__menu-toggle:focus-visible,
-	.site-shell__nav-link:focus-visible,
-	.site-shell__language:focus-visible,
-	.site-shell__mobile-nav-link:focus-visible,
-	.site-shell__mobile-language:focus-visible,
-	.site-shell__logo-link:focus-visible,
-	.site-shell__mobile-logo-link:focus-visible {
-		outline: 2px solid var(--color-brand-primary);
-		outline-offset: 4px;
-	}
-
-	.site-shell__mobile-menu:not([hidden]) {
-		display: block;
-		padding: 16px 20px 22px;
-		background: var(--color-surface);
-		border-block-end: 1px solid var(--color-border);
-	}
-
-	.site-shell__mobile-nav-list,
-	.site-shell__nav-list {
-		padding: 0;
-		margin: 0;
-		list-style: none;
-	}
-
-	.site-shell__mobile-nav-list {
-		display: grid;
-		gap: 2px;
-	}
-
-	.site-shell__mobile-nav-link,
-	.site-shell__mobile-language {
-		display: block;
-		padding-block: 10px;
-		color: var(--color-heading);
-		font-family: var(--font-heading);
-		font-size: 14px;
-		font-weight: var(--font-weight-semibold);
-		letter-spacing: 0.02em;
-		text-decoration: none;
-	}
-
-	.site-shell__mobile-nav-link[aria-current='page'],
-	.site-shell__mobile-language {
-		color: var(--color-brand-primary);
-	}
-
-	.site-shell__mobile-language {
-		margin-block-start: 10px;
-		border-block-start: 1px solid var(--color-border);
-	}
-
-	.site-shell__content {
+	main {
 		min-block-size: 100vh;
-	}
-
-	.site-shell__main {
-		min-block-size: 100vh;
-		padding-block: var(--space-xl);
-		padding-inline: var(--page-gutter);
-	}
-
-	@media (min-width: 1025px) {
-		.site-shell {
-			--shell-rail-width: 220px;
-		}
-
-		.site-shell__rail {
-			display: flex;
-			position: fixed;
-			z-index: 20;
-			inset-block: 0;
-			inset-inline-start: 0;
-			flex-direction: column;
-			align-items: center;
-			inline-size: var(--shell-rail-width);
-			min-block-size: 100vh;
-			overflow-y: auto;
-			padding: 28px 24px;
-			background: var(--color-surface);
-			border-inline-end: 1px solid var(--color-border);
-		}
-
-		.site-shell__mobile-header,
-		.site-shell__mobile-menu {
-			display: none !important;
-		}
-
-		.site-shell__logo {
-			inline-size: min(calc(var(--shell-rail-width) * 0.75), 240px);
-			block-size: auto;
-		}
-
-		.site-shell__nav {
-			inline-size: 100%;
-			margin-block-start: 40px;
-		}
-
-		.site-shell__nav-list {
-			display: grid;
-			gap: 6px;
-			text-align: center;
-		}
-
-		.site-shell__nav-link,
-		.site-shell__language {
-			display: block;
-			padding-block: 10px;
-			color: var(--color-heading);
-			font-family: var(--font-heading);
-			font-size: 16px;
-			font-weight: var(--font-weight-semibold);
-			letter-spacing: 0;
-			line-height: 1.3;
-			text-decoration: none;
-			text-transform: uppercase;
-		}
-
-		.site-shell__nav-link[aria-current='page'],
-		.site-shell__nav-link:hover,
-		.site-shell__language:hover {
-			color: var(--color-brand-primary);
-		}
-
-		.site-shell__language {
-			margin-block-start: auto;
-			color: var(--color-text-muted);
-		}
-
-		.site-shell__content {
-			margin-inline-start: var(--shell-rail-width);
-		}
-
-		.site-shell__main {
-			padding-block: var(--space-2xl);
-			padding-inline: var(--space-lg);
-		}
-	}
-
-	@media (min-width: 1200px) {
-		.site-shell {
-			--shell-rail-width: 300px;
-		}
 	}
 </style>
