@@ -158,6 +158,16 @@ const completedMega = {
 		],
 	},
 }[locale];
+
+const completedStandard = [
+	{
+		id: 9,
+		title: 'عرب اليسار',
+		image: '/assets/owner-confirmed/completed-standard/project-09-arab-al-yasar.jpg',
+		width: 1156,
+		height: 867,
+	},
+];
 ---
 
 <div class="owner-home" data-owner-home data-locale={locale}>
@@ -288,6 +298,21 @@ const completedMega = {
 			</div>
 		</div>
 	</section>
+
+	<div class="owner-completed-standard" id="completed-standard" role="group" aria-labelledby="completed-mega-title">
+		<div class="owner-container">
+			<div class:list={['owner-standard-grid', { 'owner-standard-grid--single': completedStandard.length === 1 }]}>
+				{completedStandard.map((project) => (
+					<article class="owner-standard-card" data-project-id={project.id}>
+						<img src={project.image} alt={project.title} width={project.width} height={project.height} loading="lazy" decoding="async" />
+						<div class="owner-standard-card__caption">
+							<h3 lang="ar" dir="rtl">{project.title}</h3>
+						</div>
+					</article>
+				))}
+			</div>
+		</div>
+	</div>
 </div>
 
 <script define:vars={{ slides: content.slides }}>
@@ -1079,6 +1104,74 @@ const completedMega = {
 
 		.owner-mega-card__caption h3 {
 			font-size: 1.25rem;
+		}
+	}
+
+	.owner-completed-standard {
+		padding-block: 28px 56px;
+	}
+
+	.owner-completed-standard > .owner-container {
+		max-inline-size: 1080px;
+	}
+
+	.owner-standard-grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		align-items: start;
+		gap: 18px;
+	}
+
+	.owner-standard-grid--single {
+		grid-template-columns: minmax(0, 640px);
+		justify-content: center;
+	}
+
+	.owner-standard-card {
+		position: relative;
+		min-inline-size: 0;
+		border-radius: 8px;
+		overflow: hidden;
+	}
+
+	.owner-standard-card img {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	.owner-standard-card__caption {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		padding: 2.5rem 20px 18px;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent);
+		pointer-events: none;
+	}
+
+	.owner-standard-card__caption h3 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: 600;
+		line-height: 1.3;
+		color: #fff;
+		text-align: match-parent;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+	}
+
+	@media (max-width: 860px) {
+		.owner-completed-standard {
+			padding-block: 24px 38px;
+		}
+
+		.owner-standard-grid {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 14px;
+		}
+
+		.owner-standard-card__caption {
+			padding: 2.2rem 16px 16px;
 		}
 	}
 
