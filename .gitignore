@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# extra safety
+.env*
+!.env.example
+.vercel/
+*.pem
