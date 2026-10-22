@@ -1,0 +1,424 @@
+---
+import SiteFooter from './SiteFooter.astro';
+import * as siteData from '../data/site';
+
+const kind = Astro.props.kind;
+const company = siteData.company;
+const about = siteData.aboutText;
+const approach = siteData.approachItems;
+
+const pages = {
+	about: { kicker: 'About', title: about.headline, image: '/assets/owner-confirmed/mega/completed/project-37-khairat-rahman.jpg' },
+	approach: { kicker: 'Strategies & Approaches', title: 'How we work', image: '/assets/owner-confirmed/mega/completed/project-27-roubeky-mall.jpg' },
+	contact: { kicker: 'Contact', title: 'Let’s work together', image: '/assets/owner-confirmed/mega/completed/project-05-mokattam.jpg' },
+};
+const page = pages[kind];
+const nav = [
+	{ id: 'projects', label: 'Projects', href: '/en/projects/' },
+	{ id: 'about', label: 'About', href: '/en/about/' },
+	{ id: 'approach', label: 'Approach', href: '/en/approach/' },
+	{ id: 'contact', label: 'Contact', href: '/en/contact/' },
+];
+---
+
+<div class="owner-support-page">
+	<header class="sp-nav" aria-label="Navigation">
+		<div class="owner-container sp-nav__inner">
+			<a class="sp-brand" href="/en/" aria-label="AL MASA">
+				<img src="/assets/owner-confirmed/brand/logo-primary.png" alt="AL MASA" width="85" height="40" />
+				<span>AL MASA</span>
+			</a>
+			<nav class="sp-nav__links" aria-label="Links">
+				{nav.map((item) => <a href={item.href} aria-current={item.id === kind ? 'page' : undefined}>{item.label}</a>)}
+			</nav>
+		</div>
+	</header>
+
+	<section class="sp-hero">
+		<div class="owner-container sp-hero__inner">
+			<div class="sp-hero__text">
+				<p class="sp-kicker">{page.kicker}</p>
+				<h1>{page.title}</h1>
+			</div>
+			<div class="sp-hero__visual">
+				<img src={page.image} alt="" width="1200" height="800" loading="eager" decoding="async" />
+			</div>
+		</div>
+	</section>
+
+	{
+		kind === 'about' && (
+			<section class="sp-section" aria-labelledby="sp-company">
+				<div class="owner-container sp-stack">
+					<div class="sp-block">
+						<h2 class="sp-heading" id="sp-company">Our company</h2>
+						<p>{about.company}</p>
+					</div>
+					<div class="sp-two">
+						<div class="sp-card">
+							<h2 class="sp-heading">Goal</h2>
+							<p>{about.goal}</p>
+						</div>
+						<div class="sp-card">
+							<h2 class="sp-heading">Vision</h2>
+							<p>{about.vision}</p>
+						</div>
+					</div>
+					<dl class="sp-facts">
+						<div><dt>Founded</dt><dd>{company.founded}</dd></div>
+						<div><dt>Offices</dt><dd>Heliopolis · Nasr City</dd></div>
+						<div><dt>Field</dt><dd>General contracting and designs</dd></div>
+					</dl>
+				</div>
+			</section>
+		)
+	}
+
+	{
+		kind === 'approach' && (
+			<section class="sp-section" aria-label="Strategies and approaches">
+				<div class="owner-container sp-stack">
+					{
+						approach.map((item) => (
+							<div class="sp-card sp-card--wide">
+								<h2 class="sp-heading">{item.title}</h2>
+								{item.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+								{item.list && <ul class="sp-list">{item.list.map((entry) => <li>{entry}</li>)}</ul>}
+							</div>
+						))
+					}
+				</div>
+			</section>
+		)
+	}
+
+	{
+		kind === 'contact' && (
+			<section class="sp-section" aria-label="Contact details">
+				<div class="owner-container sp-contact">
+					<div class="sp-card">
+						<h2 class="sp-heading">Offices in Egypt</h2>
+						<ul class="sp-plain">
+							{company.offices.map((office) => <li>{office}</li>)}
+						</ul>
+					</div>
+					<div class="sp-card">
+						<h2 class="sp-heading">Reach us</h2>
+						<ul class="sp-plain">
+							<li><span class="sp-label">Email</span><a href={'mailto:' + company.email}>{company.email}</a></li>
+						</ul>
+						<a class="sp-button" href={'mailto:' + company.email}>Write to us <span aria-hidden="true">&rarr;</span></a>
+					</div>
+				</div>
+			</section>
+		)
+	}
+
+	<SiteFooter />
+</div>
+
+<style>
+	.owner-support-page {
+		--bg-main: #ffffff;
+		--surface-soft: #e8f6fe;
+		--surface-soft-border: rgba(8, 145, 178, 0.16);
+		--serene-accent: #0891b2;
+		--almasa-blue: #003a6b;
+		--text-primary: #0f172a;
+		--text-secondary: #475569;
+		--text-muted: #64748b;
+		--border-subtle: #e2e8f0;
+		--font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+		--font-ui: 'Inter', 'Segoe UI', Arial, sans-serif;
+		min-block-size: 100vh;
+		background: var(--bg-main);
+		color: var(--text-primary);
+		font-family: var(--font-ui);
+		overflow-x: clip;
+	}
+
+	.owner-support-page *,
+	.owner-support-page *::before,
+	.owner-support-page *::after {
+		box-sizing: border-box;
+	}
+
+	.sp-nav {
+		position: sticky;
+		inset-block-start: 0;
+		z-index: 100;
+		block-size: 54px;
+		display: flex;
+		align-items: center;
+		background: rgba(255, 255, 255, 0.96);
+		border-block-end: 1px solid rgba(8, 145, 178, 0.12);
+		backdrop-filter: blur(14px);
+	}
+
+	.sp-nav__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+	}
+
+	.sp-brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		color: var(--almasa-blue);
+		text-decoration: none;
+	}
+
+	.sp-brand img {
+		inline-size: auto;
+		block-size: 26px;
+		object-fit: contain;
+	}
+
+	.sp-brand span {
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: 1.5px;
+	}
+
+	.sp-nav__links {
+		display: flex;
+		align-items: center;
+		gap: 22px;
+	}
+
+	.sp-nav__links a {
+		font-size: 0.82rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		text-decoration: none;
+		white-space: nowrap;
+		transition: color 0.2s ease;
+	}
+
+	.sp-nav__links a:hover,
+	.sp-nav__links a[aria-current='page'] {
+		color: var(--serene-accent);
+	}
+
+	.sp-hero {
+		padding-block: 48px 0;
+	}
+
+	.sp-hero__inner {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+		gap: clamp(24px, 5vw, 80px);
+		align-items: center;
+	}
+
+	.sp-kicker {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		margin: 0 0 18px;
+		font-size: 0.78rem;
+		font-weight: 600;
+		letter-spacing: 1.6px;
+		text-transform: uppercase;
+		color: var(--serene-accent);
+	}
+
+	.sp-kicker::before {
+		content: '';
+		inline-size: 34px;
+		block-size: 2px;
+		background: var(--serene-accent);
+	}
+
+	.sp-hero h1 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: clamp(2rem, 3.8vw, 3.4rem);
+		font-weight: 600;
+		line-height: 1.1;
+		color: var(--almasa-blue);
+		text-wrap: balance;
+	}
+
+	.sp-hero__visual {
+		position: relative;
+		border-radius: 8px;
+		overflow: hidden;
+		aspect-ratio: 3 / 2;
+		border: 1px solid var(--surface-soft-border);
+	}
+
+	.sp-hero__visual img {
+		position: absolute;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+	}
+
+	.sp-section {
+		padding-block-start: var(--layout-section-space);
+	}
+
+	.sp-stack {
+		display: grid;
+		gap: var(--layout-card-gap);
+	}
+
+	.sp-heading {
+		margin: 0 0 14px;
+		padding-block-end: 8px;
+		border-block-end: 1px solid var(--border-subtle);
+		font-family: var(--font-display);
+		font-size: 1.45rem;
+		font-weight: 600;
+		line-height: 1.2;
+		color: var(--almasa-blue);
+	}
+
+	.sp-block {
+		max-inline-size: 960px;
+	}
+
+	.sp-block p,
+	.sp-card p {
+		margin: 0 0 12px;
+		font-size: 1rem;
+		line-height: 1.75;
+		color: var(--text-secondary);
+	}
+
+	.sp-two {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--layout-card-gap);
+	}
+
+	.sp-card {
+		padding: 26px 28px;
+		border: 1px solid var(--surface-soft-border);
+		border-radius: 8px;
+		background: var(--surface-soft);
+	}
+
+	.sp-card--wide {
+		max-inline-size: 960px;
+	}
+
+	.sp-card .sp-heading {
+		border-block-end-color: rgba(8, 145, 178, 0.18);
+	}
+
+	.sp-facts {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--layout-card-gap);
+		margin: 0;
+	}
+
+	.sp-facts div {
+		padding: 18px 22px;
+		border: 1px solid var(--border-subtle);
+		border-radius: 8px;
+	}
+
+	.sp-facts dt {
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 1.2px;
+		text-transform: uppercase;
+		color: var(--text-muted);
+	}
+
+	.sp-facts dd {
+		margin: 6px 0 0;
+		font-family: var(--font-display);
+		font-size: 1.4rem;
+		font-weight: 600;
+		color: var(--almasa-blue);
+	}
+
+	.sp-list {
+		margin: 0;
+		padding-inline-start: 20px;
+		color: var(--text-secondary);
+		line-height: 1.8;
+	}
+
+	.sp-contact {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--layout-card-gap);
+	}
+
+	.sp-plain {
+		margin: 0 0 18px;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 12px;
+		font-size: 1rem;
+		line-height: 1.6;
+		color: var(--text-secondary);
+	}
+
+	.sp-label {
+		display: block;
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 1.2px;
+		text-transform: uppercase;
+		color: var(--text-muted);
+	}
+
+	.sp-plain a {
+		color: var(--almasa-blue);
+		font-weight: 500;
+		text-decoration: none;
+	}
+
+	.sp-plain a:hover {
+		color: var(--serene-accent);
+	}
+
+	.sp-button {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 10px 20px;
+		border-radius: 6px;
+		background: var(--almasa-blue);
+		color: #fff;
+		font-size: 0.88rem;
+		font-weight: 600;
+		text-decoration: none;
+		transition: background 0.2s ease;
+	}
+
+	.sp-button:hover {
+		background: #002b50;
+	}
+
+	.sp-nav a:focus-visible,
+	.sp-button:focus-visible,
+	.sp-plain a:focus-visible {
+		outline: 2px solid var(--serene-accent);
+		outline-offset: 3px;
+	}
+
+	@media (max-width: 860px) {
+		.sp-hero {
+			padding-block-start: 28px;
+		}
+
+		.sp-hero__inner,
+		.sp-two,
+		.sp-contact,
+		.sp-facts {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>

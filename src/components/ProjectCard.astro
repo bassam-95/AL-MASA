@@ -1,0 +1,101 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+	project: Project;
+	href?: string;
+}
+
+const project = Astro.props.project;
+const href = Astro.props.href;
+const image = project.showcaseImage!;
+---
+
+<article class="owner-project-card" data-project-id={project.id}>
+	{href && <a class="owner-project-card__link" href={href} aria-label={project.nameAr}></a>}
+	<figure class="owner-project-card__media">
+		<img
+			src={image.src}
+			alt={project.nameAr}
+			lang="ar"
+			dir="rtl"
+			width={image.width}
+			height={image.height}
+			loading="lazy"
+			decoding="async"
+		/>
+		<figcaption class="owner-project-card__caption">
+			<span class="owner-project-card__name">{project.nameAr}</span>
+		</figcaption>
+	</figure>
+</article>
+
+<style>
+	.owner-project-card {
+		position: relative;
+		min-inline-size: 0;
+		margin: 0;
+	}
+
+	.owner-project-card__link {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+		border-radius: 8px;
+	}
+
+	.owner-project-card__link:focus-visible {
+		outline: 2px solid #0891b2;
+		outline-offset: 3px;
+	}
+
+	.owner-project-card__media {
+		position: relative;
+		margin: 0;
+		border-radius: 8px;
+		overflow: hidden;
+		/* All project cards use one consistent 3:2 aspect ratio */
+		aspect-ratio: 3 / 2;
+	}
+
+	/* Image fills the 3:2 container. No crop, no letterboxing, no distortion. */
+	.owner-project-card__media img {
+		display: block;
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+		object-position: center;
+	}
+
+	.owner-project-card__caption {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		padding: 2.5rem 28px 20px;
+		background: linear-gradient(to top, rgba(0, 16, 36, 0.72) 0%, rgba(0, 16, 36, 0.24) 60%, transparent 100%);
+		pointer-events: none;
+	}
+
+	.owner-project-card__name {
+		font-family: var(--font-display, 'Cormorant Garamond', Georgia, serif);
+		font-size: 1.3rem;
+		font-weight: 600;
+		line-height: 1.25;
+		color: #fff;
+		text-align: start;
+		text-shadow: 0 1px 3px rgba(0, 14, 30, 0.65);
+	}
+
+	@media (max-width: 860px) {
+		.owner-project-card__caption {
+			padding: 2.2rem 16px 16px;
+		}
+
+		.owner-project-card__name {
+			font-size: 1.25rem;
+		}
+	}
+</style>

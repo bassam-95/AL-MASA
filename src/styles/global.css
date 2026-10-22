@@ -117,3 +117,40 @@ a {
 	inline-size: min(calc(100% - var(--page-gutter) - var(--page-gutter)), var(--container-wide));
 	margin-inline: auto;
 }
+
+/* ==========================================================================
+   LAYOUT SYSTEM - the single source of truth for page spacing.
+
+   RULES (do not break these):
+   1. Every block of page content (nav, hero, every section) sits inside
+      .owner-container. Nothing sets its own left/right page margin.
+   2. The side gap, the space between sections and the gap between cards
+      come from the --layout-* tokens below. Never type a raw number for
+      them inside a component.
+   3. This block must stay GLOBAL. Astro scopes component <style> blocks, so
+      a rule placed inside one component never reaches another component.
+      That is exactly how the project sections once lost their side gap.
+   tools/site-capture/verify-layout.cjs measures all of this automatically.
+   ========================================================================== */
+:root {
+	--layout-gutter: 28px;
+	--layout-max: 1800px;
+	--layout-section-space: 88px;
+	--layout-card-gap: 18px;
+}
+
+@media (max-width: 860px) {
+	:root {
+		--layout-gutter: 16px;
+		--layout-section-space: 56px;
+		--layout-card-gap: 14px;
+	}
+}
+
+.owner-container {
+	inline-size: 100%;
+	max-inline-size: var(--layout-max);
+	margin-inline: auto;
+	padding-inline: var(--layout-gutter);
+	box-sizing: border-box;
+}

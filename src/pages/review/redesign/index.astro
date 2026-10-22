@@ -1,5 +1,5 @@
 ---
-import { Font } from 'astro:assets';
+import * as AstroAssets from 'astro:assets';
 import '../../../styles/global.css';
 
 const heroMedia = {
@@ -113,8 +113,8 @@ const proofItems = [
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="robots" content="noindex, nofollow" />
 		<meta name="googlebot" content="noindex, nofollow" />
-		<Font cssVariable="--font-jost" />
-		<Font cssVariable="--font-poppins" />
+		<AstroAssets.Font cssVariable="--font-jost" />
+		<AstroAssets.Font cssVariable="--font-poppins" />
 		<title>AL MASA Homepage Redesign Prototype V1</title>
 	</head>
 	<body>

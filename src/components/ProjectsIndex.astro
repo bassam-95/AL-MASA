@@ -1,0 +1,338 @@
+---
+import SiteFooter from './SiteFooter.astro';
+import * as projectsData from '../data/projects';
+import * as showcaseLabels from '../data/showcase-labels';
+
+const locale = 'en';
+const items = projectsData.projects.filter((project) => project.publish);
+const coverOf = (item) => (item.showcaseImage ? item.showcaseImage : item.photos[0]);
+const nameOf = (item) => item.nameEn ?? item.nameAr;
+const langOf = (item) => (item.nameEn ? 'en' : 'ar');
+
+// Mega projects first, then completed before in progress, then by project number.
+const ordered = [...items].sort(
+	(a, b) =>
+		Number(b.scale === 'mega') - Number(a.scale === 'mega') ||
+		Number(b.status === 'completed') - Number(a.status === 'completed') ||
+		a.id - b.id,
+);
+
+const filters = [
+	{ id: 'all', label: 'All' },
+	{ id: 'completed', label: 'Completed' },
+	{ id: 'in-progress', label: 'Under construction' },
+	{ id: 'mega', label: 'Mega projects' },
+];
+---
+
+<div class="owner-projects-index" data-projects-index>
+	<header class="pi-nav" aria-label="Navigation">
+		<div class="owner-container pi-nav__inner">
+			<a class="pi-brand" href="/en/" aria-label="AL MASA">
+				<img src="/assets/owner-confirmed/brand/logo-primary.png" alt="AL MASA" width="85" height="40" />
+				<span>AL MASA</span>
+			</a>
+			<nav class="pi-nav__links" aria-label="Links">
+				<a href="/en/">Home</a>
+				<a href="/en/about/">About</a>
+				<a href="/en/contact/">Contact</a>
+			</nav>
+		</div>
+	</header>
+
+	<section class="pi-head">
+		<div class="owner-container">
+			<h1>Projects</h1>
+			<div class="pi-filters" role="group" aria-label="Filter projects">
+				{
+					filters.map((filter, index) => (
+						<button type="button" class:list={['pi-filter', { 'is-active': index === 0 }]} data-pi-filter={filter.id} aria-pressed={index === 0 ? 'true' : 'false'}>
+							{filter.label}
+						</button>
+					))
+				}
+			</div>
+			<p class="pi-count" data-pi-count aria-live="polite">{ordered.length} projects</p>
+		</div>
+	</section>
+
+	<section class="pi-grid-section">
+		<div class="owner-container">
+			<ul class="pi-grid">
+				{
+					ordered.map((item) => (
+						<li data-pi-item data-status={item.status} data-scale={item.scale}>
+							<a class:list={['pi-card', { 'is-empty': !coverOf(item) }]} href={'/en/projects/' + item.slug + '/'}>
+								{coverOf(item) ? (
+									<img src={coverOf(item).src} alt="" width={coverOf(item).width} height={coverOf(item).height} loading="lazy" decoding="async" />
+								) : (
+									<img class="pi-card__mark" src="/assets/owner-confirmed/brand/logo-primary.png" alt="" width="85" height="40" loading="lazy" />
+								)}
+								<span class="pi-card__caption">
+									<span class="pi-card__name" lang={langOf(item)} dir={langOf(item) === 'ar' ? 'rtl' : 'ltr'}>{nameOf(item)}</span>
+									<span class="pi-card__meta">{showcaseLabels.statusLabels[locale][item.status]}</span>
+								</span>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+	<SiteFooter />
+</div>
+
+<script>
+	const root = document.querySelector('[data-projects-index]');
+	if (root) {
+		const buttons = root.querySelectorAll('[data-pi-filter]');
+		const items = root.querySelectorAll('[data-pi-item]');
+		const count = root.querySelector('[data-pi-count]');
+		const apply = (filter) => {
+			let shown = 0;
+			items.forEach((item) => {
+				const status = item.getAttribute('data-status');
+				const scale = item.getAttribute('data-scale');
+				const match = filter === 'all' || filter === status || (filter === 'mega' && scale === 'mega');
+				item.hidden = !match;
+				if (match) shown += 1;
+			});
+			buttons.forEach((button) => {
+				const on = button.getAttribute('data-pi-filter') === filter;
+				button.classList.toggle('is-active', on);
+				button.setAttribute('aria-pressed', on ? 'true' : 'false');
+			});
+			if (count) count.textContent = shown + (shown === 1 ? ' project' : ' projects');
+		};
+		buttons.forEach((button) => button.addEventListener('click', () => apply(button.getAttribute('data-pi-filter') || 'all')));
+	}
+</script>
+
+<style>
+	.owner-projects-index {
+		--bg-main: #ffffff;
+		--surface-soft: #e8f6fe;
+		--surface-soft-border: rgba(8, 145, 178, 0.16);
+		--serene-accent: #0891b2;
+		--almasa-blue: #003a6b;
+		--text-primary: #0f172a;
+		--text-secondary: #475569;
+		--text-muted: #64748b;
+		--border-subtle: #e2e8f0;
+		--font-display: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+		--font-ui: 'Inter', 'Segoe UI', Arial, sans-serif;
+		min-block-size: 100vh;
+		background: var(--bg-main);
+		color: var(--text-primary);
+		font-family: var(--font-ui);
+		overflow-x: clip;
+	}
+
+	.owner-projects-index *,
+	.owner-projects-index *::before,
+	.owner-projects-index *::after {
+		box-sizing: border-box;
+	}
+
+	.pi-nav {
+		position: sticky;
+		inset-block-start: 0;
+		z-index: 100;
+		block-size: 54px;
+		display: flex;
+		align-items: center;
+		background: rgba(255, 255, 255, 0.96);
+		border-block-end: 1px solid rgba(8, 145, 178, 0.12);
+		backdrop-filter: blur(14px);
+	}
+
+	.pi-nav__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+	}
+
+	.pi-brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		color: var(--almasa-blue);
+		text-decoration: none;
+	}
+
+	.pi-brand img {
+		inline-size: auto;
+		block-size: 26px;
+		object-fit: contain;
+	}
+
+	.pi-brand span {
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+	}
+
+	.pi-nav__links {
+		display: flex;
+		gap: 22px;
+	}
+
+	.pi-nav__links a {
+		font-size: 0.82rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		text-decoration: none;
+	}
+
+	.pi-nav__links a:hover {
+		color: var(--serene-accent);
+	}
+
+	.pi-head {
+		padding-block: 40px 28px;
+	}
+
+	.pi-head h1 {
+		margin: 0 0 18px;
+		padding-block-end: 8px;
+		border-block-end: 1px solid var(--border-subtle);
+		font-family: var(--font-display);
+		font-size: clamp(1.9rem, 3vw, 2.6rem);
+		font-weight: 600;
+		line-height: 1.15;
+		color: var(--almasa-blue);
+	}
+
+	.pi-filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+	}
+
+	.pi-filter {
+		padding: 7px 16px;
+		border: 1px solid var(--surface-soft-border);
+		border-radius: 999px;
+		background: #fff;
+		color: var(--almasa-blue);
+		font: 500 0.82rem var(--font-ui);
+		cursor: pointer;
+		transition: background 0.2s ease, color 0.2s ease;
+	}
+
+	.pi-filter:hover {
+		background: var(--surface-soft);
+	}
+
+	.pi-filter.is-active {
+		background: var(--almasa-blue);
+		border-color: var(--almasa-blue);
+		color: #fff;
+	}
+
+	.pi-count {
+		margin: 14px 0 0;
+		font-size: 0.8rem;
+		color: var(--text-muted);
+	}
+
+	.pi-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--layout-card-gap);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.pi-grid li[hidden] {
+		display: none;
+	}
+
+	.pi-card {
+		position: relative;
+		display: block;
+		overflow: hidden;
+		border-radius: 8px;
+		aspect-ratio: 3 / 2;
+		background: var(--surface-soft);
+		border: 1px solid var(--surface-soft-border);
+		color: #fff;
+		text-decoration: none;
+	}
+
+	.pi-card > img:not(.pi-card__mark) {
+		position: absolute;
+		inset: 0;
+		inline-size: 100%;
+		block-size: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.pi-card:hover > img:not(.pi-card__mark) {
+		transform: scale(1.04);
+	}
+
+	.pi-card__mark {
+		position: absolute;
+		inset-block-start: 38%;
+		inset-inline-start: 50%;
+		translate: -50% -50%;
+		inline-size: 90px;
+		block-size: auto;
+		opacity: 0.45;
+	}
+
+	.pi-card__caption {
+		position: absolute;
+		inset-inline: 0;
+		inset-block-end: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 2.4rem 20px 16px;
+		background: linear-gradient(to top, rgba(0, 16, 36, 0.74), transparent);
+	}
+
+	.is-empty .pi-card__caption {
+		background: none;
+		color: var(--almasa-blue);
+	}
+
+	.pi-card__name {
+		font-family: var(--font-display);
+		font-size: 1.3rem;
+		font-weight: 600;
+		line-height: 1.25;
+	}
+
+	.pi-card__meta {
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 1px;
+		text-transform: uppercase;
+		opacity: 0.85;
+	}
+
+	.pi-card:focus-visible,
+	.pi-filter:focus-visible {
+		outline: 2px solid var(--serene-accent);
+		outline-offset: 3px;
+	}
+
+	@media (max-width: 1100px) {
+		.pi-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 640px) {
+		.pi-grid {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+</style>

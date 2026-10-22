@@ -1,22 +1,24 @@
 ---
 import type { Locale } from '../data/locales';
+import ProjectsShowcase from './ProjectsShowcase.astro';
+import EducationalChannel from './EducationalChannel.astro';
+import SiteFooter from './SiteFooter.astro';
 
 interface Props {
 	locale: Locale;
 }
 
 interface HeroSlide {
-	kicker: string;
 	title: string;
-	location: string;
 	cta: string;
+	href?: string;
 	image: string;
 	alt: string;
 	videoDesktop?: string;
 	videoMobile?: string;
 }
 
-const { locale } = Astro.props;
+const locale = Astro.props.locale;
 const isArabic = locale === 'ar';
 
 const content = {
@@ -25,48 +27,56 @@ const content = {
 		menu: 'Menu',
 		close: 'Close',
 		nav: [
-			{ label: 'Selected Works', href: '#hero' },
-			{ label: 'Capabilities', href: '#hero' },
-			{ label: 'About', href: '#hero' },
-			{ label: 'Inquiry', href: '#hero' },
+			{ label: 'Selected Works', href: '/en/projects/' },
+			{ label: 'Approach', href: '/en/approach/' },
+			{ label: 'About', href: '/en/about/' },
+			{ label: 'Contact', href: '/en/contact/' },
 		],
 		slides: [
 			{
-				kicker: 'Current Project',
 				title: 'Al Alphy',
-				location: 'Real AL MASA project media',
 				cta: 'View Project',
-				image: '/assets/owner-confirmed/hero/al-alphy-hero-poster.jpg',
+				href: '/en/projects/al-alphy/',
+				image: '/assets/owner-confirmed/hero/hero-m-alphy-poster.jpg',
 				alt: 'Real AL MASA Al Alphy project video still',
-				videoDesktop: '/assets/owner-confirmed/hero/al-alphy-hero-desktop.mp4',
-				videoMobile: '/assets/owner-confirmed/hero/al-alphy-hero-mobile.mp4',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-alphy.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-alphy-720.mp4',
 			},
 			{
-				kicker: 'Landmark Contracting',
-				title: 'Architectural Structural Finishing',
-				location: 'Executive Developments, Egypt',
+				title: 'خيرات الرحمن',
 				cta: 'View Project',
-				image: '/assets/owner-confirmed/hero/hero-02-poster.jpg',
-				alt: 'Axial architectural view of a major AL MASA project',
-				videoDesktop: '/assets/owner-confirmed/hero/hero-02.mp4',
+				href: '/en/projects/khairat-rahman/',
+				image: '/assets/owner-confirmed/hero/hero-m-khairat-poster.jpg',
+				alt: 'Real AL MASA project footage: خيرات الرحمن',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-khairat.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-khairat-720.mp4',
 			},
 			{
-				kicker: 'Innovation & Academic Hubs',
-				title: 'CREATIVA Innovation Hub',
-				location: 'Tanta University',
+				title: 'مول الروبيكي',
 				cta: 'View Project',
-				image: '/assets/owner-confirmed/hero/hero-03-poster.jpg',
-				alt: 'CREATIVA Innovation Hub daylight exterior at Tanta University',
-				videoDesktop: '/assets/owner-confirmed/hero/hero-03.mp4',
+				href: '/en/projects/roubeky-mall/',
+				image: '/assets/owner-confirmed/hero/hero-m-roubeky-poster.jpg',
+				alt: 'Real AL MASA project footage: مول الروبيكي',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-roubeky.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-roubeky-720.mp4',
 			},
 			{
-				kicker: 'Institutional Headquarters',
-				title: 'Corporate & Civic Facilities',
-				location: 'New Administrative Capital',
+				title: 'مزرعة الخيول',
 				cta: 'View Project',
-				image: '/assets/owner-confirmed/hero/hero-04-poster.jpg',
-				alt: 'Aerial view of an AL MASA institutional project',
-				videoDesktop: '/assets/owner-confirmed/hero/hero-04.mp4',
+				href: '/en/projects/horse-farm/',
+				image: '/assets/owner-confirmed/hero/hero-m-horse-poster.jpg',
+				alt: 'Real AL MASA project footage: مزرعة الخيول',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-horse.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-horse-720.mp4',
+			},
+			{
+				title: 'المقطم',
+				cta: 'View Project',
+				href: '/en/projects/mokattam/',
+				image: '/assets/owner-confirmed/hero/hero-m-mokattam-poster.jpg',
+				alt: 'Real AL MASA project footage: المقطم',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-mokattam-clean2.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-mokattam-clean2.mp4',
 			},
 		] satisfies HeroSlide[],
 	},
@@ -82,92 +92,62 @@ const content = {
 		],
 		slides: [
 			{
-				kicker: 'مشروع حالي',
 				title: 'الألفي',
-				location: 'فيديو حقيقي من أعمال الماسة',
 				cta: 'عرض المشروع',
-				image: '/assets/owner-confirmed/hero/al-alphy-hero-poster.jpg',
+				image: '/assets/owner-confirmed/hero/hero-m-alphy-poster.jpg',
 				alt: 'لقطة فيديو حقيقية من مشروع الألفي للماسة',
-				videoDesktop: '/assets/owner-confirmed/hero/al-alphy-hero-desktop.mp4',
-				videoMobile: '/assets/owner-confirmed/hero/al-alphy-hero-mobile.mp4',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-alphy.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-alphy-720.mp4',
 			},
 			{
-				kicker: 'تنفيذ معماري',
-				title: 'أعمال تشطيبات إنشائية ومعمارية',
-				location: 'مصر',
+				title: 'خيرات الرحمن',
 				cta: 'عرض المشروع',
-				image: '/assets/owner-confirmed/hero/hero-02-poster.jpg',
-				alt: 'منظور معماري محوري لمشروع من أعمال الماسة',
-				videoDesktop: '/assets/owner-confirmed/hero/hero-02.mp4',
+				image: '/assets/owner-confirmed/hero/hero-m-khairat-poster.jpg',
+				alt: 'فيديو حقيقي من مشروع خيرات الرحمن',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-khairat.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-khairat-720.mp4',
 			},
 			{
-				kicker: 'مراكز ابتكار وتعليم',
-				title: 'مراكز إبداع مصر الرقمية',
-				location: 'جامعة طنطا',
+				title: 'مول الروبيكي',
 				cta: 'عرض المشروع',
-				image: '/assets/owner-confirmed/hero/hero-03-poster.jpg',
-				alt: 'واجهة مركز إبداع مصر الرقمية في جامعة طنطا',
-				videoDesktop: '/assets/owner-confirmed/hero/hero-03.mp4',
+				image: '/assets/owner-confirmed/hero/hero-m-roubeky-poster.jpg',
+				alt: 'فيديو حقيقي من مشروع مول الروبيكي',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-roubeky.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-roubeky-720.mp4',
 			},
 			{
-				kicker: 'منشآت مؤسسية',
-				title: 'منشآت مؤسسية ومدنية',
-				location: 'العاصمة الإدارية الجديدة',
+				title: 'مزرعة الخيول',
 				cta: 'عرض المشروع',
-				image: '/assets/owner-confirmed/hero/hero-04-poster.jpg',
-				alt: 'صورة جوية لمشروع مؤسسي من أعمال الماسة',
-				videoDesktop: '/assets/owner-confirmed/hero/hero-04.mp4',
+				image: '/assets/owner-confirmed/hero/hero-m-horse-poster.jpg',
+				alt: 'فيديو حقيقي من مشروع مزرعة الخيول',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-horse.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-horse-720.mp4',
+			},
+			{
+				title: 'المقطم',
+				cta: 'عرض المشروع',
+				image: '/assets/owner-confirmed/hero/hero-m-mokattam-poster.jpg',
+				alt: 'فيديو حقيقي من مشروع المقطم',
+				videoDesktop: '/assets/owner-confirmed/hero/hero-m-mokattam-clean2.mp4',
+				videoMobile: '/assets/owner-confirmed/hero/hero-m-mokattam-clean2.mp4',
 			},
 		] satisfies HeroSlide[],
 	},
 }[locale];
 
-const completedMega = {
-	en: {
-		title: 'Completed Projects',
-		projects: [
-			{
-				title: 'مزرعة الخيول',
-				location: 'New Administrative Capital',
-				image: '/assets/owner-confirmed/completed-mega/project-35-horse-farm.jpeg',
-				alt: 'Selected completed AL MASA mega project image for project 35',
-			},
-			{
-				title: 'المقطم',
-				location: 'Mokattam, Cairo',
-				image: '/assets/owner-confirmed/completed-mega/project-05-mokattam.jpeg',
-				alt: 'Selected completed AL MASA mega project image for project 5',
-			},
-		],
-	},
-	ar: {
-		title: 'المشاريع المنتهية',
-		projects: [
-			{
-				title: 'مزرعة الخيول',
-				location: 'العاصمة الإدارية',
-				image: '/assets/owner-confirmed/completed-mega/project-35-horse-farm.jpeg',
-				alt: 'صورة مختارة من مشروع مزرعة الخيول رقم 35 للماسة',
-			},
-			{
-				title: 'المقطم',
-				location: 'القاهرة - مدينة المقطم',
-				image: '/assets/owner-confirmed/completed-mega/project-05-mokattam.jpeg',
-				alt: 'صورة مختارة من مشروع المقطم رقم 5 للماسة',
-			},
-		],
-	},
+/**
+ * Section and subsection headings. Only owner-approved wording is used:
+ * المشاريع الكبرى / مشاريع أخرى with مكتملة and قيد التنفيذ.
+ */
+const megaHeadings = {
+	en: { title: 'Major Projects', completed: 'Completed', inProgress: 'Under construction' },
+	ar: { title: 'المشاريع الكبرى', completed: 'مكتملة', inProgress: 'قيد التنفيذ' },
 }[locale];
 
-const completedStandard = [
-	{
-		id: 9,
-		title: 'عرب اليسار',
-		image: '/assets/owner-confirmed/completed-standard/project-09-arab-al-yasar.jpg',
-		width: 1156,
-		height: 867,
-	},
-];
+const standardHeadings = {
+	en: { title: 'Other Projects', completed: 'Completed', inProgress: 'Under construction' },
+	ar: { title: 'مشاريع أخرى', completed: 'مكتملة', inProgress: 'قيد التنفيذ' },
+}[locale];
 ---
 
 <div class="owner-home" data-owner-home data-locale={locale}>
@@ -237,11 +217,10 @@ const completedStandard = [
 							)}
 							<div class="owner-hero__caption owner-hero__caption--desktop">
 								<div>
-									<p class="owner-hero__kicker">{slide.kicker}</p>
-									{index === 0 ? <h1>{slide.title}</h1> : <h2>{slide.title}</h2>}
-									<p class="owner-hero__location">{slide.location}</p>
+									{index === 0
+										? <h1><a class="owner-hero__title-link" href={slide.href ?? '#hero'} title={slide.cta}><span>{slide.title}</span><svg class="owner-hero__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></a></h1>
+										: <h2><a class="owner-hero__title-link" href={slide.href ?? '#hero'} title={slide.cta}><span>{slide.title}</span><svg class="owner-hero__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></a></h2>}
 								</div>
-								<a class="owner-hero__action" href="#hero">{slide.cta} <span aria-hidden="true">→</span></a>
 							</div>
 						</article>
 					))}
@@ -252,67 +231,81 @@ const completedStandard = [
 						<button
 							class:list={["owner-hero__indicator", { 'is-active': index === 0 }]}
 							type="button"
+							role="tab"
 							data-owner-hero-dot={index}
 							aria-label={`${isArabic ? 'الشريحة' : 'Slide'} ${index + 1}: ${slide.title}`}
 							aria-selected={index === 0 ? 'true' : 'false'}
 						>
-							<span>{String(index + 1).padStart(2, '0')}</span>
-							<span class="owner-hero__bar"><span></span></span>
+							<svg class="owner-hero__ring" viewBox="0 0 36 36" aria-hidden="true" focusable="false">
+								<circle class="owner-hero__ring-track" cx="18" cy="18" r="16" />
+								<circle class="owner-hero__ring-progress" cx="18" cy="18" r="16" pathLength="100" />
+							</svg>
+							<span class="owner-hero__dot"></span>
 						</button>
 					))}
 				</div>
+
+				<button class="owner-hero__fullscreen" type="button" data-owner-hero-fullscreen aria-pressed="false" aria-label={isArabic ? 'ملء الشاشة' : 'Full screen'}>
+					<svg class="owner-hero__fs-enter" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					<svg class="owner-hero__fs-exit" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+				</button>
 			</div>
 
-			<div class="owner-hero__caption owner-hero__caption--mobile" data-owner-mobile-caption>
-				<p class="owner-hero__kicker">{content.slides[0].kicker}</p>
-				<h1>{content.slides[0].title}</h1>
-				<p class="owner-hero__location">{content.slides[0].location}</p>
-				<a class="owner-hero__action" href="#hero">{content.slides[0].cta} <span aria-hidden="true">→</span></a>
-				<div class="owner-hero__mobile-dots" aria-label={isArabic ? 'اختيار الشريحة' : 'Choose hero slide'}>
-					{content.slides.map((slide, index) => (
-						<button class:list={["owner-hero__mobile-dot", { 'is-active': index === 0 }]} type="button" data-owner-hero-mobile-dot={index} aria-label={`${isArabic ? 'الشريحة' : 'Slide'} ${index + 1}: ${slide.title}`}></button>
-					))}
-				</div>
-			</div>
 		</div>
 	</section>
 
-	<section class="owner-completed-mega" id="completed-mega" aria-labelledby="completed-mega-title">
-		<div class="owner-container">
-			<div class="owner-section-header">
-				<h2 id="completed-mega-title">{completedMega.title}</h2>
-			</div>
+	<!-- Data-driven project showcase, one tier heading with two subsections.
+		     The earlier hardcoded "Completed Projects" mega block was removed under
+		     owner decision D3; its media lived in completed-mega/ and is gone. -->
+		<ProjectsShowcase
+			locale={locale}
+			title={megaHeadings.title}
+			label={megaHeadings.completed}
+			status="completed"
+			scale="mega"
+			columns={2}
+		/>
 
-			<div class="owner-mega-grid" aria-label={isArabic ? 'مشاريع كبرى منتهية مختارة' : 'Selected completed mega projects'}>
-				{completedMega.projects.map((project, index) => (
-					<article class:list={["owner-mega-card", { 'owner-mega-card--wide': index === 0 }]}>
-						<div class="owner-mega-card__media">
-							<img src={project.image} alt={project.alt} width={index === 0 ? '1040' : '1280'} height={index === 0 ? '780' : '720'} loading="lazy" decoding="async" />
-							<div class="owner-mega-card__caption">
-								<h3>{project.title}</h3>
-								<span>{project.location}</span>
-							</div>
-						</div>
-					</article>
-				))}
-			</div>
-		</div>
-	</section>
+		<ProjectsShowcase
+			locale={locale}
+			title={megaHeadings.title}
+			label={megaHeadings.inProgress}
+			status="in-progress"
+			scale="mega"
+			columns={2}
+			heading={false}
+		/>
 
-	<div class="owner-completed-standard" id="completed-standard" role="group" aria-labelledby="completed-mega-title">
-		<div class="owner-container">
-			<div class:list={['owner-standard-grid', { 'owner-standard-grid--single': completedStandard.length === 1 }]}>
-				{completedStandard.map((project) => (
-					<article class="owner-standard-card" data-project-id={project.id}>
-						<img src={project.image} alt={project.title} width={project.width} height={project.height} loading="lazy" decoding="async" />
-						<div class="owner-standard-card__caption">
-							<h3 lang="ar" dir="rtl">{project.title}</h3>
-						</div>
-					</article>
-				))}
-			</div>
-		</div>
-	</div>
+		<ProjectsShowcase
+			locale={locale}
+			title={standardHeadings.title}
+			label={standardHeadings.completed}
+			status="completed"
+			scale="standard"
+			columns={3}
+		/>
+
+		<ProjectsShowcase
+			locale={locale}
+			title={standardHeadings.title}
+			label={standardHeadings.inProgress}
+			status="in-progress"
+			scale="standard"
+			columns={4}
+			heading={false}
+		/>
+
+		<!-- Educational Channel: sample placeholders until the owner supplies videos. -->
+		<EducationalChannel locale={locale} />
+
+		<!-- The earlier hardcoded "Completed Standard" block was removed under owner
+			     decision D3's integration rule: its only card was #9, which is now
+			     rendered by the data-driven Normal Completed subsection, so keeping it
+			     would show #9 twice on the page. Its production media file
+			     completed-standard/project-09-arab-al-yasar.jpg is still the approved
+			     image for #9 and is now referenced from src/data/projects.ts. -->
+
+	{locale === 'en' && <SiteFooter />}
 </div>
 
 <script define:vars={{ slides: content.slides }}>
@@ -342,13 +335,12 @@ const completedStandard = [
 		const hero = ownerHome.querySelector('[data-owner-hero]');
 		const slideEls = Array.from(ownerHome.querySelectorAll('[data-owner-hero-slide]'));
 		const desktopDots = Array.from(ownerHome.querySelectorAll('[data-owner-hero-dot]'));
-		const mobileDots = Array.from(ownerHome.querySelectorAll('[data-owner-hero-mobile-dot]'));
-		const mobileCaption = ownerHome.querySelector('[data-owner-mobile-caption]');
 		const videos = Array.from(ownerHome.querySelectorAll('[data-owner-hero-video]'));
 		const mobileVideoQuery = window.matchMedia('(max-width: 860px)');
 		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 		let activeIndex = 0;
 		let timer;
+		let slideStartedAt = performance.now();
 
 		const configureVideoSource = (video) => {
 			if (!(video instanceof HTMLVideoElement)) return;
@@ -377,19 +369,6 @@ const completedStandard = [
 			startAuto();
 		});
 
-		const updateMobileCaption = (index) => {
-			if (!(mobileCaption instanceof HTMLElement)) return;
-			const slide = slides[index];
-			const kicker = mobileCaption.querySelector('.owner-hero__kicker');
-			const title = mobileCaption.querySelector('h1');
-			const location = mobileCaption.querySelector('.owner-hero__location');
-			const action = mobileCaption.querySelector('.owner-hero__action');
-			if (kicker) kicker.textContent = slide.kicker;
-			if (title) title.textContent = slide.title;
-			if (location) location.textContent = slide.location;
-			if (action) action.childNodes[0].textContent = `${slide.cta} `;
-		};
-
 		const showSlide = (index) => {
 			if (!slideEls.length) return;
 			activeIndex = (index + slideEls.length) % slideEls.length;
@@ -415,14 +394,18 @@ const completedStandard = [
 					}
 				}
 			});
-			[...desktopDots, ...mobileDots].forEach((dot) => {
+			desktopDots.forEach((dot) => {
 				if (!(dot instanceof HTMLElement)) return;
-				const dotIndex = Number(dot.dataset.ownerHeroDot ?? dot.dataset.ownerHeroMobileDot ?? 0);
+				const dotIndex = Number(dot.dataset.ownerHeroDot ?? 0);
 				const active = dotIndex === activeIndex;
 				dot.classList.toggle('is-active', active);
 				dot.setAttribute('aria-selected', String(active));
 			});
-			updateMobileCaption(activeIndex);
+			slideStartedAt = performance.now();
+			desktopDots.forEach((dot) => dot instanceof HTMLElement && dot.style.setProperty('--progress', '0'));
+			// Start loading the next video so the switch feels instant.
+			const nextVideo = slideEls[(activeIndex + 1) % slideEls.length]?.querySelector('[data-owner-hero-video]');
+			if (nextVideo instanceof HTMLVideoElement && nextVideo.preload !== 'auto') nextVideo.preload = 'auto';
 		};
 
 		const stopAuto = () => {
@@ -461,13 +444,93 @@ const completedStandard = [
 			});
 		});
 
-		[...desktopDots, ...mobileDots].forEach((dot) => {
+		desktopDots.forEach((dot) => {
 			if (!(dot instanceof HTMLButtonElement)) return;
 			dot.addEventListener('click', () => {
-				showSlide(Number(dot.dataset.ownerHeroDot ?? dot.dataset.ownerHeroMobileDot ?? 0));
+				showSlide(Number(dot.dataset.ownerHeroDot ?? 0));
 				startAuto();
 			});
 		});
+
+		// Progress ring: fills as the active video plays, resets on the next slide.
+		const tickProgress = () => {
+			const dot = desktopDots[activeIndex];
+			const video = slideEls[activeIndex]?.querySelector('[data-owner-hero-video]');
+			let value = 0;
+			if (video instanceof HTMLVideoElement && Number.isFinite(video.duration) && video.duration > 0) {
+				value = (video.currentTime / video.duration) * 100;
+			} else {
+				value = ((performance.now() - slideStartedAt) / 6200) * 100;
+			}
+			if (dot instanceof HTMLElement) dot.style.setProperty('--progress', String(Math.max(0, Math.min(100, value))));
+			window.requestAnimationFrame(tickProgress);
+		};
+		window.requestAnimationFrame(tickProgress);
+
+		// Full screen: the whole hero (picture, caption, dots) goes full screen, so
+		// the slides keep playing and moving on exactly as they do on the page.
+		const fsButton = hero?.querySelector('[data-owner-hero-fullscreen]');
+		const fsTarget = hero?.querySelector('.owner-hero__frame');
+		if (fsButton instanceof HTMLButtonElement && fsTarget instanceof HTMLElement) {
+			const isFull = () => document.fullscreenElement === fsTarget || fsTarget.classList.contains('is-pseudo-fullscreen');
+			const syncFull = () => {
+				const on = isFull();
+				fsTarget.classList.toggle('is-fullscreen', on);
+				fsButton.setAttribute('aria-pressed', String(on));
+			};
+			const enterFull = async () => {
+				if (fsTarget.requestFullscreen) {
+					try {
+						await fsTarget.requestFullscreen();
+						syncFull();
+						return;
+					} catch (error) {}
+				}
+				// Phones that cannot full-screen a page element: fill the window instead.
+				fsTarget.classList.add('is-pseudo-fullscreen');
+				document.body.style.overflow = 'hidden';
+				syncFull();
+			};
+			const exitFull = () => {
+				if (document.fullscreenElement) document.exitFullscreen();
+				fsTarget.classList.remove('is-pseudo-fullscreen');
+				document.body.style.overflow = '';
+				syncFull();
+			};
+			fsButton.addEventListener('click', () => (isFull() ? exitFull() : enterFull()));
+			document.addEventListener('fullscreenchange', syncFull);
+			document.addEventListener('keydown', (event) => {
+				if (event.key === 'Escape' && fsTarget.classList.contains('is-pseudo-fullscreen')) exitFull();
+			});
+		}
+
+		// Swipe left or right on touch screens to change slide.
+		const heroFrame = hero?.querySelector('.owner-hero__frame');
+		if (heroFrame instanceof HTMLElement) {
+			let startX = 0;
+			let startY = 0;
+			let tracking = false;
+			heroFrame.addEventListener('pointerdown', (event) => {
+				if (event.pointerType === 'mouse') return;
+				startX = event.clientX;
+				startY = event.clientY;
+				tracking = true;
+			});
+			heroFrame.addEventListener('pointercancel', () => {
+				tracking = false;
+			});
+			heroFrame.addEventListener('pointerup', (event) => {
+				if (!tracking) return;
+				tracking = false;
+				const dx = event.clientX - startX;
+				const dy = event.clientY - startY;
+				if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+				const rtl = document.documentElement.dir === 'rtl';
+				const forward = rtl ? dx > 0 : dx < 0;
+				showSlide(activeIndex + (forward ? 1 : -1));
+				startAuto();
+			});
+		}
 
 		hero?.addEventListener('mouseenter', stopAuto);
 		hero?.addEventListener('mouseleave', startAuto);
@@ -503,19 +566,19 @@ const completedStandard = [
 		overflow-x: clip;
 	}
 
+	/* Arabic has no footer yet, so keep the old bottom space there. */
+	.owner-home[data-locale='ar'] {
+		padding-block-end: var(--layout-section-space);
+	}
+
 	.owner-home *,
 	.owner-home *::before,
 	.owner-home *::after {
 		box-sizing: border-box;
 	}
 
-	.owner-container {
-		inline-size: 100%;
-		max-inline-size: 1800px;
-		margin-inline: auto;
-		padding-inline: 28px;
-		box-sizing: border-box;
-	}
+	/* .owner-container (side gap + max width) lives in src/styles/global.css.
+	   It must stay global so every component shares the same frame. */
 
 	.owner-nav {
 		position: sticky;
@@ -588,11 +651,13 @@ const completedStandard = [
 		padding-block-start: 16px;
 	}
 
+	/* Fills the first screen under the nav, but never gets taller than a 16:9
+	   picture of the same width, so the video is cropped as little as possible. */
 	.owner-hero__frame {
 		position: relative;
-		block-size: 76vh;
-		min-block-size: 500px;
-		max-block-size: 660px;
+		block-size: clamp(480px, min(calc(100vh - 94px), calc((100vw - 2 * var(--layout-gutter)) * 0.5625)), 1100px);
+		block-size: clamp(480px, min(calc(100svh - 94px), calc((100vw - 2 * var(--layout-gutter)) * 0.5625)), 1100px);
+		touch-action: pan-y;
 		border: 1px solid var(--surface-soft-border);
 		border-radius: 8px;
 		background: #001224;
@@ -620,45 +685,44 @@ const completedStandard = [
 		visibility: visible;
 	}
 
+	/* Like Foster: the video fills the frame edge to edge. On desktop the frame is
+	   16:9, so almost nothing is cut; on phones the sides are trimmed. */
 	.owner-hero__slide img,
 	.owner-hero__video {
 		object-fit: cover;
-		object-position: center 46%;
+		object-position: center;
 	}
 
+	.owner-hero__video {
+		z-index: 1;
+	}
+
+	/* Title and a tiny round arrow button sit just above the dots, centred. */
 	.owner-hero__caption--desktop {
 		position: absolute;
-		inset-inline: 0;
-		inset-block-end: 0;
+		inset: 0;
 		z-index: 3;
 		display: flex;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 28px;
-		padding: 3.5rem 2.25rem 2rem;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 10px;
+		padding: 5rem 1.5rem 3.4rem;
+		text-align: center;
 		color: #fff;
-		background: linear-gradient(180deg, rgba(0, 20, 42, 0) 0%, rgba(0, 20, 42, 0.45) 40%, rgba(0, 24, 52, 0.85) 100%);
+		background: linear-gradient(180deg, rgba(0, 18, 36, 0) 55%, rgba(0, 18, 36, 0.5) 100%);
+		pointer-events: none;
 	}
 
 	.owner-hero__caption--desktop > div {
-		max-inline-size: 65%;
-	}
-
-	.owner-hero__kicker {
-		margin: 0 0 4px;
-		font-size: 0.74rem;
-		font-weight: 600;
-		letter-spacing: 1.2px;
-		line-height: 1.2;
-		text-transform: uppercase;
-		color: #67e8f9;
+		max-inline-size: min(760px, 90%);
 	}
 
 	.owner-hero h1,
 	.owner-hero h2 {
 		margin: 0;
 		font-family: var(--font-display);
-		font-size: 2.1rem;
+		font-size: 1.45rem;
 		font-weight: 600;
 		line-height: 1.15;
 		letter-spacing: 0.2px;
@@ -666,181 +730,213 @@ const completedStandard = [
 		text-wrap: balance;
 	}
 
-	.owner-hero__location {
-		margin: 4px 0 0;
-		font-size: 0.85rem;
-		color: rgba(255, 255, 255, 0.88);
-	}
-
-	.owner-hero__action {
+	/* The project name is the link, drawn as a soft glass pill with a fine arrow
+	   after it, so it reads as a button on touch screens too. */
+	.owner-hero__title-link {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
-		padding: 8px 16px;
-		border: 1px solid rgba(103, 232, 249, 0.35);
-		border-radius: 6px;
-		background: rgba(0, 58, 107, 0.45);
-		color: #67e8f9;
-		font-size: 0.86rem;
-		font-weight: 600;
+		gap: 0.6em;
+		padding: 0.4em 0.9em;
+		border: 1px solid rgba(255, 255, 255, 0.5);
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.08);
+		color: #fff;
 		text-decoration: none;
-		white-space: nowrap;
-		backdrop-filter: blur(10px);
-		transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+		pointer-events: auto;
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		transition: background 0.25s ease, border-color 0.25s ease;
 	}
 
-	.owner-hero__action:hover,
-	.owner-hero__action:focus-visible {
-		background: rgba(8, 145, 178, 0.55);
-		border-color: #67e8f9;
-		transform: translateY(-1px);
+	.owner-hero__arrow {
+		inline-size: 0.8em;
+		block-size: 0.8em;
+		flex: none;
+		opacity: 0.75;
+		transition: opacity 0.25s ease, transform 0.25s ease;
 	}
 
+	:global([dir='rtl']) .owner-hero {
+		--arrow-dir: -1;
+	}
+
+	:global([dir='rtl']) .owner-hero__arrow {
+		transform: scaleX(-1);
+	}
+
+	/* A small nudge of the arrow every few seconds on the slide on screen. */
+	.owner-hero__slide.is-active .owner-hero__arrow {
+		animation: owner-hero-nudge 4.5s ease-in-out 1.2s infinite;
+	}
+
+	@keyframes owner-hero-nudge {
+		0%, 14%, 100% { translate: 0 0; }
+		7% { translate: calc(var(--arrow-dir, 1) * 5px) 0; }
+	}
+
+	.owner-hero__title-link:hover,
+	.owner-hero__title-link:focus-visible {
+		border-color: rgba(255, 255, 255, 0.95);
+		background: rgba(255, 255, 255, 0.18);
+	}
+
+	.owner-hero__title-link:hover .owner-hero__arrow,
+	.owner-hero__title-link:focus-visible .owner-hero__arrow {
+		opacity: 1;
+		translate: calc(var(--arrow-dir, 1) * 3px) 0;
+	}
+
+	/* Dots at the bottom centre. The active dot gets a ring that fills while its
+	   video plays, then jumps to the next dot. Every dot is clickable. */
 	.owner-hero__indicators {
 		position: absolute;
-		inset-block-start: 24px;
-		inset-inline-end: 28px;
+		inset-block-end: 20px;
+		inset-inline: 0;
+		margin-inline: auto;
+		inline-size: max-content;
 		z-index: 5;
 		display: flex;
 		align-items: center;
-		gap: 6px;
-		padding: 4px 8px;
-		border: 1px solid rgba(255, 255, 255, 0.12);
-		border-radius: 20px;
-		background: rgba(0, 20, 42, 0.5);
-		backdrop-filter: blur(12px);
+		gap: 4px;
 	}
 
 	.owner-hero__indicator {
-		display: inline-flex;
-		align-items: center;
-		gap: 6px;
-		padding: 4px 8px;
-		border: 0;
-		border-radius: 12px;
-		background: transparent;
-		color: rgba(255, 255, 255, 0.6);
-		font-size: 0.72rem;
-		font-weight: 500;
-		letter-spacing: 0.5px;
-		cursor: pointer;
-		transition: color 0.2s ease, background 0.2s ease;
-	}
-
-	.owner-hero__indicator.is-active {
-		background: rgba(8, 145, 178, 0.35);
-		color: #fff;
-	}
-
-	.owner-hero__bar {
 		position: relative;
-		display: inline-block;
-		inline-size: 24px;
-		block-size: 2px;
-		border-radius: 1px;
-		background: rgba(255, 255, 255, 0.2);
-		overflow: hidden;
+		display: grid;
+		place-items: center;
+		inline-size: 28px;
+		block-size: 28px;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
 	}
 
-	.owner-hero__bar span {
-		display: block;
-		inline-size: 0%;
-		block-size: 100%;
-		background: #67e8f9;
+	.owner-hero__dot {
+		inline-size: 6px;
+		block-size: 6px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.55);
+		transition: background 0.2s ease;
 	}
 
-	.owner-hero__indicator.is-active .owner-hero__bar span {
-		inline-size: 100%;
+	.owner-hero__indicator:hover .owner-hero__dot,
+	.owner-hero__indicator.is-active .owner-hero__dot {
+		background: #fff;
 	}
 
-	.owner-hero__caption--mobile,
-	.owner-drawer {
+	/* A thin ring only a hair away from the dot, drawn at 13px. */
+	.owner-hero__ring {
+		position: absolute;
+		inset-block-start: 50%;
+		inset-inline-start: 50%;
+		inline-size: 13px;
+		block-size: 13px;
+		margin: -6.5px 0 0 -6.5px;
+		transform: rotate(-90deg);
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.2s ease;
+	}
+
+	:global([dir='rtl']) .owner-hero__ring {
+		margin: -6.5px -6.5px 0 0;
+	}
+
+	.owner-hero__ring circle {
+		fill: none;
+		stroke-width: 3;
+	}
+
+	.owner-hero__ring-track {
+		stroke: rgba(255, 255, 255, 0.3);
+	}
+
+	.owner-hero__ring-progress {
+		stroke: #fff;
+		stroke-linecap: round;
+		stroke-dasharray: 100;
+		stroke-dashoffset: calc(100 - var(--progress, 0));
+	}
+
+	.owner-hero__indicator.is-active .owner-hero__ring {
+		opacity: 1;
+	}
+
+	.owner-hero__fullscreen {
+		position: absolute;
+		inset-block-start: 16px;
+		inset-inline-end: 16px;
+		z-index: 6;
+		display: grid;
+		place-items: center;
+		inline-size: 40px;
+		block-size: 40px;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.28);
+		border-radius: 50%;
+		background: rgba(0, 20, 42, 0.38);
+		color: #fff;
+		cursor: pointer;
+		backdrop-filter: blur(8px);
+		transition: background 0.2s ease, border-color 0.2s ease;
+	}
+
+	.owner-hero__fullscreen:hover,
+	.owner-hero__fullscreen:focus-visible {
+		background: rgba(0, 20, 42, 0.7);
+		border-color: rgba(255, 255, 255, 0.6);
+	}
+
+	.owner-hero__fullscreen:focus-visible {
+		outline: 2px solid #fff;
+		outline-offset: 2px;
+	}
+
+	.owner-hero__fs-exit,
+	.owner-hero__frame.is-fullscreen .owner-hero__fs-enter {
 		display: none;
 	}
 
-	.owner-completed-mega {
-		padding-block-start: 56px;
-	}
-
-	.owner-completed-mega > .owner-container {
-		max-inline-size: 1440px;
-	}
-
-	.owner-section-header {
-		display: flex;
-		align-items: baseline;
-		justify-content: space-between;
-		gap: 18px;
-		margin-block-end: 16px;
-		padding-block-end: 8px;
-		border-block-end: 1px solid var(--border-subtle);
-	}
-
-	.owner-section-header h2 {
-		margin: 0;
-		font-family: var(--font-display);
-		font-size: 1.45rem;
-		font-weight: 600;
-		line-height: 1.2;
-		color: var(--almasa-blue);
-	}
-
-	.owner-mega-grid {
-		display: grid;
-		grid-template-columns: minmax(0, 3fr) minmax(0, 4fr);
-		align-items: start;
-		gap: 18px;
-	}
-
-	.owner-mega-card {
-		min-inline-size: 0;
-	}
-
-	.owner-mega-card__media {
-		position: relative;
-		border: 1px solid var(--surface-soft-border);
-		border-radius: 8px;
-		overflow: hidden;
-	}
-
-	.owner-mega-card__media img {
-		inline-size: 100%;
-		block-size: auto;
+	.owner-hero__frame.is-fullscreen .owner-hero__fs-exit {
 		display: block;
 	}
 
-	.owner-mega-card__caption {
-		position: absolute;
-		inset-inline: 0;
-		inset-block-end: 0;
-		z-index: 2;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		justify-content: flex-end;
-		gap: 2px;
-		padding: 2.5rem 28px 22px;
-		background: linear-gradient(to top, rgba(0, 16, 36, 0.72) 0%, rgba(0, 16, 36, 0.28) 60%, transparent 100%);
-		pointer-events: none;
+	/* Full screen (real or the fallback used on phones). */
+	.owner-hero__frame.is-pseudo-fullscreen {
+		position: fixed;
+		inset: 0;
+		z-index: 1000;
+		inline-size: 100vw;
+		block-size: 100vh;
+		block-size: 100dvh;
+		max-block-size: none;
+		min-block-size: 0;
 	}
 
-	.owner-mega-card__caption h3 {
-		margin: 0;
-		font-family: var(--font-display);
-		font-size: 1.3rem;
-		font-weight: 600;
-		line-height: 1.2;
-		letter-spacing: 0.2px;
-		color: #fff;
-		text-shadow: 0 1px 3px rgba(0, 14, 30, 0.65);
+	.owner-hero__frame.is-fullscreen {
+		max-block-size: none;
+		border: 0;
+		border-radius: 0;
 	}
 
-	.owner-mega-card__caption span {
-		font-size: 0.78rem;
-		font-weight: 500;
-		letter-spacing: 0.3px;
-		color: rgba(255, 255, 255, 0.88);
-		text-shadow: 0 1px 2px rgba(0, 14, 30, 0.65);
+	.owner-hero__frame.is-fullscreen .owner-hero__caption--desktop {
+		gap: 14px;
+		padding-block-end: 4.4rem;
+	}
+
+
+	.owner-hero__frame.is-fullscreen h1,
+	.owner-hero__frame.is-fullscreen h2 {
+		font-size: clamp(1.5rem, 2.2vw, 2.8rem);
+	}
+
+	.owner-hero__frame.is-fullscreen .owner-hero__indicators {
+		inset-block-end: 28px;
+	}
+
+	.owner-drawer {
+		display: none;
 	}
 
 	.owner-brand:focus-visible,
@@ -849,26 +945,16 @@ const completedStandard = [
 	.owner-drawer button:focus-visible,
 	.owner-drawer a:focus-visible,
 	.owner-hero__indicator:focus-visible,
-	.owner-hero__mobile-dot:focus-visible,
-	.owner-hero__action:focus-visible {
+	.owner-hero__title-link:focus-visible {
 		outline: 2px solid var(--serene-accent);
 		outline-offset: 3px;
 	}
 
 	:global([dir='rtl']) .owner-hero__caption--desktop {
-		text-align: start;
-	}
-
-	:global([dir='rtl']) .owner-hero__indicators {
-		inset-inline-start: 28px;
-		inset-inline-end: auto;
+		text-align: center;
 	}
 
 	@media (max-width: 860px) {
-		.owner-container {
-			padding-inline: 16px;
-		}
-
 		.owner-nav {
 			block-size: 52px;
 		}
@@ -999,187 +1085,49 @@ const completedStandard = [
 			padding-block-start: 12px;
 		}
 
+		/* Always fills the frame width. Height follows the old 4:5 shape at phone
+		   widths (125vw minus the two gutters x1.25) and is capped at 520px, so the
+		   frame grows taller instead of shrinking sideways on wider screens. */
 		.owner-hero__frame {
-			block-size: auto;
-			min-block-size: 380px;
-			max-block-size: 520px;
-			aspect-ratio: 4 / 5;
+			inline-size: 100%;
+			block-size: clamp(380px, calc(125vw - 2.5 * var(--layout-gutter)), 520px);
+			min-block-size: 0;
+			max-block-size: none;
+			aspect-ratio: auto;
 		}
 
-		.owner-hero__slide img,
-		.owner-hero__video {
-			object-position: center 36%;
-		}
 
-		.owner-hero__caption--desktop,
-		.owner-hero__indicators {
-			display: none;
-		}
-
-		.owner-hero__caption--mobile {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+		/* Phones: title and button just above the dots, dots at the bottom. */
+		.owner-hero__caption--desktop {
 			gap: 8px;
-			margin-block-start: 12px;
-			padding: 20px 16px 18px;
-			border: 1px solid var(--surface-soft-border);
-			border-radius: 8px;
-			background: var(--surface-soft);
-			text-align: center;
+			padding: 4rem 16px 3rem;
 		}
 
-		.owner-hero__caption--mobile .owner-hero__kicker {
-			color: var(--serene-accent);
+		.owner-hero__caption--desktop > div {
+			max-inline-size: 100%;
 		}
 
-		.owner-hero__caption--mobile h1 {
-			max-inline-size: min(100%, 310px);
-			font-size: 1.7rem;
+		.owner-hero h1,
+		.owner-hero h2 {
+			font-size: 1.15rem;
 			line-height: 1.18;
-			color: var(--almasa-blue);
-			overflow-wrap: normal;
 		}
 
-		.owner-hero__caption--mobile .owner-hero__location {
-			margin-block-start: 2px;
-			color: var(--text-secondary);
-		}
 
-		.owner-hero__caption--mobile .owner-hero__action {
-			margin-block-start: 6px;
-			padding: 10px 22px;
-			border-color: var(--almasa-blue);
-			background: var(--almasa-blue);
-			color: #fff;
-			box-shadow: 0 1px 3px rgba(0, 58, 107, 0.15);
+		.owner-hero__indicators {
+			inset-block-end: 10px;
 		}
+}
 
-		.owner-hero__mobile-dots {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			gap: 8px;
-			margin-block-start: 4px;
-		}
-
-		.owner-hero__mobile-dot {
-			inline-size: 8px;
-			block-size: 8px;
-			padding: 0;
-			border: 0;
-			border-radius: 999px;
-			background: rgba(0, 58, 107, 0.22);
-			cursor: pointer;
-		}
-
-		.owner-hero__mobile-dot.is-active {
-			inline-size: 22px;
-			background: var(--serene-accent);
-		}
-
-		.owner-completed-mega {
-			padding-block-start: 38px;
-		}
-
-		.owner-section-header {
-			flex-wrap: wrap;
-			gap: 6px 12px;
-			margin-block-end: 14px;
-		}
-
-		.owner-section-header h2 {
-			font-size: 1.35rem;
-		}
-
-		.owner-mega-grid {
-			grid-template-columns: minmax(0, 1fr);
-			gap: 14px;
-		}
-
-		.owner-mega-card__caption {
-			padding: 2.2rem 16px 16px;
-			background: linear-gradient(to top, rgba(0, 16, 36, 0.78) 0%, rgba(0, 16, 36, 0.28) 60%, transparent 100%);
-		}
-
-		.owner-mega-card__caption h3 {
-			font-size: 1.25rem;
-		}
+@media (prefers-reduced-motion: reduce) {
+	.owner-hero__slide,
+	.owner-drawer,
+	.owner-hero__title-link {
+		transition: none;
 	}
 
-	.owner-completed-standard {
-		padding-block: 28px 56px;
+	.owner-hero__slide.is-active .owner-hero__arrow {
+		animation: none;
 	}
-
-	.owner-completed-standard > .owner-container {
-		max-inline-size: 1080px;
-	}
-
-	.owner-standard-grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		align-items: start;
-		gap: 18px;
-	}
-
-	.owner-standard-grid--single {
-		grid-template-columns: minmax(0, 640px);
-		justify-content: center;
-	}
-
-	.owner-standard-card {
-		position: relative;
-		min-inline-size: 0;
-		border-radius: 8px;
-		overflow: hidden;
-	}
-
-	.owner-standard-card img {
-		width: 100%;
-		height: auto;
-		display: block;
-	}
-
-	.owner-standard-card__caption {
-		position: absolute;
-		inset-inline: 0;
-		inset-block-end: 0;
-		padding: 2.5rem 20px 18px;
-		background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent);
-		pointer-events: none;
-	}
-
-	.owner-standard-card__caption h3 {
-		margin: 0;
-		font-family: var(--font-display);
-		font-size: 1.15rem;
-		font-weight: 600;
-		line-height: 1.3;
-		color: #fff;
-		text-align: match-parent;
-		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
-	}
-
-	@media (max-width: 860px) {
-		.owner-completed-standard {
-			padding-block: 24px 38px;
-		}
-
-		.owner-standard-grid {
-			grid-template-columns: minmax(0, 1fr);
-			gap: 14px;
-		}
-
-		.owner-standard-card__caption {
-			padding: 2.2rem 16px 16px;
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.owner-hero__slide,
-		.owner-drawer,
-		.owner-hero__action {
-			transition: none;
-		}
-	}
+}
 </style>

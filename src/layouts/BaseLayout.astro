@@ -1,8 +1,8 @@
 ---
-import { Font } from 'astro:assets';
+import * as AstroAssets from 'astro:assets';
 import '../styles/global.css';
 import SiteShell from '../components/SiteShell.astro';
-import { getLocaleMeta } from '../utils/locale';
+import * as localeUtils from '../utils/locale';
 import type { Locale } from '../data/locales';
 
 interface Props {
@@ -10,8 +10,9 @@ interface Props {
 	title: string;
 }
 
-const { locale, title } = Astro.props;
-const localeMeta = getLocaleMeta(locale);
+const locale = Astro.props.locale;
+const title = Astro.props.title;
+const localeMeta = localeUtils.getLocaleMeta(locale);
 ---
 
 <html lang={localeMeta.lang} dir={localeMeta.dir}>
@@ -24,8 +25,8 @@ const localeMeta = getLocaleMeta(locale);
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-		<Font cssVariable="--font-jost" />
-		<Font cssVariable="--font-poppins" />
+		<AstroAssets.Font cssVariable="--font-jost" />
+		<AstroAssets.Font cssVariable="--font-poppins" />
 		<title>{title}</title>
 	</head>
 	<body>

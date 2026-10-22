@@ -1,0 +1,363 @@
+---
+import ProjectCard from './ProjectCard.astro';
+import * as projectsData from '../data/projects';
+import * as showcaseLabels from '../data/showcase-labels';
+
+const locale = Astro.props.locale;
+const title = Astro.props.title;
+const label = Astro.props.label;
+const status = Astro.props.status;
+const scale = Astro.props.scale;
+const columns = Astro.props.columns;
+const heading = Astro.props.heading ?? true;
+
+const headingId = 'projects-' + scale + '-' + status;
+
+/**
+ * Owner direction: every card in a subsection sits on one equal-width row.
+ * No 68fr/32fr weighting, no dominant/secondary pairing. Order follows the
+ * inventory so the sequence is stable and data-driven.
+ *
+ * Column count is per-section, because the tier is a grid of equal cards whose
+ * count follows the owner's approved selection:
+ *   4 cards -> 2 columns (two rows of two)   2 cards -> 2 columns
+ *   6 cards -> 3 columns (two rows of three)
+ */
+const cards = projectsData.selectShowcaseProjects(status, scale);
+
+/**
+ * One placeholder href per tier. Both subsections of the same tier share
+ * this single destination. The actual page is not created yet.
+ */
+const viewAllHref = locale === 'en' ? '/en/projects/' : scale === 'mega' ? '#mega-projects' : '#standard-projects';
+---
+
+<section
+	class="owner-projects"
+	data-projects-scale={scale}
+	data-projects-status={status}
+	data-projects-carousel
+	aria-labelledby={heading ? headingId : undefined}
+>
+	<div class="owner-container">
+		{
+			heading && (
+				<header class="owner-projects__header">
+					<h2 id={headingId}>{title}</h2>
+					<a class="owner-projects__view-all" href={viewAllHref}>
+						<span>{showcaseLabels.viewAllLabels[locale]}</span>
+						<span aria-hidden="true">&rarr;</span>
+					</a>
+				</header>
+			)
+		}
+
+		<p class="owner-projects__label" id={`${headingId}-label`}>
+			{label}
+		</p>
+
+		<ul class="owner-projects__grid" aria-labelledby={`${headingId}-label`} style={`--owner-projects-columns: ${columns}`}>
+			{
+				cards.map((project) => (
+					<li class="owner-projects__item">
+						<ProjectCard project={project} href={locale === 'en' ? '/en/projects/' + project.slug + '/' : undefined} />
+					</li>
+				))
+			}
+		</ul>
+
+		{
+			cards.length > 1 && (
+				<div class="owner-projects__controls">
+					<div class="owner-projects__dots" role="group" aria-labelledby={`${headingId}-label`}>
+						{cards.map((project, index) => (
+							<button
+								type="button"
+								class:list={['owner-projects__dot', { 'is-active': index === 0 }]}
+								data-projects-dot={index}
+								aria-label={`${index + 1} / ${cards.length}`}
+								aria-current={index === 0 ? 'true' : undefined}
+							></button>
+						))}
+					</div>
+					<p class="owner-projects__counter" aria-hidden="true">
+						<span data-projects-current>1</span> / {cards.length}
+					</p>
+				</div>
+			)
+		}
+
+		<p class="owner-visually-hidden">{showcaseLabels.statusLabels[locale][status]}</p>
+	</div>
+</section>
+
+<style>
+	/* All page spacing comes from the --layout-* tokens in src/styles/global.css.
+	   Do not type raw side margins or section gaps here. */
+	.owner-projects {
+		padding-block: var(--layout-section-space) 0;
+	}
+
+	/* Section header: hairline bottom border, small serif title, muted link
+	   on the inline end. Palette is inherited from the page; nothing here
+	   overrides the project colours. */
+	.owner-projects__header {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 18px;
+		margin-block-end: 16px;
+		padding-block-end: 8px;
+		border-block-end: 1px solid var(--border-subtle);
+	}
+
+	.owner-projects__header h2 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.45rem;
+		font-weight: 600;
+		line-height: 1.2;
+		letter-spacing: 0.2px;
+		color: var(--almasa-blue);
+	}
+
+	/* View All Projects link: muted section-link treatment from the reference */
+	.owner-projects__view-all {
+		font-family: var(--font-ui);
+		font-size: 0.82rem;
+		font-weight: 500;
+		color: var(--serene-accent);
+		text-decoration: none;
+		transition: color 0.2s ease, transform 0.2s ease;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		white-space: nowrap;
+	}
+
+	.owner-projects__view-all:hover {
+		color: var(--serene-accent-hover);
+		transform: translateX(2px);
+	}
+
+	/* Subsection label: enlarged and restyled for visual importance comparable
+	   to tier headings, while remaining secondary. */
+	.owner-projects__label {
+		margin: 26px 0 14px;
+		font-family: var(--font-display);
+		font-size: 1.15rem;
+		font-weight: 600;
+		letter-spacing: 0.3px;
+		color: var(--almasa-blue);
+	}
+
+	.owner-visually-hidden {
+		position: absolute;
+		inline-size: 1px;
+		block-size: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	/* Equal-width columns on desktop. Card images are all 3:2, so every card in
+	   a row has the same height. */
+	.owner-projects__grid {
+		display: grid;
+		grid-template-columns: repeat(var(--owner-projects-columns, 3), minmax(0, 1fr));
+		align-items: start;
+		gap: var(--layout-card-gap);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.owner-projects__item {
+		min-inline-size: 0;
+		margin: 0;
+		padding: 0;
+	}
+
+	/* Slide controls are a phone feature. Hidden on desktop. */
+	.owner-projects__controls {
+		display: none;
+	}
+
+	@media (max-width: 860px) {
+		.owner-projects__header {
+			gap: 6px 12px;
+			margin-block-end: 14px;
+		}
+
+		.owner-projects__header h2 {
+			font-size: 1.35rem;
+		}
+
+		.owner-projects__label {
+			margin: 18px 0 12px;
+			font-size: 1.05rem;
+		}
+
+		/* Mobile: one full-width card at a time, swipe sideways. Each card is
+		   exactly as wide as the page frame, so no edge of a neighbouring card
+		   ever shows. The position is shown by the dots and counter below. */
+		.owner-projects__grid {
+			display: flex;
+			flex-direction: row;
+			gap: var(--layout-card-gap);
+			inline-size: 100%;
+			overflow-x: auto;
+			overflow-y: hidden;
+			scroll-snap-type: x mandatory;
+			overscroll-behavior-x: contain;
+			-webkit-overflow-scrolling: touch;
+			scrollbar-width: none;
+		}
+
+		.owner-projects__grid::-webkit-scrollbar {
+			display: none;
+		}
+
+		.owner-projects__item {
+			flex: 0 0 100%;
+			min-inline-size: 100%;
+			max-inline-size: 100%;
+			scroll-snap-align: start;
+			scroll-snap-stop: always;
+		}
+
+		.owner-projects__controls {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 14px;
+			margin-block-start: 12px;
+		}
+
+		.owner-projects__dots {
+			display: flex;
+			align-items: center;
+			gap: 0;
+		}
+
+		/* 24px touch target, 8px visible dot */
+		.owner-projects__dot {
+			position: relative;
+			inline-size: 24px;
+			block-size: 24px;
+			padding: 0;
+			border: 0;
+			background: transparent;
+			cursor: pointer;
+		}
+
+		.owner-projects__dot::before {
+			content: '';
+			position: absolute;
+			inset-block-start: 50%;
+			inset-inline-start: 50%;
+			inline-size: 8px;
+			block-size: 8px;
+			border-radius: 999px;
+			background: rgba(0, 58, 107, 0.22);
+			transform: translate(-50%, -50%);
+			transition: inline-size 0.2s ease, background 0.2s ease;
+		}
+
+		:global([dir='rtl']) .owner-projects__dot::before {
+			transform: translate(50%, -50%);
+		}
+
+		.owner-projects__dot.is-active::before {
+			inline-size: 22px;
+			background: var(--serene-accent);
+		}
+
+		.owner-projects__dot:focus-visible {
+			outline: 2px solid var(--serene-accent);
+			outline-offset: 0;
+			border-radius: 6px;
+		}
+
+		.owner-projects__counter {
+			margin: 0;
+			font-family: var(--font-ui);
+			font-size: 0.78rem;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			color: var(--text-muted);
+			font-variant-numeric: tabular-nums;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.owner-projects__dot::before {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	/* Mobile slide controls. Progressive enhancement: with no JavaScript the row
+	   still swipes and snaps; this only keeps the dots and counter in step. */
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	document.querySelectorAll('[data-projects-carousel]').forEach((section) => {
+		const grid = section.querySelector('.owner-projects__grid');
+		if (!grid) return;
+
+		const items = Array.from(grid.children);
+		const dots = Array.from(section.querySelectorAll('[data-projects-dot]'));
+		const current = section.querySelector('[data-projects-current]');
+		if (items.length < 2 || dots.length === 0) return;
+
+		let pending = 0;
+
+		const update = () => {
+			pending = 0;
+			const box = grid.getBoundingClientRect();
+			const middle = box.left + box.width / 2;
+			let best = 0;
+			let bestDistance = Infinity;
+
+			items.forEach((item, index) => {
+				const rect = item.getBoundingClientRect();
+				const distance = Math.abs(rect.left + rect.width / 2 - middle);
+				if (distance < bestDistance) {
+					bestDistance = distance;
+					best = index;
+				}
+			});
+
+			dots.forEach((dot, index) => {
+				dot.classList.toggle('is-active', index === best);
+				if (index === best) dot.setAttribute('aria-current', 'true');
+				else dot.removeAttribute('aria-current');
+			});
+
+			if (current) current.textContent = String(best + 1);
+		};
+
+		grid.addEventListener(
+			'scroll',
+			() => {
+				if (!pending) pending = requestAnimationFrame(update);
+			},
+			{ passive: true },
+		);
+
+		dots.forEach((dot, index) => {
+			dot.addEventListener('click', () => {
+				items[index].scrollIntoView({
+					behavior: reduceMotion ? 'auto' : 'smooth',
+					inline: 'start',
+					block: 'nearest',
+				});
+			});
+		});
+
+		update();
+	});
+</script>

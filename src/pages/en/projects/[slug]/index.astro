@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ProjectPage from '../../../../components/ProjectPage.astro';
+import * as projectsData from '../../../../data/projects';
+
+export function getStaticPaths() {
+	return projectsData.projects
+		.filter((project) => project.publish)
+		.map((project) => ({
+			params: { slug: project.slug },
+			props: { name: project.nameEn ?? project.nameAr },
+		}));
+}
+
+const slug = Astro.params.slug;
+const name = Astro.props.name;
+---
+
+<BaseLayout locale="en" title={name + ' - AL MASA'}>
+	<ProjectPage slug={slug} />
+</BaseLayout>
